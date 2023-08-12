@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Method, useFetch} from "../axios";
+import {User} from "../models/user.model";
 
 export enum UserType {
   COACH = 'COACH',
@@ -11,6 +12,9 @@ export enum UserType {
   providedIn: 'root'
 })
 export class UsersService {
+  activeUserData!: User;
+  editingAccountField = '';
+
   async signin(email: string, password: string) : Promise<any> {
     const { response, error } = await useFetch(Method.POST, 'auth/signin', {email, password});
 
@@ -36,5 +40,16 @@ export class UsersService {
       return {status: 'error', data: error};
     else
       return {status: 'correct', data: response?.data}
+  }
+
+  setActiveUser(data: User) {
+    this.activeUserData = data;
+  }
+  getActiveUser() {
+   return this.activeUserData;
+  }
+
+  setEditingAccountField(field: string) {
+    this.editingAccountField = field;
   }
 }

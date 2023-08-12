@@ -1,13 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title slot="start">Witaj {{myName}}</ion-title>
+    <ion-title slot="start">Witaj {{userName}}</ion-title>
+    <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title size="large">Home</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<ion-content></ion-content>
+
+<!--<ion-tab-bar>-->
+<!--  <ion-tab-bar slot="bottom">-->
+
+<!--    <ion-tab-button tab="calendar">-->
+<!--      <ion-icon name="calendar-outline"></ion-icon>-->
+<!--      <ion-label>Calendar</ion-label>-->
+<!--    </ion-tab-button>-->
+
+<!--    <ion-tab-button tab="payments">-->
+<!--      <ion-icon name="wallet-outline"></ion-icon>-->
+<!--      <ion-label>Payments</ion-label>-->
+<!--    </ion-tab-button>-->
+
+<!--    <ion-tab-button tab="messenger">-->
+<!--      <ion-icon name="mail-outline"></ion-icon>-->
+<!--      <ion-label>Messenger</ion-label>-->
+<!--    </ion-tab-button>-->
+<!--  </ion-tab-bar>-->
+<!--</ion-tab-bar>-->

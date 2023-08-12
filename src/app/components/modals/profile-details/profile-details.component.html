@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button color="dark" fill="none" (click)="goBackHome()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>Profile details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button slot="end" color="dark" fill="none" (click)="goToSettings()">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-icon style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
+
+      <ion-accordion-group [multiple]="true">
+        <ion-accordion value="info">
+          <ion-item slot="header">
+            <ion-label>Your personal info</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-item>
+              <ion-label>{{userData.name}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{userData.surname}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{userData.email}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{userData.type}}</ion-label>
+            </ion-item>
+          </div>
+        </ion-accordion>
+        <ion-accordion value="clubs">
+          <ion-item slot="header">
+            <ion-label>Your clubs ({{userData.clubsAmount}})</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <ng-container *ngIf="userData.clubs.length; else noClubs">
+              <ion-item *ngFor="let club of userData.clubs">
+                <ion-label>{{club.name}}</ion-label>
+              </ion-item>
+            </ng-container>
+            <ng-template #noClubs>
+              <ion-text color="danger">You aren't in any club</ion-text>
+            </ng-template>
+          </div>
+        </ion-accordion>
+        <ion-accordion value="payments">
+          <ion-item slot="header">
+            <ion-label>Your payments</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">Tutaj będą zaległe płatności</div>
+        </ion-accordion>
+
+      </ion-accordion-group>
+    </ion-card-content>
+
+  </ion-card>
+</ion-content>
