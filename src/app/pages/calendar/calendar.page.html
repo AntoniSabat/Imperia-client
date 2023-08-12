@@ -1,0 +1,28 @@
+<div class="ion-page" id="main-content">
+
+  <ion-content >
+    <ion-row style="margin-bottom: 10px">
+      <ion-col style="text-align: center" size="4" (click)="chooseType('L')">Lekcje</ion-col>
+      <ion-col style="text-align: center" size="4" (click)="chooseType('T')">Treningi</ion-col>
+      <ion-col style="text-align: center" size="4" (click)="chooseType('S')">Szkolenia</ion-col>
+    </ion-row>
+    <div class="calendar">
+      <ion-row>
+        <ion-col style="text-align: center;" *ngFor="let day of days">{{day}}</ion-col>
+      </ion-row>
+      <ion-row style="margin-bottom: 20px">
+        <ion-col style="text-align: center" *ngFor="let date of dates">{{ date }}</ion-col>
+      </ion-row>
+      <div style="position: relative">
+        <ion-row class="time-cols" *ngFor="let hour of times">
+          <ion-col size="12" style="border-bottom: 1px solid black; height: 41.666px"> {{hour}}</ion-col>
+        </ion-row>
+        <div *ngFor="let lesson of selectedLessons" #lesson class="lesson" [ngStyle]="{'--cols': lesson.cols, '--color': lesson.color, '--start': lesson.start, '--end': lesson.end, '--pos': lesson.pos}">
+          <p class="title">{{lesson.title}}</p>
+          <p class="time">{{lesson.hours}}</p>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</div>

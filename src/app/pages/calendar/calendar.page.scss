@@ -1,0 +1,32 @@
+.time-cols {
+  position: relative;
+}
+
+.lesson {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  left: calc(80px + ((var(--cols) - 1) * 3px) + (var(--pos) - 1) * ((100% - 90px) / var(--cols)));
+  width: calc(((100% - 90px) / var(--cols)) - ((var(--cols) - 1) * 6px));
+  background-color: var(--color);
+  padding: 5px 10px;
+  color: white;
+  border-radius: 7px;
+  top: calc(var(--start) / 48 * 2000px);
+  height: calc((var(--end) - var(--start)) / 48 * 2000px);
+
+
+
+  .title {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: .5px;
+  }
+
+  .time {
+    font-size: 12px;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+}

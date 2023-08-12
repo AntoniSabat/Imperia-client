@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Your account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-text>{{userName}} {{userSurname}}</ion-text>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-subtitle>Personal Data</ion-card-subtitle>
+      <ion-item (click)="editPersonalInfo('name')">
+        <ion-input label="Name" labelPlacement="floating" [value]="userName"></ion-input>
+      </ion-item>
+      <ion-item (click)="editPersonalInfo('surname')">
+        <ion-input label="Surname" labelPlacement="floating" [value]="userSurname"></ion-input>
+      </ion-item>
+      <ion-item (click)="editPersonalInfo('email')">
+        <ion-input label="Email" labelPlacement="floating" [value]="userEmail"></ion-input>
+      </ion-item>
+      <ion-item (click)="editPersonalInfo('password')">
+        <ion-input type="password" label="Password" labelPlacement="floating" value="*********"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-subtitle>Preferences</ion-card-subtitle>
+      <ion-item>
+        <ion-checkbox>Payments notifications</ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox>Messenger notifications</ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox>Calendar Notifications</ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-checkbox>Dark mode</ion-checkbox>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
