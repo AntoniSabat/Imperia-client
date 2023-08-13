@@ -6,7 +6,6 @@ import {Method, useFetch} from "../axios";
 })
 export class ClubsService {
   async getClubInfo(id: string) {
-    console.log(id)
     const { response, error } = await useFetch(Method.GET, 'clubs/' + id, {});
 
     if (error)

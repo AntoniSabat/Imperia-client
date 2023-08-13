@@ -27,6 +27,8 @@ export class SettingsPage implements OnInit {
   }
 
   async editPersonalInfo(field: string) {
+    this.usersService.setEditingAccountField(field);
+
     const modal = await this.modalCtrl.create({
       component: PersonalInfoComponent
     })

@@ -11,6 +11,31 @@
   <ion-card>
     <ion-card-content>
 
+      <ion-item *ngIf="editingField==='name'">
+        <ion-input label="Edit name" labelPlacement="floating" [value]="userData.name" [(ngModel)]="userData.name"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="editingField==='surname'">
+        <ion-input label="Edit surname" labelPlacement="floating" [value]="userData.surname" [(ngModel)]="userData.surname"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="editingField==='email'">
+        <ion-input label="Edit email" labelPlacement="floating" [value]="userData.email" [(ngModel)]="userData.email"></ion-input>
+      </ion-item>
+
+      <ng-container *ngIf="editingField==='password'">
+        <ion-item>
+          <ion-input type="password" label="Input old password" labelPlacement="floating" placeholder="**********" [(ngModel)]="userData.oldPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" label="Input new password" labelPlacement="floating" placeholder="**********" [(ngModel)]="userData.newPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" label="Confirm new password" labelPlacement="floating" placeholder="**********" [(ngModel)]="userData.confirmPassword"></ion-input>
+        </ion-item>
+      </ng-container>
+
+      <ion-button color="dark" size="full" (click)="editData()">Save</ion-button>
 
 
     </ion-card-content>
