@@ -42,6 +42,15 @@ export class UsersService {
       return {status: 'correct', data: response?.data}
   }
 
+  async getUserInfo(id: string) {
+    const { response, error } = await useFetch(Method.GET, 'users/info/' + id, {});
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response?.data}
+  }
+
   async editPassword(email: string, oldPassword: string, newPassword: string) {
     const {response, error} = await useFetch(Method.POST, 'users/editpassword', {email, oldPassword, newPassword})
 

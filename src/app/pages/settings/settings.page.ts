@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
-import {PersonalInfoComponent} from "../../components/modals/personal-info/personal-info.component";
+import {PersonalInfoComponent} from "../../components/modals/edit-personal-info/personal-info.component";
 
 @Component({
   selector: 'app-settings',

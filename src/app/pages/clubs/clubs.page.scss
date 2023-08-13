@@ -1,7 +1,9 @@
 .container {
+  margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  row-gap: 20px;
 }
 .club {
   width: 40%;

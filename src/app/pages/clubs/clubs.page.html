@@ -9,6 +9,6 @@
 
 <ion-content>
   <div class="container">
-    <div *ngFor="let club of clubs" (click)="showClubDetails()" class="club">{{club.name}}</div>
+    <div *ngFor="let club of clubs" (click)="showClubDetails(club)" class="club">{{club.name}}</div>
   </div>
 </ion-content>

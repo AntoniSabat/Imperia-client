@@ -4,7 +4,7 @@ import {UsersService, UserType} from "../../../services/users.service";
 import {Club} from "../../../models/club.model";
 
 @Component({
-  selector: 'app-personal-info',
+  selector: 'app-edit-personal-info',
   templateUrl: './personal-info.component.html',
   styleUrls: ['./personal-info.component.scss'],
 })

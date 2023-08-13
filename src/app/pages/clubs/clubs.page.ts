@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {Club} from "../../models/club.model";
 import {ClubsService} from "../../services/clubs.service";
+import {ModalController} from "@ionic/angular";
+import {ClubInfoComponent} from "../../components/modals/clubs/club-info/club-info.component";
 
 @Component({
   selector: 'app-clubs',
@@ -11,21 +13,23 @@ import {ClubsService} from "../../services/clubs.service";
 export class ClubsPage implements OnInit {
   clubs: Club[] = [];
 
-  constructor(private usersService: UsersService, private clubsService: ClubsService) { }
+  constructor(private usersService: UsersService, private clubsService: ClubsService, private modalCtrl: ModalController) { }
 
   async ngOnInit() {
-    await this.whoAmI();
+    await this.getClubs();
   }
 
-  async whoAmI() {
-    const response = this.usersService.getActiveUser();
-    response.clubs.map(async (club: string) => {
-      const res = await this.clubsService.getClubInfo(club);
-      this.clubs.push(res.data);
-    });
+  async getClubs() {
+    const response = await this.clubsService.getClubs();
+    this.clubs = response?.data?.data.map((club: Club) => club);
   }
 
-  showClubDetails() {
+  async showClubDetails(club: Club) {
+    this.clubsService.setActiveClub(club);
 
+    const modal = await this.modalCtrl.create({
+      component: ClubInfoComponent
+    })
+    await modal.present();
   }
 }
