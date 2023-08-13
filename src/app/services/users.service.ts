@@ -42,6 +42,34 @@ export class UsersService {
       return {status: 'correct', data: response?.data}
   }
 
+  async getUserInfo(id: string) {
+    const { response, error } = await useFetch(Method.GET, 'users/info/' + id, {});
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response?.data}
+  }
+
+  async editPassword(email: string, oldPassword: string, newPassword: string) {
+    const {response, error} = await useFetch(Method.POST, 'users/editpassword', {email, oldPassword, newPassword})
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response}
+  }
+
+  // TODO: Naprawić update danych (hasło działa), błąd raczej po stronie serwera
+  async editPersonalData(name: string, surname: string, email: string) {
+    const {response, error} = await useFetch(Method.PATCH, 'users', {name, surname, email});
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response}
+  }
+
   setActiveUser(data: User) {
     this.activeUserData = data;
   }
@@ -51,5 +79,8 @@ export class UsersService {
 
   setEditingAccountField(field: string) {
     this.editingAccountField = field;
+  }
+  getEditingAccountField() {
+    return this.editingAccountField;
   }
 }

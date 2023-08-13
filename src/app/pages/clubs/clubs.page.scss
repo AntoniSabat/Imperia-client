@@ -1,0 +1,15 @@
+.container {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  row-gap: 20px;
+}
+.club {
+  width: 40%;
+  aspect-ratio: 1;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

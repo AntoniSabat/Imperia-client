@@ -27,16 +27,16 @@ export class ProfileDetailsComponent  implements OnInit {
   }
 
   async whoAmI() {
-    const response = this.usersService.getActiveUser();
-    this.userData.name = response.name;
-    this.userData.surname = response.surname;
-    this.userData.email = response.email;
-    this.userData.clubsAmount = response.clubs.length;
-    this.userData.type = response.type;
+    const user = this.usersService.getActiveUser();
+    this.userData.name = user.name;
+    this.userData.surname = user.surname;
+    this.userData.email = user.email;
+    this.userData.clubsAmount = user.clubs.length;
+    this.userData.type = user.type;
 
-    response.clubs.map(async (club: string) => {
-      const res = await this.clubsService.getClubInfo(club);
-      this.userData.clubs.push(res.data);
+    user.clubs.map(async (clubID: string) => {
+      const club = await this.clubsService.getClubInfo(clubID);
+      this.userData.clubs.push(club.data);
     });
   }
 

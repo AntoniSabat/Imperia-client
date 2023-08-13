@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()" color="dark" fill="none">Back</ion-button>
+    </ion-buttons>
+    <ion-title>{{club.name.slice(0,1).toUpperCase() + club.name.slice(1).toLowerCase()}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-icon style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
+
+      <ion-card-title>{{club.name.slice(0,1).toUpperCase() + club.name.slice(1).toLowerCase()}}</ion-card-title>
+
+      <ion-card-subtitle>{{club.description}}</ion-card-subtitle>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-button (click)="showClubUsers()" size="full" color="light">
+        Users
+        <ion-icon name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-subtitle>Your groups: </ion-card-subtitle>
+        <div class="container">
+          <div *ngFor="let club of groups" class="group">Grupa</div>
+        </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

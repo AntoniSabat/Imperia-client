@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Clubs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div *ngFor="let club of clubs" (click)="showClubDetails(club)" class="club">{{club.name}}</div>
+  </div>
+</ion-content>

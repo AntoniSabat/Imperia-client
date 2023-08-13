@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>{{club.name.slice(0,1).toUpperCase() + club.name.slice(1).toLowerCase()}}'s users</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ul>
+    <li *ngFor="let user of users">{{user.name.slice(0,1).toUpperCase() + user.name.slice(1).toLowerCase()}} {{user.surname.slice(0,1).toUpperCase() + user.surname.slice(1).toLowerCase()}}</li>
+  </ul>
+</ion-content>
