@@ -40,16 +40,16 @@
     <ion-card-content>
       <ion-card-subtitle>Preferences</ion-card-subtitle>
       <ion-item>
-        <ion-checkbox (ionChange)="changeUserPreferences()">Payments notifications</ion-checkbox>
+        <ion-checkbox name="announcementsNotifications" (ionChange)="changeUserPreferences()">Payments notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox (ionChange)="changeUserPreferences()">Messenger notifications</ion-checkbox>
+        <ion-checkbox name="conversationsNotifications" (ionChange)="changeUserPreferences()">Messenger notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox (ionChange)="changeUserPreferences()">Calendar Notifications</ion-checkbox>
+        <ion-checkbox name="lessonsNotifications" (ionChange)="changeUserPreferences()">Calendar Notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox (ionChange)="changeUserPreferences()">Dark mode</ion-checkbox>
+        <ion-checkbox name="darkMode" (ionChange)="changeUserPreferences()">Dark mode</ion-checkbox>
       </ion-item>
     </ion-card-content>
   </ion-card>

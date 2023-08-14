@@ -1,11 +1,23 @@
 <ion-header>
-  <ion-toolbar>
+  <!-- <ion-toolbar>
     <ion-title>GET STARTED</ion-title>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="goToInfo()" size="full">Read more</ion-button>
-  <ion-button (click)="goToLogin()">Sign in</ion-button>
-  <ion-button (click)="goToRegister()">Sign up</ion-button>
+  <div class="container">
+    <ion-icon name="planet-outline" class="icon"></ion-icon>
+    <p class="mainText">The only<br>clubbing<br>app <span>you need</span></p>
+
+    <div class="buttons">
+      <button class="btn readBtn" (click)="goToInfo()" size="full">Read more</button>
+      <div>
+        <button class="btn" (click)="goToLogin()">Sign in</button>
+        <button class="btn" (click)="goToRegister()">Sign up</button>
+      </div>
+    </div>
+    <div class="termsContainer">
+      <p class="text">By Continuing you agree to the <button class="button">Terms and Conditions</button></p>
+    </div>
+  </div>
 </ion-content>

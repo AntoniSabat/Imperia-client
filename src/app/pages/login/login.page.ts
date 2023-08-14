@@ -29,5 +29,9 @@ export class LoginPage {
     }
   }
 
+  goToRegister() {
+    this.router.navigate(['register']);
+  }
+
   constructor(private usersService: UsersService, private router: Router) { }
 }
