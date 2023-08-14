@@ -1,0 +1,88 @@
+@import "../../../theme/variables.scss";
+
+ion-content {
+  --background: $primary;
+  --color: $white;
+  position: relative;
+}
+
+.container {
+  background: $primary;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  padding: $xxLarge $xLarge;
+  position: relative;
+}
+
+ion-icon {
+  font-size: 9rem;
+  color: $yellow;
+}
+
+.mainText {
+  font-size: 3rem;
+  width: 100%;
+  line-height: 1.3em;
+  font-family: 'DM Sans';
+  src: $fontRegular;
+  span {
+    color: $purple;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: $large;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    gap: $large;
+  }
+}
+
+.btn {
+  width: 100%;
+  padding: $large 0;
+  border-radius: 50px;
+  font-size: $medium;
+  background: transparent;
+  border: 1px solid $lightgray;
+  font-family: 'DM Sans', sans-serif;
+  src: $fontRegular;
+}
+
+.readBtn {
+  background: $blue;
+  border: none;
+}
+
+.termsContainer {
+  display: flex;
+  gap: calc($xSmall / 3);
+
+  p.text {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: calc($medium / 1.1);
+    color: $lightgray;
+    font-family: 'DM Sans', sans-serif;
+    src: $fontRegular;
+
+    button.button {
+      margin-top: 5px;
+      font-size: calc($medium / 1.1);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      src: $fontBold;
+      font-weight: 600;
+      color: $lightgray;
+    }
+  }
+}

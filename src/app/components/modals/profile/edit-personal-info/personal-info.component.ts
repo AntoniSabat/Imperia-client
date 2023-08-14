@@ -40,7 +40,7 @@ export class PersonalInfoComponent  implements OnInit {
     this.userData.uuid = response.uuid;
   }
 
-  // TODO: Dodać RX, zeby od razu po zamknieciu modala, dane były zupdatowane ( w bazie wszystko się zmienia)
+  // TODO: Dodać RX, zeby od razu po zamknieciu modala, dane były zupdatowane ( w bazie wszystko się zmienia), w notatkach - co trzeba zrobić
   async editData() {
     if (this.editingField === 'password') {
       console.log('zmieniam haslo');

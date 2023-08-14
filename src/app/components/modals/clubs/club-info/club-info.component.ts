@@ -13,6 +13,7 @@ import {Group} from "../../../../models/group.model";
 export class ClubInfoComponent  implements OnInit {
   club!: Club;
   groups!: Group[];
+  noGroups = false;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController) { }
 
@@ -32,9 +33,9 @@ export class ClubInfoComponent  implements OnInit {
     await modal.present();
   }
 
-  // TODO: Pobierać grupy i je wypisywać na ekranie
   async getGroups() {
     const response = await this.clubsService.getGroups();
     this.groups = response?.data?.data;
+    if (!this.groups.length) this.noGroups = true;
   }
 }

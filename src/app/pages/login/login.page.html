@@ -1,19 +1,30 @@
 <ion-header>
-  <ion-toolbar>
+  <!-- <ion-toolbar>
     <ion-title>Login</ion-title>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-content>
-      <ion-item>
-        <ion-input label="Enter your email" labelPlacement="floating" [(ngModel)]="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input type="password" label="Enter your password" labelPlacement="floating" [(ngModel)]="password"></ion-input>
-      </ion-item>
-      <ion-button size="full" (click)="login()">Login</ion-button>
-    </ion-card-content>
-  </ion-card>
+  <div class="container">
+    <div class="imgBox">
+      <img src="../../../assets/images/login.png" alt="">
+      <p class="mainText">Login</p>
+    </div>
+    <div class="inputs">
+      <div class="input">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-input label="Email" labelPlacement="floating" [(ngModel)]="email"></ion-input>
+      </div>
+      <div class="input">
+        <ion-icon name="shield-outline"></ion-icon>
+        <ion-input type="password" label="Password" labelPlacement="floating" [(ngModel)]="password"></ion-input>
+      </div>
+    </div>
+    <button class="btn" (click)="login()">LOGIN</button>
+    <div class="signupContainer">
+      <p class="text">Don't have an account?</p>
+      <button class="button" (click)="goToRegister()">Sign Up Now</button>
+    </div>
+    <button class="forgotBtn">Forgot Password?</button>
+  </div>
 </ion-content>

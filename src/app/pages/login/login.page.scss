@@ -1,0 +1,106 @@
+@import "../../../theme/variables.scss";
+
+ion-content {
+  --background: $primary;
+  background: $primary;
+  --color: $white;
+  position: relative;
+}
+
+.container {
+  background: $primary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  padding: $xxLarge $xLarge;
+  position: relative;
+  gap: $xxLarge;
+}
+
+.signupContainer {
+  display: flex;
+  gap: calc($xSmall / 3);
+
+  p.text {
+    font-size: calc($medium / 1.1);
+    color: $white;
+    font-family: 'DM Sans';
+    src: $fontRegular;
+  }
+
+  button.button {
+    font-size: calc($medium / 1.1);
+    background: transparent;
+    margin-top: 1px;
+    font-family: 'DM Sans';
+    src: $fontBold;
+    font-weight: 600;
+    color: $white;
+  }
+}
+
+
+
+.inputs {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  gap: $medium;
+
+  .input {
+    display: flex;
+    align-items: center;
+    gap: $small;
+
+    ion-icon {
+      height: 30px;
+      width: 30px;
+      margin-left: $small;
+      color: $lightgray;
+    }
+
+    ion-input {
+      border-bottom: 1px solid $lightgray;
+      color: $lightgray;
+    }
+  }
+}
+
+.imgBox {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: $xxLarge * -1;
+
+  img {
+    width: 80%;
+  }
+
+  .mainText {
+    width: 100%;
+    font-size: $xxLarge;
+    color: $white;
+    font-family: 'DM Sans';
+    src: $fontRegular;
+  }
+}
+
+.btn {
+  width: 80%;
+  padding: $large 0;
+  border-radius: 50px;
+  font-size: $medium;
+  background: $blue;
+  font-family: 'DM Sans';
+  src: $fontBold;
+  letter-spacing: .5px;
+}
+
+.forgotBtn {
+  color: $blue;
+  background: transparent;
+  font-size: $medium / 1.1;
+}

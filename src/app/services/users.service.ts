@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Method, useFetch} from "../axios";
 import {Preferences, User} from "../models/user.model";
+import {HttpClient} from "@angular/common/http";
 
 export enum UserType {
   COACH = 'COACH',
@@ -14,6 +15,8 @@ export enum UserType {
 export class UsersService {
   activeUserData!: User;
   editingAccountField = '';
+
+  // constructor(private http: HttpClient) {}
 
   async signin(email: string, password: string) : Promise<any> {
     const { response, error } = await useFetch(Method.POST, 'auth/signin', {email, password});
@@ -71,7 +74,7 @@ export class UsersService {
 
   async editPreferences(preferences: Preferences) {
     console.log(preferences)
-    const {response, error} = await useFetch(Method.PATCH, 'users/preferences', {preferences});
+    const {response, error} = await useFetch(Method.PATCH, 'users/preferences', preferences);
 
     if (error)
       return {status: 'error', data: error};
@@ -85,6 +88,9 @@ export class UsersService {
   getActiveUser() {
    return this.activeUserData;
   }
+  // loadActiveUser(uuid: string) {
+  //   this.http.get('http://localhost:3001/users/info/' + uuid).subscribe()
+  // }
 
   setEditingAccountField(field: string) {
     this.editingAccountField = field;
