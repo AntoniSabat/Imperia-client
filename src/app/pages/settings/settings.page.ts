@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
-import {PersonalInfoComponent} from "../../components/modals/edit-personal-info/personal-info.component";
+import {PersonalInfoComponent} from "../../components/modals/profile/edit-personal-info/personal-info.component";
+import {lostSession} from "../../axios";
+import {Router} from "@angular/router";
+import {book} from "ionicons/icons";
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +16,7 @@ export class SettingsPage implements OnInit {
   userSurname = '';
   userEmail = '';
 
-  constructor(private usersService: UsersService, private modalCtrl: ModalController) { }
+  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router) { }
 
   ngOnInit() {
     this.whoAmI();
@@ -33,5 +36,23 @@ export class SettingsPage implements OnInit {
       component: PersonalInfoComponent
     })
     await modal.present();
+  }
+
+  async changeUserPreferences() {
+    const checkboxes = Array.from(document.querySelectorAll('ion-checkbox'));
+    const preferences = checkboxes.map(preference => preference.checked)
+    const newPreferences = {
+      announcementsNotifications: preferences[0],
+      conversationsNotifications: preferences[1],
+      lessonsNotifications: preferences[2],
+      darkMode: preferences[3]
+    }
+    const response = await this.usersService.editPreferences(newPreferences);
+    console.log(response)
+  }
+
+  async logOut() {
+    await lostSession();
+    await this.router.navigate(['']);
   }
 }

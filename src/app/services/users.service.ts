@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Method, useFetch} from "../axios";
-import {User} from "../models/user.model";
+import {Preferences, User} from "../models/user.model";
 
 export enum UserType {
   COACH = 'COACH',
@@ -60,9 +60,18 @@ export class UsersService {
       return {status: 'correct', data: response}
   }
 
-  // TODO: Naprawić update danych (hasło działa), błąd raczej po stronie serwera
   async editPersonalData(name: string, surname: string, email: string) {
-    const {response, error} = await useFetch(Method.PATCH, 'users', {name, surname, email});
+    const {response, error} = await useFetch(Method.PATCH, 'users/', {name, surname, email});
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response}
+  }
+
+  async editPreferences(preferences: Preferences) {
+    console.log(preferences)
+    const {response, error} = await useFetch(Method.PATCH, 'users/preferences', {preferences});
 
     if (error)
       return {status: 'error', data: error};

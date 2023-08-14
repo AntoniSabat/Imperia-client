@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import axios from "axios";
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
-import {ProfileDetailsComponent} from "../../components/modals/profile-details/profile-details.component";
+import {ProfileDetailsComponent} from "../../components/modals/profile/profile-details/profile-details.component";
 import {Router} from "@angular/router";
 
 @Component({

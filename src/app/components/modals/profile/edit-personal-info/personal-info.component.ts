@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {UsersService, UserType} from "../../../services/users.service";
-import {Club} from "../../../models/club.model";
+import {UsersService, UserType} from "../../../../services/users.service";
+import {Club} from "../../../../models/club.model";
 
 @Component({
   selector: 'app-edit-personal-info',
@@ -40,6 +40,7 @@ export class PersonalInfoComponent  implements OnInit {
     this.userData.uuid = response.uuid;
   }
 
+  // TODO: Dodać RX, zeby od razu po zamknieciu modala, dane były zupdatowane ( w bazie wszystko się zmienia)
   async editData() {
     if (this.editingField === 'password') {
       console.log('zmieniam haslo');
@@ -55,6 +56,6 @@ export class PersonalInfoComponent  implements OnInit {
       console.log(response);
     }
 
-    await this.cancel();
+    await this.modalCtrl.dismiss(null, 'save')
   }
 }

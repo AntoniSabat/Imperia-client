@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalController} from "@ionic/angular";
-import {UsersService, UserType} from "../../../services/users.service";
+import {UsersService, UserType} from "../../../../services/users.service";
 import {Router} from "@angular/router";
-import {ClubsService} from "../../../services/clubs.service";
-import {Club} from "../../../models/club.model";
+import {ClubsService} from "../../../../services/clubs.service";
+import {Club} from "../../../../models/club.model";
 
 @Component({
   selector: 'app-profile-details',
