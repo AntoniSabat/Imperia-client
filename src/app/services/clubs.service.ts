@@ -27,6 +27,15 @@ export class ClubsService {
       return {status: 'correct', data: response}
   }
 
+  async getGroups() {
+    const { response, error } = await useFetch(Method.GET, 'clubs/' + this.activeClub.id + '/allgroups', {});
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response}
+  }
+
   setActiveClub(data: Club) {
     this.activeClub = data;
   }

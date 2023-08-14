@@ -3,6 +3,7 @@ import {Club} from "../../../../models/club.model";
 import {ClubsService} from "../../../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
 import {ShowClubUsersComponent} from "../show-club-users/show-club-users.component";
+import {Group} from "../../../../models/group.model";
 
 @Component({
   selector: 'app-club-info',
@@ -11,13 +12,13 @@ import {ShowClubUsersComponent} from "../show-club-users/show-club-users.compone
 })
 export class ClubInfoComponent  implements OnInit {
   club!: Club;
-  groups!: [];
+  groups!: Group[];
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.club = this.clubsService.getActiveClub();
-    this.getGroups();
+    await this.getGroups();
   }
 
   async back() {
@@ -33,6 +34,7 @@ export class ClubInfoComponent  implements OnInit {
 
   // TODO: Pobierać grupy i je wypisywać na ekranie
   async getGroups() {
-
+    const response = await this.clubsService.getGroups();
+    this.groups = response?.data?.data;
   }
 }

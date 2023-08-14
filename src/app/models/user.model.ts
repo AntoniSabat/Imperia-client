@@ -16,8 +16,8 @@ export interface User {
 export interface Preferences {
   announcementsNotifications: boolean;
   conversationsNotifications: boolean;
-  darkMode: boolean;
   lessonsNotifications: boolean;
+  darkMode: boolean;
 }
 
 export interface DebtDetail {
