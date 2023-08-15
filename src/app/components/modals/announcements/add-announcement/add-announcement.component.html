@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-buttons>
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+  <ion-toolbar>
+    <ion-title>Add announcement</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-input label-placement="floating" label="Title" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input label-placement="floating" label="Message" type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-checkbox (ionChange)="messageToAllUsers()" name="to-all">To all?</ion-checkbox>
+  </ion-item>
+  <select *ngIf="!toAll" style="background: white; width: 100%" name="users" id="">
+    <option>user 1</option>
+    <option>user 2</option>
+  </select>
+</ion-content>

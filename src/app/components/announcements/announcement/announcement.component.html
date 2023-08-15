@@ -1,0 +1,19 @@
+<ion-card>
+  <ng-content select="[header]"></ng-content>
+  <ion-card-content>
+    <ion-item lines="none">
+      <ion-icon name="archive-outline" slot="start" color="secondary"></ion-icon>
+
+      <ion-label>
+        <h2>{{title}}</h2>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        <p>{{createdAt}}</p>
+        <p *ngIf="desc">Description: {{desc}}</p>
+      </ion-label>
+    </ion-item>
+    <ng-content select="[footer]"></ng-content>
+  </ion-card-content>
+</ion-card>
