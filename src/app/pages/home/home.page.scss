@@ -60,6 +60,11 @@ ion-content {
     color: $lightgray;
   }
 
+  .see-all {
+    margin-top: 10px;
+    text-align: center;
+  }
+
   .cards {
     margin-top: $small;
     display: grid;
@@ -100,16 +105,26 @@ ion-content {
     }
   }
 
-  .payments {
-    margin-top: $small;
+  .payments, .announcements {
     display: flex;
     flex-direction: column;
     gap: $small;
     place-items: stretch;
 
-    .payment {
-
+    .payment, {
+      padding-left: 20px;
+      text-align: left;
+      height: 40px;
+      font-size: $large;
+      border-radius: $small;
     }
+  }
+}
 
+.announcements {
+  app-announcement {
+    margin-top: -20px;
+    width: calc(100% + 40px);
+    margin-left: -20px;
   }
 }

@@ -29,6 +29,7 @@
     "@capacitor/keyboard": "5.0.6",
     "@capacitor/status-bar": "5.0.6",
     "@ionic/angular": "^7.0.0",
+    "@ng-select/ng-select": "^11.1.1",
     "axios": "^1.4.0",
     "capacitor": "^0.5.5",
     "ionicons": "^7.0.0",

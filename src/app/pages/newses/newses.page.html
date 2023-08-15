@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-buttons>
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+  <ion-toolbar style="--background: black; color: white">
+    <ion-title>Newses</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-button (click)="addAnnouncement()" style="color: #3dc2ff" fill="none" size="full">Create announcement</ion-button>
+
+<div class="announcements">
+  <app-announcement class="announcements-first" [title]="'Tytuł ogłoszenia'" [createdAt]="'24/04/2005'" [desc]="'Dlugi opis ogłoszenia, zgłoszenia na lekcje prywatne z mistrzami swiata i okolicy, mowie serio'">
+    <ion-card-header header>
+      <ion-card-subtitle>
+        <ion-icon style="margin-right: 10px; font-size: 20px" name="person-outline"></ion-icon>
+        <span>Twórca ogłoszenia</span>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-button style="color: #3dc2ff" fill="clear" size="full" footer (click)="showAnnouncementDetails()">See details...</ion-button>
+  </app-announcement>
+  <app-announcement [title]="'Tytuł ogłoszenia'" [createdAt]="'24/04/2005'" [desc]="'Dlugi opis ogłoszenia, zgłoszenia na lekcje prywatne z mistrzami swiata i okolicy, mowie serio'">
+    <ion-card-header header>
+      <ion-card-subtitle>
+        <ion-icon style="margin-right: 10px; font-size: 20px" name="person-outline"></ion-icon>
+        <span>Twórca ogłoszenia</span>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-button style="color: #3dc2ff" fill="clear" size="full" footer (click)="showAnnouncementDetails()">See details...</ion-button>
+  </app-announcement>
+  <app-announcement [title]="'Tytuł ogłoszenia'" [createdAt]="'24/04/2005'" [desc]="'Dlugi opis ogłoszenia, zgłoszenia na lekcje prywatne z mistrzami swiata i okolicy, mowie serio'">
+    <ion-card-header header>
+      <ion-card-subtitle>
+        <ion-icon style="margin-right: 10px; font-size: 20px" name="person-outline"></ion-icon>
+        <span>Twórca ogłoszenia</span>
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-button style="color: #3dc2ff" fill="none" size="full" footer (click)="showAnnouncementDetails()">See details...</ion-button>
+  </app-announcement>
+</div>

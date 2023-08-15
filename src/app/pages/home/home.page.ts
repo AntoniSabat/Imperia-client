@@ -44,10 +44,17 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
+  showAnnouncementDetails() {
+    console.log('pokazuje szczegóły ogłoszenia')
+  }
+
   goToCalendar() {
     this.router.navigate(['calendar']);
   }
   goToClubs() {
     this.router.navigate(['clubs']);
+  }
+  goToPayments() {
+    this.router.navigate(['payments'])
   }
 }

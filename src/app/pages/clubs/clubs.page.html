@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-button id="join-club" size="full">Join club</ion-button>
+  <ion-alert trigger="join-club" (didDismiss)="joinClub($event)"  header="Please enter club code"  [buttons]="joinClubButtons" [inputs]="joinClubInputs"></ion-alert>
+
   <div class="container">
     <div *ngFor="let club of clubs" (click)="showClubDetails(club)" class="club">{{club.name}}</div>
   </div>

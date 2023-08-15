@@ -1,0 +1,19 @@
+@import "../../../../theme/variables";
+
+ion-card {
+  --background: #282828;
+
+  ion-item {
+    --background: #282828;
+
+    h2 {
+      color: #666666;
+      font-weight: bold;
+      font-size: $large;
+    }
+    p {
+      color: #666666;
+    }
+  }
+}
+

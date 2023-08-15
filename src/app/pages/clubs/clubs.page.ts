@@ -32,4 +32,29 @@ export class ClubsPage implements OnInit {
     })
     await modal.present();
   }
+
+  joinClubInputs = [
+    {
+      placeholder: 'Code',
+      attributes: {
+        maxlength: 6,
+      },
+    }
+  ]
+  joinClubButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+    },
+    {
+      text: 'OK',
+      role: 'ok',
+    }
+  ]
+  async joinClub(e: any) {
+    if (e.detail.role === 'ok') {
+      const clubCode = String(Object.entries(e.detail.data.values)[0][1]);
+      await this.clubsService.joinClub(clubCode)
+    }
+  }
 }
