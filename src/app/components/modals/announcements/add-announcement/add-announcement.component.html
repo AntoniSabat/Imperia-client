@@ -9,16 +9,17 @@
 
 <ion-content>
   <ion-item>
-    <ion-input label-placement="floating" label="Title" type="text"></ion-input>
+    <ion-input label-placement="floating" label="Title" type="text" [(ngModel)]="title"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input label-placement="floating" label="Message" type="text"></ion-input>
+    <ion-input label-placement="floating" label="Message" type="text" [(ngModel)]="message"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-checkbox (ionChange)="messageToAllUsers()" name="to-all">To all?</ion-checkbox>
+    <ion-checkbox (ionChange)="messageToAllUsers()" name="to-all">To all users?</ion-checkbox>
   </ion-item>
-  <select *ngIf="!toAll" style="background: white; width: 100%" name="users" id="">
-    <option>user 1</option>
-    <option>user 2</option>
-  </select>
+  <ng-select (change)="chosenClubs()" [items]="clubs$ | async" [(ngModel)]="selectedClubs" bindLabel="name" placeholder="Select a club" *ngIf="!toAll" [multiple]="true"></ng-select>
+  <ion-item *ngIf="!toAll">
+    <ion-checkbox class="user" [value]="user.uuid" (ionChange)="chosenUsers()" *ngFor="let user of clubsUsers">{{user.uuid}}</ion-checkbox>
+  </ion-item>
+  <ion-button (click)="addAnnouncement()">Add</ion-button>
 </ion-content>
