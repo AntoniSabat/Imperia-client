@@ -2,12 +2,17 @@ import {Injectable} from '@angular/core';
 import {Method, useFetch} from "../axios";
 import {Club} from "../models/club.model";
 import {Announcement} from "../models/announcement.model";
+import {HttpClient} from "@angular/common/http";
+import {BehaviorSubject, tap} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClubsService {
   activeClub!: Club;
+  clubs$: BehaviorSubject<Club[]> = new BehaviorSubject<Club[]>([]);
+  constructor(private http: HttpClient) {}
 
   async getClubInfo(id: string) {
     const { response, error } = await useFetch(Method.GET, 'clubs/' + id, {});
@@ -25,6 +30,16 @@ export class ClubsService {
       return {status: 'error', data: error};
     else
       return {status: 'correct', data: response}
+  }
+
+  async loadClubs() {
+    const auth = localStorage.getItem('auth');
+
+    this.http.get<Club[]>(environment.apiBaseUrl + '/clubs/', {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((clubs: Club[]) => this.clubs$.next(clubs))
+    ).subscribe();
   }
 
   async joinClub(clubCode: string) {

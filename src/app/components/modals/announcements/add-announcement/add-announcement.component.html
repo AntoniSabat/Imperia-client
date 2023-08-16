@@ -15,10 +15,7 @@
     <ion-input label-placement="floating" label="Message" type="text"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-checkbox (ionChange)="messageToAllUsers()" name="to-all">To all?</ion-checkbox>
+    <ion-checkbox (ionChange)="messageToAllUsers()" name="to-all">To all users?</ion-checkbox>
   </ion-item>
-  <select *ngIf="!toAll" style="background: white; width: 100%" name="users" id="">
-    <option>user 1</option>
-    <option>user 2</option>
-  </select>
+  <ng-select (change)="test()" [items]="clubs$ | async" [(ngModel)]="selectedClubs" bindLabel="name" placeholder="Select a club" *ngIf="!toAll && clubs$.getValue().length > 1" [multiple]="true"></ng-select>
 </ion-content>

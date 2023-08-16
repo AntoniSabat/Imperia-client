@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {ClubsService} from "../../../../services/clubs.service";
+import {Club} from "../../../../models/club.model";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-add-announcement',
@@ -6,13 +9,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-announcement.component.scss'],
 })
 export class AddAnnouncementComponent  implements OnInit {
-  toAll = false;
-  tempItems = [1,2,3,4,5]
+  constructor(private clubsService: ClubsService) {}
 
-  messageToAllUsers() {
+  toAll = false;
+  selectedClubs: Club[] = [];
+  clubs$: BehaviorSubject<Club[]> = this.clubsService.clubs$;
+
+  async messageToAllUsers() {
     this.toAll = !this.toAll;
   }
 
-  ngOnInit() {}
+  async getClubs() {
+    await this.clubsService.loadClubs();
+    const response = await this.clubsService.getClubs();
+  }
 
+  test() {
+    console.log(this.selectedClubs);
+  }
+
+  async ngOnInit() {
+    await this.getClubs();
+    console.log(this.clubs$.getValue())
+  }
 }
