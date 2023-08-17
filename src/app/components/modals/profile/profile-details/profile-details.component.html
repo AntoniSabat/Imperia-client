@@ -24,26 +24,26 @@
           </ion-item>
           <div class="ion-padding" slot="content">
             <ion-item>
-              <ion-label>{{userData.name}}</ion-label>
+              <ion-label>{{user$.getValue().name}}</ion-label>
             </ion-item>
             <ion-item>
-              <ion-label>{{userData.surname}}</ion-label>
+              <ion-label>{{user$.getValue().surname}}</ion-label>
             </ion-item>
             <ion-item>
-              <ion-label>{{userData.email}}</ion-label>
+              <ion-label>{{user$.getValue().email}}</ion-label>
             </ion-item>
             <ion-item>
-              <ion-label>{{userData.type}}</ion-label>
+              <ion-label>{{user$.getValue().type}}</ion-label>
             </ion-item>
           </div>
         </ion-accordion>
         <ion-accordion value="clubs">
           <ion-item slot="header">
-            <ion-label>Your clubs ({{userData.clubsAmount}})</ion-label>
+            <ion-label>Your clubs ({{clubs.length}})</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
-            <ng-container *ngIf="userData.clubs.length; else noClubs">
-              <ion-item *ngFor="let club of userData.clubs">
+            <ng-container *ngIf="clubs.length; else noClubs">
+              <ion-item *ngFor="let club of clubs">
                 <ion-label>{{club.name}}</ion-label>
               </ion-item>
             </ng-container>

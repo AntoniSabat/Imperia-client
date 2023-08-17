@@ -33,5 +33,4 @@ export class ShowClubUsersComponent  implements OnInit {
   async back() {
     await this.modalCtrl.dismiss();
   }
-
 }

@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {Method, useFetch} from "../axios";
 import {Preferences, User} from "../models/user.model";
 import {HttpClient} from "@angular/common/http";
+import {Club} from "../models/club.model";
+import {environment} from "../../environments/environment";
+import {BehaviorSubject, tap} from "rxjs";
 
 export enum UserType {
   COACH = 'COACH',
@@ -15,8 +18,29 @@ export enum UserType {
 export class UsersService {
   activeUserData!: User;
   editingAccountField = '';
+  userInitialValue: User = {
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    type: UserType.STUDENT,
+    uuid: '',
+    clubs: [],
+    conversations: [],
+    profileImg: '',
+    preferences: {
+      darkMode: true,
+      conversationsNotifications: true,
+      lessonsNotifications: true,
+      announcementsNotifications: true
+    }
+  };
+  preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false };
 
-  // constructor(private http: HttpClient) {}
+  user$ = new BehaviorSubject<User>(this.userInitialValue);
+  preferences$ = new BehaviorSubject<Preferences>(this.preferencesInitialValue);
+
+  constructor(private http: HttpClient) {}
 
   async signin(email: string, password: string) : Promise<any> {
     const { response, error } = await useFetch(Method.POST, 'auth/signin', {email, password});
@@ -36,13 +60,14 @@ export class UsersService {
       return {status: 'correct', data: response?.data?.access_token}
   }
 
-  async whoAmI() {
-    const { response, error} = await useFetch(Method.GET, 'auth/whoami', {});
+  async loadActiveUser() {
+    const auth = localStorage.getItem('auth');
 
-    if (error)
-      return {status: 'error', data: error};
-    else
-      return {status: 'correct', data: response?.data}
+    this.http.get<User>( environment.apiBaseUrl + '/users/info', {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((user: User) => this.user$.next(user))
+    ).subscribe();
   }
 
   async getUserInfo(id: string) {
@@ -55,42 +80,48 @@ export class UsersService {
   }
 
   async editPassword(email: string, oldPassword: string, newPassword: string) {
-    const {response, error} = await useFetch(Method.POST, 'users/editpassword', {email, oldPassword, newPassword})
+    const auth = localStorage.getItem('auth');
 
-    if (error)
-      return {status: 'error', data: error};
-    else
-      return {status: 'correct', data: response}
+    this.http.post<User>( environment.apiBaseUrl + '/users/editpassword', {email, oldPassword, newPassword}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((user: User) => this.user$.next(user))
+    ).subscribe();
   }
 
   async editPersonalData(name: string, surname: string, email: string) {
-    const {response, error} = await useFetch(Method.PATCH, 'users/', {name, surname, email});
+    const auth = localStorage.getItem('auth');
 
-    if (error)
-      return {status: 'error', data: error};
-    else
-      return {status: 'correct', data: response}
+    this.http.patch<User>( environment.apiBaseUrl + '/users/', {name, surname, email}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((user: User) => this.user$.next(user))
+    ).subscribe();
   }
 
   async editPreferences(preferences: Preferences) {
-    console.log(preferences)
-    const {response, error} = await useFetch(Method.PATCH, 'users/preferences', preferences);
+    const auth = localStorage.getItem('auth');
 
-    if (error)
-      return {status: 'error', data: error};
-    else
-      return {status: 'correct', data: response}
+    this.http.patch<Preferences>( environment.apiBaseUrl + '/users/preferences', preferences, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((preferences: Preferences) => this.preferences$.next(preferences))
+    ).subscribe();
   }
 
-  setActiveUser(data: User) {
-    this.activeUserData = data;
+  async loadPreferences() {
+    const auth = localStorage.getItem('auth');
+
+    this.http.get<Preferences>( environment.apiBaseUrl + '/users/preferences', {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((preferences: Preferences) => this.preferences$.next(preferences))
+    ).subscribe();
   }
+
   getActiveUser() {
    return this.activeUserData;
   }
-  // loadActiveUser(uuid: string) {
-  //   this.http.get('http://localhost:3001/users/info/' + uuid).subscribe()
-  // }
 
   setEditingAccountField(field: string) {
     this.editingAccountField = field;

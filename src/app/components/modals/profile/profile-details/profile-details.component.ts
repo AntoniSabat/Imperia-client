@@ -11,14 +11,8 @@ import {Club} from "../../../../models/club.model";
   styleUrls: ['./profile-details.component.scss'],
 })
 export class ProfileDetailsComponent  implements OnInit {
-  userData: {name: string, surname: string, email: string, type: UserType | string, clubsAmount: number, clubs: Club[]} = {
-    name: '',
-    surname: '',
-    email: '',
-    type: '',
-    clubsAmount: 0,
-    clubs: []
-  }
+  user$ = this.usersService.user$;
+  clubs: Club[] = [];
 
   constructor(private modalCtrl: ModalController, private usersService: UsersService, private router: Router, private clubsService: ClubsService) { }
 
@@ -27,16 +21,12 @@ export class ProfileDetailsComponent  implements OnInit {
   }
 
   async whoAmI() {
+    await this.usersService.loadActiveUser();
     const user = this.usersService.getActiveUser();
-    this.userData.name = user.name;
-    this.userData.surname = user.surname;
-    this.userData.email = user.email;
-    this.userData.clubsAmount = user.clubs.length;
-    this.userData.type = user.type;
 
-    user.clubs.map(async (clubID: string) => {
+    this.user$.getValue().clubs.map(async (clubID: string) => {
       const club = await this.clubsService.getClubInfo(clubID);
-      this.userData.clubs.push(club.data);
+      this.clubs.push(club.data);
     });
   }
 
@@ -48,6 +38,4 @@ export class ProfileDetailsComponent  implements OnInit {
     await this.modalCtrl.dismiss(null, 'back');
     await this.router.navigate(['settings'])
   }
-
-  protected readonly UserType = UserType;
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Club} from "../../../../models/club.model";
+import {Club, ClubRank, Group} from "../../../../models/club.model";
 import {ClubsService} from "../../../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
 import {ShowClubUsersComponent} from "../show-club-users/show-club-users.component";
-import {Group} from "../../../../models/group.model";
+import {UsersService, UserType} from "../../../../services/users.service";
 
 @Component({
   selector: 'app-club-info',
@@ -12,10 +12,11 @@ import {Group} from "../../../../models/group.model";
 })
 export class ClubInfoComponent  implements OnInit {
   club!: Club;
-  groups!: Group[];
+  user$ = this.usersService.user$;
+  groups$ = this.clubsService.groups$;
   noGroups = false;
 
-  constructor(private clubsService: ClubsService, private modalCtrl: ModalController) { }
+  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
 
   async ngOnInit() {
     this.club = this.clubsService.getActiveClub();
@@ -34,8 +35,34 @@ export class ClubInfoComponent  implements OnInit {
   }
 
   async getGroups() {
-    const response = await this.clubsService.getGroups();
-    this.groups = response?.data?.data;
-    if (!this.groups.length) this.noGroups = true;
+    await this.clubsService.loadGroups();
+    if (this.groups$.getValue().length === 0)
+      this.noGroups = true;
   }
+
+  createGroupInputs = [
+    { placeholder: 'Name'},
+    { placeholder: "Description"},
+    { placeholder: "Default title", type: 'number'},
+  ]
+  async createGroup(e: any) {
+    if (e.detail.role === 'ok') {
+      const data = e.detail.data.values;
+      const name = data[0];
+      const desc = data[1];
+      const defaultTitle = data[2];
+
+      await this.clubsService.createGroup(name, desc, parseInt(defaultTitle));
+    }
+  }
+
+  async showGroupDetails() {
+    const modal = await this.modalCtrl.create({
+      component: ClubInfoComponent
+    })
+    await modal.present();
+  }
+
+  protected readonly ClubRank = ClubRank;
+  protected readonly UserType = UserType;
 }
