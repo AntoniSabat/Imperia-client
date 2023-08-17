@@ -9,6 +9,41 @@ export interface Club {
   groups: {}
 }
 
+export enum LessonPresent {
+  PRESENT = 'PRESENT',
+  ABSENT = 'ABSENT',
+  UNDEFINED = 'UNDEFINDED'
+}
+
+export interface LessonParticipant {
+  uuid: string;
+  status: LessonPresent;
+  paid: number;
+}
+
+export interface LessonStats {
+  title: string;
+  teacher: string;
+  cancelled: boolean;
+  payment: number;
+
+}
+
+export enum LessonType {
+  DEFAULT = "DEFAULT",
+  EVENT = "EVENT"
+}
+
+export interface CalendarLesson {
+  clubId: string;
+  id: string;
+  start: string;
+  end: string;
+  type: LessonType;
+  payment: number;
+  stats: LessonStats;
+}
+
 export interface Group {
   id: string;
   name: string;

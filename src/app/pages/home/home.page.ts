@@ -5,6 +5,7 @@ import {ModalController} from "@ionic/angular";
 import {ProfileDetailsComponent} from "../../components/modals/profile/profile-details/profile-details.component";
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
+import { ClubsService } from 'src/app/services/clubs.service';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,12 @@ export class HomePage implements OnInit {
   userImageSrc = '';
   shouldDisplayImage = false;
   user$ = this.usersService.user$;
-  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router) { }
+  lessons$ = this.clubsService.todayLessons$;
+  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService) { }
 
   async ngOnInit() {
     await this.whoAmI();
+    await this.clubsService.loadTodayLessons()
   }
 
   checkImageUrl(url: string) {
