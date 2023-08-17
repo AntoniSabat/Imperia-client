@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UsersService} from "../../services/users.service";
+import {UsersService, UserType} from "../../services/users.service";
 import {Club} from "../../models/club.model";
 import {ClubsService} from "../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
@@ -11,17 +11,22 @@ import {ClubInfoComponent} from "../../components/modals/clubs/club-info/club-in
   styleUrls: ['./clubs.page.scss'],
 })
 export class ClubsPage implements OnInit {
-  clubs: Club[] = [];
+  clubs$ = this.clubsService.clubs$;
+  user$ = this.usersService.user$;
 
   constructor(private usersService: UsersService, private clubsService: ClubsService, private modalCtrl: ModalController) { }
 
   async ngOnInit() {
+    await this.whoAmI();
     await this.getClubs();
   }
 
+  async whoAmI() {
+    await this.usersService.loadActiveUser();
+  }
+
   async getClubs() {
-    const response = await this.clubsService.getClubs();
-    this.clubs = response?.data?.data.map((club: Club) => club);
+    await this.clubsService.loadClubs();
   }
 
   async showClubDetails(club: Club) {
@@ -37,24 +42,33 @@ export class ClubsPage implements OnInit {
     {
       placeholder: 'Code',
       attributes: {
-        maxlength: 6,
+        maxlength: 6
       },
     }
   ]
-  joinClubButtons = [
-    {
-      text: 'Cancel',
-      role: 'cancel',
-    },
-    {
-      text: 'OK',
-      role: 'ok',
-    }
+  createClubInputs = [
+    { placeholder: 'Name' },
+    { placeholder: 'Description' }
   ]
+  clubButtons = [
+    { text: 'Cancel', role: 'cancel'},
+    { text: 'OK', role: 'ok'}
+  ]
+
   async joinClub(e: any) {
     if (e.detail.role === 'ok') {
       const clubCode = String(Object.entries(e.detail.data.values)[0][1]);
       await this.clubsService.joinClub(clubCode)
     }
   }
+
+  async createClub(e: any) {
+    if (e.detail.role === 'ok') {
+      const name = e.detail.data.values[0];
+      const desc = e.detail.data.values[1];
+      await this.clubsService.createClub(name, desc);
+    }
+  }
+
+  protected readonly UserType = UserType;
 }

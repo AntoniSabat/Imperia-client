@@ -29,11 +29,14 @@
 
   <ion-card>
     <ion-card-content>
-      <ion-card-subtitle>Your groups: </ion-card-subtitle>
+      <ion-card-subtitle><ion-text>Your groups:</ion-text></ion-card-subtitle>
+      <ion-button id="create-group" slot="end" size="full" fill="none" color="dark">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
 
       <ion-list style="margin-top: 10px">
-        <ion-item *ngFor="let group of groups">
-          <ion-label>{{group.name}}</ion-label>
+        <ion-item *ngFor="let group of groups$ | async">
+          <ion-label (click)="showGroupDetails()">{{group.name}}</ion-label>
         </ion-item>
         <ion-item *ngIf="noGroups">
           <ion-label color="danger" style="text-align: center" >You aren't in any group</ion-label>
@@ -48,4 +51,6 @@
       <ion-card-subtitle>Newses section</ion-card-subtitle>
     </ion-card-content>
   </ion-card>
+
+  <ion-alert trigger="create-group" (didDismiss)="createGroup($event)" header="Please enter group data" [buttons]="[{ text: 'Cancel', role: 'cancel'}, { text: 'OK', role: 'ok'}]" [inputs]="createGroupInputs"></ion-alert>
 </ion-content>

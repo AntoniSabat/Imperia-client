@@ -13,21 +13,21 @@
 
       <ng-container *ngIf="editingField === 'name' || editingField === 'surname' || editingField === 'email'">
         <ion-item>
-          <ion-input label="Edit name" labelPlacement="floating" [value]="userData.name" [(ngModel)]="userData.name"></ion-input>
+          <ion-input label="Edit name" labelPlacement="floating" [value]="user$.getValue().name" [(ngModel)]="user$.getValue().name"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Edit surname" labelPlacement="floating" [value]="userData.surname" [(ngModel)]="userData.surname"></ion-input>
+          <ion-input label="Edit surname" labelPlacement="floating" [value]="user$.getValue().surname" [(ngModel)]="user$.getValue().surname"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Edit email" labelPlacement="floating" [value]="userData.email" [(ngModel)]="userData.email"></ion-input>
+          <ion-input label="Edit email" labelPlacement="floating" [value]="user$.getValue().email" [(ngModel)]="user$.getValue().email"></ion-input>
         </ion-item>
       </ng-container>
 
       <ng-container *ngIf="editingField==='password'">
         <ion-item>
-          <ion-input type="password" label="Input old password" labelPlacement="floating" placeholder="**********" [(ngModel)]="userData.oldPassword"></ion-input>
+          <ion-input type="password" label="Input old password" labelPlacement="floating" placeholder="**********" [(ngModel)]="user$.getValue().password"></ion-input>
         </ion-item>
         <ion-item>
           <ion-input type="password" label="Input new password" labelPlacement="floating" placeholder="**********" [(ngModel)]="userData.newPassword"></ion-input>

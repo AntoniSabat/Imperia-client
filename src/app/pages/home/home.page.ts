@@ -12,9 +12,9 @@ import {environment} from "../../../environments/environment";
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  userName = '';
   userImageSrc = '';
   shouldDisplayImage = false;
+  user$ = this.usersService.user$;
   constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router) { }
 
   async ngOnInit() {
@@ -30,11 +30,9 @@ export class HomePage implements OnInit {
   }
 
   async whoAmI() {
-    const response = await this.usersService.whoAmI();
-    this.userName = response?.data.name;
-    this.userImageSrc =  environment.apiBaseUrl + '/files/' + response?.data.profileImage;
+    await this.usersService.loadActiveUser();
+    this.userImageSrc =  environment.apiBaseUrl + '/files/' + this.user$.getValue().profileImg;
     this.shouldDisplayImage = this.checkImageUrl(this.userImageSrc);
-    this.usersService.setActiveUser(response?.data);
   }
 
   async showProfileDetails() {

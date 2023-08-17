@@ -60,7 +60,7 @@ export class AddAnnouncementComponent  implements OnInit {
     else
       clubs = this.selectedClubs;
 
-    const recipents = this.usersWhoGetsMessage
+    const recipents = this.usersWhoGetsMessage;
 
     clubs.map(async(club: Club) => {
       await this.clubsService.addAnnouncement(club.id, {title: this.title, message: this.message, type: type, recipents});

@@ -9,12 +9,12 @@ import {Club} from "../../../../models/club.model";
   styleUrls: ['./personal-info.component.scss'],
 })
 export class PersonalInfoComponent  implements OnInit {
+  user$ = this.usersService.user$;
   userData = {
     uuid: '',
     name: '',
     surname: '',
     email: '',
-    oldPassword: '',
     newPassword: '',
     confirmPassword: ''
   }
@@ -33,27 +33,21 @@ export class PersonalInfoComponent  implements OnInit {
   }
 
   async whoAmI() {
-    const response = await this.usersService.getActiveUser();
-    this.userData.name = response.name;
-    this.userData.surname = response.surname;
-    this.userData.email = response.email;
-    this.userData.uuid = response.uuid;
+    await this.usersService.loadActiveUser();
   }
 
-  // TODO: Dodać RX, zeby od razu po zamknieciu modala, dane były zupdatowane ( w bazie wszystko się zmienia), w notatkach - co trzeba zrobić
   async editData() {
     if (this.editingField === 'password') {
       console.log('zmieniam haslo');
       if (this.userData.newPassword !== this.userData.confirmPassword)
         console.log('Hasła nie są takie same');
       else {
-        const response = await this.usersService.editPassword(this.userData.email, this.userData.oldPassword, this.userData.newPassword);
+        await this.usersService.editPassword(this.user$.getValue().email, this.user$.getValue().password, this.userData.newPassword);
       }
     }
     else {
       console.log('zmieniam imie, nazwisko, email')
-      const response = await this.usersService.editPersonalData(this.userData.name, this.userData.surname, this.userData.email);
-      console.log(response);
+      await this.usersService.editPersonalData(this.user$.getValue().name, this.user$.getValue().surname, this.user$.getValue().email);
     }
 
     await this.modalCtrl.dismiss(null, 'save')

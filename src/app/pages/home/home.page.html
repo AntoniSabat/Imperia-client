@@ -15,7 +15,7 @@
 <!--  <ion-button (click)="goToCalendar()">Calendar</ion-button>-->
   <ion-button (click)="goToClubs()">Clubs</ion-button>
   <div class="container">
-    <h2 class="welcome">Hi, {{userName}} 👋</h2>
+    <h2 class="welcome">Hi, {{user$.getValue().name}} 👋</h2>
     <div class="box">
       <p class="title">today's trainings</p>
       <div class="cards">
