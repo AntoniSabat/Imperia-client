@@ -1,12 +1,8 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit} from '@angular/core';
 import {IonInput, ModalController} from "@ionic/angular";
 import {ClubsService} from "../../../../services/clubs.service";
-import {Group, Titles} from "../../../../models/club.model";
 import {AddUserToGroupComponent} from "../add-user-to-group/add-user-to-group.component";
 import {UsersService} from "../../../../services/users.service";
-import {User} from "../../../../models/user.model";
-import {group} from "@angular/animations";
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-group-info',
@@ -46,5 +42,9 @@ export class GroupInfoComponent  implements OnInit {
   addTitle(input: IonInput) {
     this.clubsService.addTitle(input.value);
     input.value = '';
+  }
+
+  async setDefaultTitle(titleId: number) {
+    await this.clubsService.updateGroupDefaultTitle(titleId);
   }
 }
