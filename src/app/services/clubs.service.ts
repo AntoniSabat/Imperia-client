@@ -1,7 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Method, useFetch} from "../axios";
-import {CalendarLesson, Club, ClubRank, Group} from "../models/club.model";
-import {Club, ClubRank, Group, Titles} from "../models/club.model";
 import {Announcement} from "../models/announcement.model";
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, tap} from "rxjs";
@@ -9,6 +7,7 @@ import {environment} from "../../environments/environment";
 import { Lessons } from '../models/lessons.model';
 import {User} from "../models/user.model";
 import {UsersService} from "./users.service";
+import { CalendarLesson, Club, Group, Titles } from '../models/club.model';
 
 @Injectable({
   providedIn: 'root'
