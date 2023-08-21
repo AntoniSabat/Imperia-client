@@ -1,12 +1,20 @@
+import { LessonStats, LessonType } from "./club.model";
+
 export interface Lessons {
-  colliders: Lessons[];
-  cols: number;
-  pos: number;
-  color: string;
+  clubId: string;
+  id: string;
   start: number;
   end: number;
-  title: string;
+  type: LessonType;
+  payment: number;
+  stats: LessonStats;
+
+  cols: number;
+  pos: number;
+
+  color: string;
   hours: string;
+  
+  colliders: Lessons[];
   nextColliders: Lessons[];
-  type: string;
 }
