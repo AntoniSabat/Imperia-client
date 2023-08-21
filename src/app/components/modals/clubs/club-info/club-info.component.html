@@ -36,10 +36,7 @@
 
       <ion-list style="margin-top: 10px">
         <ion-item *ngFor="let group of groups$ | async">
-          <ion-label (click)="showGroupDetails()">{{group.name}}</ion-label>
-        </ion-item>
-        <ion-item *ngIf="noGroups">
-          <ion-label color="danger" style="text-align: center" >You aren't in any group</ion-label>
+          <ion-label (click)="showGroupDetails(group)">{{group.name}}</ion-label>
         </ion-item>
       </ion-list>
 

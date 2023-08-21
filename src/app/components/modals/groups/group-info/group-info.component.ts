@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {ModalController} from "@ionic/angular";
+import {ChangeDetectorRef, Component, ElementRef, OnInit} from '@angular/core';
+import {IonInput, ModalController} from "@ionic/angular";
+import {ClubsService} from "../../../../services/clubs.service";
+import {Group, Titles} from "../../../../models/club.model";
+import {AddUserToGroupComponent} from "../add-user-to-group/add-user-to-group.component";
+import {UsersService} from "../../../../services/users.service";
+import {User} from "../../../../models/user.model";
+import {group} from "@angular/animations";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-group-info',
@@ -7,11 +14,37 @@ import {ModalController} from "@ionic/angular";
   styleUrls: ['./group-info.component.scss'],
 })
 export class GroupInfoComponent  implements OnInit {
-  constructor(private modalCtrl: ModalController) { }
+  activeGroup$ = this.clubsService.activeGroup$;
+  groupUsers$ = this.usersService.groupUsers$;
+  titles$ = this.clubsService.titles$;
+  // group!: Group;
+  constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private usersService: UsersService, private cdr: ChangeDetectorRef) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.clubsService.loadActiveGroup();
+    await this.getUsersName();
+    await this.clubsService.loadTitles();
+  }
 
   async back() {
     await this.modalCtrl.dismiss();
+  }
+
+  async addUsers() {
+    const modal = await this.modalCtrl.create({
+      component: AddUserToGroupComponent
+    })
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+  }
+
+  async getUsersName() {
+    await this.usersService.loadGroupUsersInfo(this.activeGroup$.getValue().participants);
+  }
+
+  addTitle(input: IonInput) {
+    this.clubsService.addTitle(input.value);
+    input.value = '';
   }
 }

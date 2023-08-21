@@ -15,9 +15,10 @@ import { AddAnnouncementComponent} from "./components/modals/announcements/add-a
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {GroupInfoComponent} from "./components/modals/groups/group-info/group-info.component";
+import {AddUserToGroupComponent} from "./components/modals/groups/add-user-to-group/add-user-to-group.component";
 
 @NgModule({
-  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent],
+  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
   bootstrap: [AppComponent],
