@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import axios from "axios";
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";

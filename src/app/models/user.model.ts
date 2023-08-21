@@ -1,4 +1,4 @@
-import {UserType} from "../services/users.service";
+import { UserType } from "../services/users.service";
 
 export interface User {
   name: string;
