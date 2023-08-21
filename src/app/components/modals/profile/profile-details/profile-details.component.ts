@@ -12,22 +12,22 @@ import {Club} from "../../../../models/club.model";
 })
 export class ProfileDetailsComponent  implements OnInit {
   user$ = this.usersService.user$;
-  clubs: Club[] = [];
+  clubs$ = this.clubsService.clubs$;
 
   constructor(private modalCtrl: ModalController, private usersService: UsersService, private router: Router, private clubsService: ClubsService) { }
 
   async ngOnInit() {
     await this.whoAmI();
+    await this.getClubs();
   }
 
   async whoAmI() {
     await this.usersService.loadActiveUser();
     const user = this.usersService.getActiveUser();
+  }
 
-    this.user$.getValue().clubs.map(async (clubID: string) => {
-      const club = await this.clubsService.getClubInfo(clubID);
-      this.clubs.push(club.data);
-    });
+  async getClubs() {
+    await this.clubsService.loadClubs();
   }
 
   async goBackHome() {

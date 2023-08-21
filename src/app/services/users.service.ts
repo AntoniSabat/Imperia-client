@@ -72,15 +72,6 @@ export class UsersService {
     ).subscribe();
   }
 
-  async getUserInfo(id: string) {
-    const { response, error } = await useFetch(Method.GET, 'users/info/' + id, {});
-
-    if (error)
-      return {status: 'error', data: error};
-    else
-      return {status: 'correct', data: response?.data}
-  }
-
   // async loadUsersInfo(uuids: string[]) {
   //   const auth = localStorage.getItem('auth');
   //

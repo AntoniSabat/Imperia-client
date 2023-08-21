@@ -27,18 +27,7 @@
       <ion-button (click)="addTitle(title)">Add</ion-button>
     </ion-item>
     <ul>
-      <li *ngFor="let title of titles$ | async">{{title.content}}</li>
+      <li *ngFor="let title of titles$ | async"><ion-text>{{title.content}}</ion-text> <ion-button (click)="setDefaultTitle(title.id)">Set default</ion-button></li>
     </ul>
   </ion-card>
-<!--  <ion-card>-->
-<!--    <ion-card-content>-->
-<!--      <ion-card-subtitle>Titles</ion-card-subtitle>-->
-<!--      <ol>-->
-<!--        <li *ngFor="let title of titles">{{title.content}}</li>-->
-<!--      </ol>-->
-<!--    </ion-card-content>-->
-<!--  </ion-card>-->
-<!--  <ion-item>-->
-<!--    <ion-radio name="default-title" *ngFor="let title of titles">{{title}}</ion-radio>-->
-<!--  </ion-item>-->
 </ion-content>

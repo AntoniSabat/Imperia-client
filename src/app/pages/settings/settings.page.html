@@ -40,16 +40,16 @@
     <ion-card-content>
       <ion-card-subtitle>Preferences</ion-card-subtitle>
       <ion-item>
-        <ion-checkbox  [checked]="preferences$.getValue().announcementsNotifications" class="preference-checkbox" name="announcementsNotifications" [(ngModel)]="preferences.announcementsNotifications" (ionChange)="changeUserPreferences()">Announcements notifications</ion-checkbox>
+        <ion-checkbox  [checked]="preferences$.getValue().announcementsNotifications" class="preference-checkbox" name="announcementsNotifications" [(ngModel)]="preferences$.getValue().announcementsNotifications" (ionChange)="changeUserPreferences()">Announcements notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox  [checked]="preferences$.getValue().conversationsNotifications" class="preference-checkbox" name="conversationsNotifications" [(ngModel)]="preferences.conversationsNotifications" (ionChange)="changeUserPreferences()">Messenger notifications</ion-checkbox>
+        <ion-checkbox  [checked]="preferences$.getValue().conversationsNotifications" class="preference-checkbox" name="conversationsNotifications" [(ngModel)]="preferences$.getValue().conversationsNotifications" (ionChange)="changeUserPreferences()">Messenger notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox  [checked]="preferences$.getValue().lessonsNotifications" class="preference-checkbox" name="lessonsNotifications" [(ngModel)]="preferences.lessonsNotifications" (ionChange)="changeUserPreferences()">Calendar Notifications</ion-checkbox>
+        <ion-checkbox  [checked]="preferences$.getValue().lessonsNotifications" class="preference-checkbox" name="lessonsNotifications" [(ngModel)]="preferences$.getValue().lessonsNotifications" (ionChange)="changeUserPreferences()">Calendar Notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox [checked]="preferences$.getValue().darkMode" class="preference-checkbox" name="darkMode" [(ngModel)]="preferences.darkMode" (ionChange)="changeUserPreferences()">Dark mode</ion-checkbox>
+        <ion-checkbox [checked]="preferences$.getValue().darkMode" class="preference-checkbox" name="darkMode" [(ngModel)]="preferences$.getValue().darkMode" (ionChange)="changeUserPreferences()">Dark mode</ion-checkbox>
       </ion-item>
     </ion-card-content>
   </ion-card>
