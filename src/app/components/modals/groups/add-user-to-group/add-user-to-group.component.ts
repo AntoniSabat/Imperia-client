@@ -17,7 +17,6 @@ export class AddUserToGroupComponent  implements OnInit {
   group$ = this.clubsService.activeGroup$;
   usersID$ = new BehaviorSubject<string[]>([]);
   activeGroup$ = this.clubsService.activeGroup$;
-  activeClub$ = this.clubsService.activeClub$;
   clubUsers$ = this.usersService.clubUsers$;
   groupUsers$ = this.usersService.groupUsers$;
 

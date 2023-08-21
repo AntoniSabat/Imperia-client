@@ -4,6 +4,7 @@ import {Club} from "../../../../models/club.model";
 import {ModalController} from "@ionic/angular";
 import {User} from "../../../../models/user.model";
 import {UsersService} from "../../../../services/users.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-show-club-users',
@@ -11,23 +12,23 @@ import {UsersService} from "../../../../services/users.service";
   styleUrls: ['./show-club-users.component.scss'],
 })
 export class ShowClubUsersComponent  implements OnInit {
-  club!: Club;
-  usersID: any = [];
-  users: any = [];
+  club$ = this.clubsService.activeClub$;
+  usersID$ = new BehaviorSubject<string[]>([]);
+  clubUsers$ = this.usersService.clubUsers$;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
 
   async ngOnInit() {
-    this.club = this.clubsService.getActiveClub();
-    this.usersID = this.club.users;
-    await this.getUsers();
+    await this.clubsService.loadActiveClub();
+
+    this.club$.getValue().users.map((user: any) => {
+      this.usersID$.next([...this.usersID$.getValue(), user.uuid])
+    });
+    await this.getUsersInfo();
   }
 
-  async getUsers() {
-    this.usersID.map(async (user: {uuid: string, rank: string, _id: string}) => {
-      const res = await this.usersService.getUserInfo(user.uuid);
-      this.users.push(res.data);
-    })
+  async getUsersInfo() {
+    await this.usersService.loadClubUsersInfo(this.usersID$.getValue())
   }
 
   async back() {

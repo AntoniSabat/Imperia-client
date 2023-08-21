@@ -42,13 +42,7 @@ export class SettingsPage implements OnInit {
   }
 
   async changeUserPreferences() {
-    const newPreferences: Preferences = {
-      announcementsNotifications: this.preferences.announcementsNotifications,
-      conversationsNotifications: this.preferences.conversationsNotifications,
-      lessonsNotifications: this.preferences.lessonsNotifications,
-      darkMode: this.preferences.darkMode
-    }
-    await this.usersService.editPreferences(newPreferences);
+    await this.usersService.editPreferences(this.preferences$.getValue());
   }
 
   async getPreferences() {
