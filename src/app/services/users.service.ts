@@ -38,6 +38,8 @@ export class UsersService {
   preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false };
 
   user$ = new BehaviorSubject<User>(this.userInitialValue);
+  clubUsers$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  groupUsers$ = new BehaviorSubject<User[]>([]);
   preferences$ = new BehaviorSubject<Preferences>(this.preferencesInitialValue);
 
   constructor(private http: HttpClient) {}
@@ -77,6 +79,34 @@ export class UsersService {
       return {status: 'error', data: error};
     else
       return {status: 'correct', data: response?.data}
+  }
+
+  // async loadUsersInfo(uuids: string[]) {
+  //   const auth = localStorage.getItem('auth');
+  //
+  //   this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
+  //     headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+  //   }).pipe(
+  //     tap((users: User[]) => this.users$.next(users))
+  //   ).subscribe();
+  // }
+  async loadClubUsersInfo(uuids: string[]) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((users: User[]) => this.clubUsers$.next(users))
+    ).subscribe();
+  }
+  async loadGroupUsersInfo(uuids: string[]) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((users: User[]) => this.groupUsers$.next(users))
+    ).subscribe();
   }
 
   async editPassword(email: string, oldPassword: string, newPassword: string) {

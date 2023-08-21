@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()">back</ion-button>
+    </ion-buttons>
+    <ion-title>{{group$.getValue().name}}'users</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ol>
+    <li *ngFor="let user of clubUsers$ | async"><ion-text>{{user.name}} {{user.surname}}</ion-text>
+      <ion-button fill="none" color="dark" (click)="addToGroup(user)">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button></li>
+  </ol>
+</ion-content>

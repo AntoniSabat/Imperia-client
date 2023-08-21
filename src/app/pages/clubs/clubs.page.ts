@@ -12,7 +12,6 @@ import {ClubInfoComponent} from "../../components/modals/clubs/club-info/club-in
 })
 export class ClubsPage implements OnInit {
   clubs$ = this.clubsService.clubs$;
-  user$ = this.usersService.user$;
 
   constructor(private usersService: UsersService, private clubsService: ClubsService, private modalCtrl: ModalController) { }
 

@@ -4,6 +4,7 @@ import {ClubsService} from "../../../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
 import {ShowClubUsersComponent} from "../show-club-users/show-club-users.component";
 import {UsersService, UserType} from "../../../../services/users.service";
+import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
 
 @Component({
   selector: 'app-club-info',
@@ -43,22 +44,21 @@ export class ClubInfoComponent  implements OnInit {
   createGroupInputs = [
     { placeholder: 'Name'},
     { placeholder: "Description"},
-    { placeholder: "Default title", type: 'number'},
   ]
   async createGroup(e: any) {
     if (e.detail.role === 'ok') {
       const data = e.detail.data.values;
       const name = data[0];
       const desc = data[1];
-      const defaultTitle = data[2];
 
-      await this.clubsService.createGroup(name, desc, parseInt(defaultTitle));
+      await this.clubsService.createGroup(name, desc);
     }
   }
 
-  async showGroupDetails() {
+  async showGroupDetails(group: Group) {
+    this.clubsService.setActiveGroup(group);
     const modal = await this.modalCtrl.create({
-      component: ClubInfoComponent
+      component: GroupInfoComponent
     })
     await modal.present();
   }

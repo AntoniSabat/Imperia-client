@@ -2,7 +2,7 @@ export interface Club {
   id: string;
   name: string;
   description: string;
-  users: { users: string, rank: ClubRank };
+  users: { users: string, rank: ClubRank }[];
   announcements: {};
   properties: {};
   payment: JSON;
@@ -16,11 +16,13 @@ export interface Group {
   admins: string[];
   participants: string[];
   defaultTitle: number;
-  titles: {
-    id: number;
-    content: string;
-  }[];
+  titles: Titles[];
   lessons: {};
+}
+
+export interface Titles {
+  id: number;
+  content: string;
 }
 
 export enum ClubRank {
