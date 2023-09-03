@@ -16,11 +16,14 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {GroupInfoComponent} from "./components/modals/groups/group-info/group-info.component";
 import {AddUserToGroupComponent} from "./components/modals/groups/add-user-to-group/add-user-to-group.component";
+import { ConversationsService } from './services/conversations.service';
+import { CreateConversationComponent } from './components/modals/conversations/create-conversation/create-conversation.component';
+import { ChatComponent } from './components/modals/conversations/chat/chat.component';
 
 @NgModule({
-  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent],
+  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent, CreateConversationComponent, ChatComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
+  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, ConversationsService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Method, useFetch} from "../axios";
-import {Preferences, User} from "../models/user.model";
-import {HttpClient} from "@angular/common/http";
-import {Club} from "../models/club.model";
-import {environment} from "../../environments/environment";
-import {BehaviorSubject, tap} from "rxjs";
+import { Injectable } from '@angular/core';
+import { Method, useFetch } from "../axios";
+import { Preferences, User } from "../models/user.model";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { BehaviorSubject, tap } from "rxjs";
 
 export enum UserType {
   COACH = 'COACH',
@@ -27,7 +26,7 @@ export class UsersService {
     uuid: '',
     clubs: [],
     conversations: [],
-    profileImg: '',
+    profileImage: '',
     preferences: {
       darkMode: true,
       conversationsNotifications: true,
@@ -35,11 +34,11 @@ export class UsersService {
       announcementsNotifications: true
     }
   };
-  preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false };
+  preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false};
+
 
   user$ = new BehaviorSubject<User>(this.userInitialValue);
-  clubUsers$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  groupUsers$ = new BehaviorSubject<User[]>([]);
+  usersData$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   preferences$ = new BehaviorSubject<Preferences>(this.preferencesInitialValue);
 
   constructor(private http: HttpClient) {}
@@ -73,7 +72,7 @@ export class UsersService {
   }
 
   async getUserInfo(id: string) {
-    const { response, error } = await useFetch(Method.GET, 'users/info/' + id, {});
+    const { response, error } = await useFetch(Method.GET, 'users/' + id, {});
 
     if (error)
       return {status: 'error', data: error};
@@ -90,23 +89,41 @@ export class UsersService {
   //     tap((users: User[]) => this.users$.next(users))
   //   ).subscribe();
   // }
-  async loadClubUsersInfo(uuids: string[]) {
+
+  async addUsersData(uuids: string[]) {
     const auth = localStorage.getItem('auth');
 
-    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
+    const loadedUuids = this.usersData$.getValue().map(user => user.uuid);
+
+    const uniqueUuids = uuids.filter(uuid => !loadedUuids.includes(uuid));
+
+    if (uniqueUuids.length <= 0) return;
+
+    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids: uniqueUuids}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((users: User[]) => this.clubUsers$.next(users))
+      tap((newUsers: User[]) => {
+        //
+        //   if (newUsers.length <= 0) return;
+        //
+        //   const map = new Map<string, User>();
+        //
+        //   this.usersData$.getValue().forEach(user => {
+        //     map.set(user.uuid, user);
+        //   })
+        //
+        //   newUsers.forEach(user => {
+        //     map.set(user.uuid, user);
+        //   })
+        //
+        //   this.usersData$.next(Array.from(map.values()));
+        this.usersData$.next([...this.usersData$.getValue(), ...newUsers])
+      })
     ).subscribe();
   }
-  async loadGroupUsersInfo(uuids: string[]) {
-    const auth = localStorage.getItem('auth');
 
-    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
-      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-    }).pipe(
-      tap((users: User[]) => this.groupUsers$.next(users))
-    ).subscribe();
+  async getUser(uuid: string) : Promise<User> {
+    return this.usersData$.getValue().find(user => user.uuid == uuid) ?? this.userInitialValue;
   }
 
   async editPassword(email: string, oldPassword: string, newPassword: string) {

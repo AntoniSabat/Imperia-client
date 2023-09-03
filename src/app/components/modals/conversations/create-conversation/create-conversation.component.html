@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button color="dark" fill="none" (click)="goBackHome()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>Create a conversation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-input [placeholder]="'Name'" (input)="setName($event)"></ion-input>
+      <ion-input [placeholder]="'Search'" (input)="search($event)"></ion-input>
+    </ion-card-content>
+    <ion-card-content>
+      <ion-button [disabled]="name$.getValue() == '' || checkedUsers.size <= 0" (click)="create()">Create</ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-item *ngFor="let user of (searchedUsers$ | async)">
+      <ion-checkbox (ionChange)="handleCheckedUsers($event, user.uuid)" [checked]="checkedUsers.has(user.uuid ?? '')">{{user.name + ' ' + user.surname}}</ion-checkbox>
+    </ion-item>
+    <p *ngIf="searchedUsers$.getValue().length <= 0">Not found users</p>
+  </ion-card>
+</ion-content>

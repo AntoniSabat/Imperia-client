@@ -2,10 +2,10 @@
   <ion-toolbar>
     <ion-title slot="start"></ion-title>
     <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">
-      <div *ngIf="shouldDisplayImage" class="profileImg">
+      <div *ngIf="shouldDisplayImage$ | async" class="profileImg">
         <img src="{{userImageSrc}}" alt="">
       </div>
-      <ion-icon *ngIf="!shouldDisplayImage" name="person-outline"></ion-icon>
+      <ion-icon *ngIf="!(shouldDisplayImage$ | async)" name="person-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -14,6 +14,7 @@
 <ion-content>
 <!--  <ion-button (click)="goToCalendar()">Calendar</ion-button>-->
   <ion-button (click)="goToClubs()">Clubs</ion-button>
+  <ion-button (click)="goToConversations()">Conversations</ion-button>
   <div class="container">
     <h2 class="welcome">Hi, {{user$.getValue().name}} 👋</h2>
     <div class="box" *ngIf="lessons$.getValue().length > 0">

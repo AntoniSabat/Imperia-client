@@ -3,14 +3,14 @@
     <ion-buttons>
       <ion-button (click)="back()">back</ion-button>
     </ion-buttons>
-    <ion-title>{{group$.getValue().name}}'users</ion-title>
+    <ion-title>{{activeClub$.getValue().name}}'s users</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ol>
-    <li *ngFor="let user of clubUsers$ | async"><ion-text>{{user.name}} {{user.surname}}</ion-text>
-      <ion-button fill="none" color="dark" (click)="addToGroup(user)">
+    <li *ngFor="let user of activeClub$.getValue().users"><ion-text> {{user}}</ion-text>
+      <ion-button fill="none" color="dark" (click)="addToGroup(user.uuid)">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button></li>
   </ol>

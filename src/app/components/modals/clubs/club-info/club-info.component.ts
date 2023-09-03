@@ -12,17 +12,12 @@ import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
   styleUrls: ['./club-info.component.scss'],
 })
 export class ClubInfoComponent  implements OnInit {
-  club!: Club;
+  activeClub$= this.clubsService.activeClub$;
   user$ = this.usersService.user$;
-  groups$ = this.clubsService.groups$;
-  noGroups = false;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
 
-  async ngOnInit() {
-    this.club = this.clubsService.getActiveClub();
-    await this.getGroups();
-  }
+  async ngOnInit() {}
 
   async back() {
     await this.modalCtrl.dismiss(null, 'back');
@@ -35,15 +30,10 @@ export class ClubInfoComponent  implements OnInit {
     await modal.present();
   }
 
-  async getGroups() {
-    await this.clubsService.loadGroups();
-    if (this.groups$.getValue().length === 0)
-      this.noGroups = true;
-  }
 
   createGroupInputs = [
-    { placeholder: 'Name'},
-    { placeholder: "Description"},
+    { placeholder: 'Name', type: "text"},
+    { placeholder: "Description", type: "text"},
   ]
   async createGroup(e: any) {
     if (e.detail.role === 'ok') {
@@ -51,11 +41,18 @@ export class ClubInfoComponent  implements OnInit {
       const name = data[0];
       const desc = data[1];
 
-      await this.clubsService.createGroup(name, desc);
+      if (name == '' && desc == '')
+        alert('Name and description must be filled')
+      else if (name == '')
+        alert('Name must be filled')
+      else if (desc == '')
+        alert('Description must be filled')
+      else
+        await this.clubsService.createGroup(name, desc);
     }
   }
 
-  async showGroupDetails(group: Group) {
+  async showGroupDetails(group: string) {
     this.clubsService.setActiveGroup(group);
     const modal = await this.modalCtrl.create({
       component: GroupInfoComponent

@@ -3,14 +3,14 @@
     <ion-buttons>
       <ion-button (click)="back()">Back</ion-button>
     </ion-buttons>
-    <ion-title>{{club.name.slice(0,1).toUpperCase() + club.name.slice(1).toLowerCase()}}'s users</ion-title>
+    <ion-title>{{activeClub$.getValue().name.slice(0,1).toUpperCase() + activeClub$.getValue().name.slice(1).toLowerCase()}}'s users</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-list>
-      <ion-item *ngFor="let user of users">
-        <ion-label>{{user.name.slice(0,1).toUpperCase() + user.name.slice(1).toLowerCase()}} {{user.surname.slice(0,1).toUpperCase() + user.surname.slice(1).toLowerCase()}}</ion-label>
+      <ion-item *ngFor="let user of activeClub$.getValue().users">
+        <ion-label>{{getUser(user.uuid).name}}</ion-label>
       </ion-item>
     </ion-list>
 </ion-content>

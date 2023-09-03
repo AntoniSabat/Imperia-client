@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ClubsService} from "../../../../services/clubs.service";
-import {Club, ClubRank, Group} from "../../../../models/club.model";
 import {UsersService} from "../../../../services/users.service";
 import {User} from "../../../../models/user.model";
 import {ModalController} from "@ionic/angular";
 import {BehaviorSubject} from "rxjs";
-import {add, logoGoogle} from "ionicons/icons";
+import {Group} from "../../../../models/club.model";
 
 @Component({
   selector: 'app-add-user-to-group',
@@ -13,13 +12,10 @@ import {add, logoGoogle} from "ionicons/icons";
   styleUrls: ['./add-user-to-group.component.scss'],
 })
 export class AddUserToGroupComponent  implements OnInit {
-  club$ = this.clubsService.activeClub$;
-  group$ = this.clubsService.activeGroup$;
   usersID$ = new BehaviorSubject<string[]>([]);
   activeGroup$ = this.clubsService.activeGroup$;
   activeClub$ = this.clubsService.activeClub$;
-  clubUsers$ = this.usersService.clubUsers$;
-  groupUsers$ = this.usersService.groupUsers$;
+  usersData$ = this.usersService.usersData$;
 
   constructor(private clubsService: ClubsService, private usersService: UsersService, private modalCtrl: ModalController) { }
 
@@ -28,28 +24,21 @@ export class AddUserToGroupComponent  implements OnInit {
   }
 
   async ngOnInit() {
-    await this.clubsService.loadActiveClub();
-    await this.clubsService.loadActiveGroup();
-
-    this.club$.getValue().users.map((user: any) => {
+    this.activeClub$.getValue().users.map((user: any) => {
       this.usersID$.next([...this.usersID$.getValue(), user.uuid])
     });
-    await this.getUsersInfo();
+
+    await this.usersService.addUsersData(this.activeClub$.getValue().groups.find(group => group.id == this.activeGroup$.getValue())?.participants ?? []);
   }
 
-  async getUsersInfo() {
-    await this.usersService.loadClubUsersInfo(this.usersID$.getValue())
-    await this.usersService.loadGroupUsersInfo(this.activeGroup$.getValue().participants);
-  }
-
-  async addToGroup(user: User) {
-    await this.clubsService.addParticipantToGroup(user.uuid);
-    this.groupUsers$.next([...this.groupUsers$.getValue(), user ])
-
-    const uuids = this.groupUsers$.getValue().map(groupUser => groupUser.uuid);
-    await this.usersService.loadGroupUsersInfo(uuids);
-
-    const addedUser = this.clubUsers$.getValue().find(clubUser => clubUser.uuid === user.uuid);
-    console.log(this.clubUsers$.getValue(), addedUser)
+  async addToGroup(user: string) {
+    // await this.clubsService.addParticipantToGroup(user.uuid);
+    // this.groupUsers$.next([...this.groupUsers$.getValue(), user ])
+    //
+    // const uuids = this.groupUsers$.getValue().map(groupUser => groupUser.uuid);
+    // await this.usersService.loadGroupUsersInfo(uuids);
+    //
+    // const addedUser = this.clubUsers$.getValue().find(clubUser => clubUser.uuid === user.uuid);
+    // console.log(this.clubUsers$.getValue(), addedUser)
   }
 }

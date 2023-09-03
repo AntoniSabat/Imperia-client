@@ -2,11 +2,13 @@ export interface Club {
   id: string;
   name: string;
   description: string;
-  users: { users: string, rank: ClubRank }[];
+  users: { uuid: string, rank: ClubRank }[];
+  defaulTitle: number;
+  titles: Title[];
   announcements: {};
   properties: {};
   payment: JSON;
-  groups: {}
+  groups: Group[]
 }
 
 export enum LessonPresent {
@@ -26,7 +28,6 @@ export interface LessonStats {
   teacher: string;
   cancelled: boolean;
   payment: number;
-
 }
 
 export enum LessonType {
@@ -50,12 +51,11 @@ export interface Group {
   description: string;
   admins: string[];
   participants: string[];
-  defaultTitle: number;
-  titles: Titles[];
-  lessons: {};
+  // TODO: fix it (it cannot be any)
+  lessons: any[];
 }
 
-export interface Titles {
+export interface Title {
   id: number;
   content: string;
 }

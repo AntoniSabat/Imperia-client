@@ -6,7 +6,7 @@ export interface User {
   email: string;
   password: string;
   preferences: Preferences;
-  profileImg: string;
+  profileImage: string;
   type: UserType;
   uuid: string;
   clubs: [];

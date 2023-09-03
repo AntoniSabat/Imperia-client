@@ -6,6 +6,9 @@ import {ProfileDetailsComponent} from "../../components/modals/profile/profile-d
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import { ClubsService } from 'src/app/services/clubs.service';
+import { ConversationsService } from 'src/app/services/conversations.service';
+import { User } from 'src/app/models/user.model';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -14,14 +17,14 @@ import { ClubsService } from 'src/app/services/clubs.service';
 })
 export class HomePage implements OnInit {
   userImageSrc = '';
-  shouldDisplayImage = false;
+  shouldDisplayImage$ = new BehaviorSubject<Boolean>(false);
   user$ = this.usersService.user$;
   lessons$ = this.clubsService.todayLessons$;
-  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService) { }
+  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService, private conversationsService: ConversationsService) { }
 
   async ngOnInit() {
     await this.whoAmI();
-    await this.clubsService.loadTodayLessons()
+    await this.clubsService.loadTodayLessons();
   }
 
   checkImageUrl(url: string) {
@@ -33,9 +36,13 @@ export class HomePage implements OnInit {
   }
 
   async whoAmI() {
+    this.user$.subscribe(
+      (user: User) => {
+        this.userImageSrc = environment.apiBaseUrl + '/files/' + user.profileImage;
+        this.shouldDisplayImage$.next(this.checkImageUrl(this.userImageSrc));
+      }
+    )
     await this.usersService.loadActiveUser();
-    this.userImageSrc =  environment.apiBaseUrl + '/files/' + this.user$.getValue().profileImg;
-    this.shouldDisplayImage = this.checkImageUrl(this.userImageSrc);
   }
 
   async showProfileDetails() {
@@ -54,6 +61,9 @@ export class HomePage implements OnInit {
   }
   goToClubs() {
     this.router.navigate(['clubs']);
+  }
+  goToConversations() {
+    this.router.navigate(['messenger']);
   }
   goToPayments() {
     this.router.navigate(['payments'])

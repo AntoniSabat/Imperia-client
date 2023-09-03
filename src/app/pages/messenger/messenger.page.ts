@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { ProfileDetailsComponent } from 'src/app/components/modals/profile/profile-details/profile-details.component';
+import { UsersService } from 'src/app/services/users.service';
+import {BehaviorSubject} from "rxjs";
+import { User } from 'src/app/models/user.model';
+import { environment } from 'src/environments/environment';
+import { ConversationsService } from 'src/app/services/conversations.service';
+import { CreateConversationComponent } from 'src/app/components/modals/conversations/create-conversation/create-conversation.component';
+import { ChatComponent } from 'src/app/components/modals/conversations/chat/chat.component';
 
 @Component({
   selector: 'app-messenger',
@@ -6,10 +15,65 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./messenger.page.scss'],
 })
 export class MessengerPage implements OnInit {
+  userImageSrc = '';
+  shouldDisplayImage$ = new BehaviorSubject<Boolean>(false);
+  user$ = this.usersService.user$;
+  conversations$ = this.conversationsService.conversations$;
 
-  constructor() { }
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly modalCtrl: ModalController,
+    private readonly conversationsService: ConversationsService
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.whoAmI();
+
+    this.conversations$.subscribe(
+      (conversations) => {
+        this.openChat(conversations[0]?.id ?? null)
+      }
+    )
   }
 
+  async whoAmI() {
+    this.user$.subscribe(
+      (user: User) => {
+        this.userImageSrc = environment.apiBaseUrl + '/files/' + user.profileImage;
+        this.shouldDisplayImage$.next(this.checkImageUrl(this.userImageSrc));
+      }
+    )
+    await this.usersService.loadActiveUser();
+  }
+
+
+  checkImageUrl(url: string) {
+    if (!url) return false;
+    else {
+      const pattern = new RegExp('^https?:\\/\\/.+\\.(png|jpg|jpeg|bmg|gif|webp)$', 'i');
+      return pattern.test(url);
+    }
+  }
+
+  async showProfileDetails() {
+    const modal = await this.modalCtrl.create({
+      component: ProfileDetailsComponent
+    });
+    await modal.present();
+  }
+
+  async createConversation() {
+    const modal = await this.modalCtrl.create({
+      component: CreateConversationComponent
+    });
+    await modal.present();
+  }
+
+  async openChat(id: string | null) {
+    this.conversationsService.activeConversation = id;
+    const modal = await this.modalCtrl.create({
+      component: ChatComponent
+    })
+    await modal.present()
+  }
 }

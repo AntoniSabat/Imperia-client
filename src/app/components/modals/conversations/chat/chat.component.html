@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button color="dark" fill="none" (click)="goBackHome()">Back</ion-button>
+    <ion-title>{{conversation?.name}}</ion-title>
+    <ion-button color="dark" fill="none" slot="end" (click)="goBackHome()">
+      <ion-icon name="menu-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-infinite-scroll>
+    <div class="message" *ngFor="let message of (messages$ | async)">
+      <p>{{message.uuid}}</p>
+      <p>{{message.message.content}}</p>
+    </div>
+  </ion-infinite-scroll>
+  <div class="buttons">
+    <button>
+      <ion-icon name="image-outline"></ion-icon>
+    </button>
+    <button>
+      <ion-icon name="camera-outline"></ion-icon>
+    </button>
+    <button>
+      <ion-icon name="document-outline"></ion-icon>
+    </button>
+    <ion-input #input [(ngModel)]="msgInput" [placeholder]="'Aa'"></ion-input>
+    <button [disabled]="input.value == ''" (click)="sendMessage()">
+      <ion-icon name="pizza-outline"></ion-icon>
+    </button>
+  </div>
+</ion-content>
