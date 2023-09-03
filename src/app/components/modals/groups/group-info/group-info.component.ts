@@ -20,6 +20,7 @@ export class GroupInfoComponent  implements OnInit {
 
   async ngOnInit() {
     await this.usersService.addUsersData(this.activeClub$.getValue().groups.find(group => group.id == this.activeGroup$.getValue())?.participants ?? []);
+    console.log(this.getGroup(this.activeGroup$.getValue()))
   }
 
   async back() {

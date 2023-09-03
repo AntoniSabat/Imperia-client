@@ -3,6 +3,8 @@ import {ClubsService} from "../../../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
 import {UsersService} from "../../../../services/users.service";
 import {logIn} from "ionicons/icons";
+import {BehaviorSubject} from "rxjs";
+import {User} from "../../../../models/user.model";
 
 @Component({
   selector: 'app-show-club-users',
@@ -12,12 +14,16 @@ import {logIn} from "ionicons/icons";
 export class ShowClubUsersComponent  implements OnInit {
   activeClub$ = this.clubsService.activeClub$;
   activeGroup$ = this.clubsService.activeGroup$;
-  getUser = this.usersService.getUser;
+  usersData$ = this.usersService.usersData$;
+  users$ = new BehaviorSubject<User[]>([]);
 
-  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
+  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) {}
 
   async ngOnInit() {
-    await this.usersService.addUsersData(this.activeClub$.getValue().groups.find(group => group.id == this.activeGroup$.getValue())?.participants ?? []);
+    this.usersData$.subscribe(() => {
+      this.users$.next(this.activeClub$.getValue().users.map(user => user.uuid).map(uuid => this.usersService.getUser(uuid)))
+    })
+    await this.usersService.addUsersData(this.activeClub$.getValue().users.map(user => user.uuid));
   }
 
   async back() {

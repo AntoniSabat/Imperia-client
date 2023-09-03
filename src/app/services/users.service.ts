@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Method, useFetch } from "../axios";
-import { Preferences, User } from "../models/user.model";
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../environments/environment";
-import { BehaviorSubject, tap } from "rxjs";
+import {Injectable} from '@angular/core';
+import {Method, useFetch} from "../axios";
+import {Preferences, User} from "../models/user.model";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
+import {BehaviorSubject, tap} from "rxjs";
 
 export enum UserType {
   COACH = 'COACH',
@@ -94,7 +94,6 @@ export class UsersService {
     const auth = localStorage.getItem('auth');
 
     const loadedUuids = this.usersData$.getValue().map(user => user.uuid);
-
     const uniqueUuids = uuids.filter(uuid => !loadedUuids.includes(uuid));
 
     if (uniqueUuids.length <= 0) return;
@@ -102,27 +101,11 @@ export class UsersService {
     this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids: uniqueUuids}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((newUsers: User[]) => {
-        //
-        //   if (newUsers.length <= 0) return;
-        //
-        //   const map = new Map<string, User>();
-        //
-        //   this.usersData$.getValue().forEach(user => {
-        //     map.set(user.uuid, user);
-        //   })
-        //
-        //   newUsers.forEach(user => {
-        //     map.set(user.uuid, user);
-        //   })
-        //
-        //   this.usersData$.next(Array.from(map.values()));
-        this.usersData$.next([...this.usersData$.getValue(), ...newUsers])
-      })
+      tap((newUsers: User[]) => this.usersData$.next([...this.usersData$.getValue(), ...newUsers]))
     ).subscribe();
   }
 
-  async getUser(uuid: string) : Promise<User> {
+  getUser(uuid: string) : User {
     return this.usersData$.getValue().find(user => user.uuid == uuid) ?? this.userInitialValue;
   }
 

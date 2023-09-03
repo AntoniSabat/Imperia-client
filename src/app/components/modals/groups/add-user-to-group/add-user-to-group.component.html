@@ -2,16 +2,27 @@
   <ion-toolbar>
     <ion-buttons>
       <ion-button (click)="back()">back</ion-button>
+      <ion-title>{{activeClub$.getValue().name}}'s users</ion-title>
+      <ion-button (click)="addToGroup()">Add</ion-button>
     </ion-buttons>
-    <ion-title>{{activeClub$.getValue().name}}'s users</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ol>
-    <li *ngFor="let user of activeClub$.getValue().users"><ion-text> {{user}}</ion-text>
-      <ion-button fill="none" color="dark" (click)="addToGroup(user.uuid)">
+  <ion-item>
+    <ion-input type="text" placeholder="Search users" (input)="searchUser($event)"></ion-input>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let user of searchedUsers$ | async">
+<!--      <ion-checkbox (ionChange)="handleCheckedUsers($event, user.uuid)" [checked]="checkedUsers.has(user.uuid ?? '')">{{user.name + ' ' + user.surname}}</ion-checkbox>-->
+      <ion-checkbox fill="none" color="dark" (ionChange)="handleCheckedUsers($event, user.uuid)" [checked]="checkedUsers.has(user.uuid ?? '')">
+        <ion-text> {{user.name}}</ion-text>
         <ion-icon name="add-outline"></ion-icon>
-      </ion-button></li>
-  </ol>
+      </ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

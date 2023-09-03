@@ -209,17 +209,15 @@ export class ClubsService {
     ).subscribe();
   }
 
-  // async addParticipantToGroup(participant: string) {
-  //   const auth = localStorage.getItem('auth');
-  //
-  //   this.http.post<User[]>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users', { clubId: this.activeClub$.getValue().id, groupId: this.activeGroup$.getValue(), participant },{
-  //     headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-  //   }).pipe(
-  //     tap((users: User[]) => {
-  //       this.groupUuids$.next(users.map((user: User) => user.uuid));
-  //     })
-  //   ).subscribe();
-  // }
+  async addUsersToGroup(uuids: string[]) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users', { uuids },{
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((club: Club) => this.activeClub$.next(club))
+    ).subscribe();
+  }
 
   // loadTitles() {
   //   const auth = localStorage.getItem('auth');

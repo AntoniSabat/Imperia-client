@@ -16,7 +16,7 @@
       <ion-card-subtitle>Users</ion-card-subtitle>
       <ion-button (click)="addUsers()"  size="full">Add users to group <ion-icon name="add-outline"></ion-icon></ion-button>
       <ul>
-        <li *ngFor="let user of getGroup(this.activeGroup$.getValue()).participants">{{getUser(user).name}} {{getUser(user).surname}}</li>
+        <li *ngFor="let user of getGroup(this.activeGroup$.getValue()).participants">{{getUser(user).name}}</li>
       </ul>
     </ion-card-content>
   </ion-card>
