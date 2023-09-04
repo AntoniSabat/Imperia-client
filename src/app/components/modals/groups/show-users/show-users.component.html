@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>{{getGroup(this.activeGroup$.getValue()).name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-manage-user-item *ngFor="let user of users$ | async" [user]="user"></app-manage-user-item>
+</ion-content>

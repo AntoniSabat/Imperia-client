@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import {ClubsService} from "../../../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
+import {ClubsService} from "../../../../services/clubs.service";
 import {UsersService} from "../../../../services/users.service";
 import {BehaviorSubject} from "rxjs";
-import {User} from "../../../../models/user.model";
+import { User } from "../../../../models/user.model";
 
 @Component({
-  selector: 'app-show-club-users',
-  templateUrl: './show-club-users.component.html',
-  styleUrls: ['./show-club-users.component.scss'],
+  selector: 'app-show-users',
+  templateUrl: './show-users.component.html',
+  styleUrls: ['./show-users.component.scss'],
 })
-export class ShowClubUsersComponent  implements OnInit {
-  activeClub$ = this.clubsService.activeClub$;
+export class ShowUsersComponent  implements OnInit {
+  getGroup = this.clubsService.getGroup;
   activeGroup$ = this.clubsService.activeGroup$;
+  activeClub$ = this.clubsService.activeClub$;
   usersData$ = this.usersService.usersData$;
   users$ = new BehaviorSubject<User[]>([]);
 
-  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) {}
+  constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private usersService: UsersService) { }
 
   async ngOnInit() {
     this.usersData$.subscribe(() => {
@@ -26,6 +27,6 @@ export class ShowClubUsersComponent  implements OnInit {
   }
 
   async back() {
-    await this.modalCtrl.dismiss();
+    await this.modalCtrl.dismiss()
   }
 }

@@ -22,6 +22,7 @@ export class AddUserToGroupComponent  implements OnInit {
   user$ = this.usersService.user$;
   input$ = new BehaviorSubject<string>('');
   getUser = this.usersService.getUser;
+  getGroup = this.clubsService.getGroup;
 
   constructor(private clubsService: ClubsService, private usersService: UsersService, private modalCtrl: ModalController) { }
 
@@ -32,12 +33,14 @@ export class AddUserToGroupComponent  implements OnInit {
   async ngOnInit() {
     await this.usersService.addUsersData(this.activeClub$.getValue().users.map(user => user.uuid));
     this.input$.pipe(
-      debounceTime(400),
+      // debounceTime(400),
       distinctUntilChanged()
     ).subscribe((input: string) => {
+      const group = this.getGroup(this.activeGroup$.getValue());
+      const users = [...group.admins, ...group.participants];
       this.searchedUsers$.next(this.activeClub$.getValue().users
         .map((user: any) => this.getUser(user.uuid))
-        .filter(user => `${user.name} ${user.surname}`.toLowerCase().includes(input.toLowerCase()) && user.uuid != this.user$.getValue().uuid)
+        .filter(user => `${user.name} ${user.surname}`.toLowerCase().includes(input.toLowerCase()) && user.uuid != this.user$.getValue().uuid && !users.includes(user.uuid))
       )
     })
   }

@@ -19,9 +19,11 @@ import {AddUserToGroupComponent} from "./components/modals/groups/add-user-to-gr
 import { ConversationsService } from './services/conversations.service';
 import { CreateConversationComponent } from './components/modals/conversations/create-conversation/create-conversation.component';
 import { ChatComponent } from './components/modals/conversations/chat/chat.component';
+import { ShowUsersComponent } from "./components/modals/groups/show-users/show-users.component";
+import {ManageUserItemComponent} from "./components/modals/groups/manage-user-item/manage-user-item.component";
 
 @NgModule({
-  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent, CreateConversationComponent, ChatComponent],
+  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent, CreateConversationComponent, ChatComponent, ShowUsersComponent, ManageUserItemComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, ConversationsService],
   bootstrap: [AppComponent],

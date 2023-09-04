@@ -106,7 +106,7 @@ export class UsersService {
   }
 
   getUser(uuid: string) : User {
-    return this.usersData$.getValue().find(user => user.uuid == uuid) ?? this.userInitialValue;
+    return [...this.usersData$.getValue(), this.user$.getValue()].find(user => user.uuid == uuid) ?? this.userInitialValue;
   }
 
   async editPassword(email: string, oldPassword: string, newPassword: string) {
