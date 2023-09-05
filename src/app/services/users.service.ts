@@ -4,6 +4,8 @@ import {Preferences, User} from "../models/user.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {BehaviorSubject, tap} from "rxjs";
+import {ModalController} from "@ionic/angular";
+import {ShowUserInfoComponent} from "../components/modals/users/show-user-info/show-user-info.component";
 
 export enum UserType {
   COACH = 'COACH',
@@ -35,13 +37,22 @@ export class UsersService {
     }
   };
   preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false};
+  showUserUuid$ = new BehaviorSubject<string>('');
 
 
   user$ = new BehaviorSubject<User>(this.userInitialValue);
   usersData$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   preferences$ = new BehaviorSubject<Preferences>(this.preferencesInitialValue);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private modalCtrl: ModalController) {}
+
+  async showUserProfile(uuid: string) {
+    this.showUserUuid$.next(uuid);
+    const modal = await this.modalCtrl.create({
+      component: ShowUserInfoComponent
+    })
+    await modal.present();
+  }
 
   async signin(email: string, password: string) : Promise<any> {
     const { response, error } = await useFetch(Method.POST, 'auth/signin', {email, password});

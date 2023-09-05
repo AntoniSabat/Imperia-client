@@ -18,13 +18,8 @@
         <ion-text>Users</ion-text>
         <ion-button (click)="addUsers()" color="dark"><ion-icon name="add-outline"></ion-icon></ion-button>
       </ion-card-header>
-<!--      <ion-button (click)="addUsers()"  size="full">Add users to group <ion-icon name="add-outline"></ion-icon></ion-button>-->
-<!--      <ion-text *ngFor="let user of limitedGroupUsers$ | async">{{user?.name}}</ion-text>-->
-      <app-manage-user-item *ngFor="let user of limitedGroupUsers$ | async" [user]="user"></app-manage-user-item>
+      <app-manage-user-item *ngFor="let user of limitedGroupUsers$ | async" [user]="user" [canManage]="false"></app-manage-user-item>
       <ion-button (click)="seeAllGroupUsersModal()">See all</ion-button>
-<!--      <ul>-->
-<!--        <li *ngFor="let user of getGroup(this.activeGroup$.getValue()).participants">{{getUser(user).name}}</li>-->
-<!--      </ul>-->
     </ion-card-content>
   </ion-card>
 </ion-content>

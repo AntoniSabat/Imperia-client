@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../../../models/user.model";
+import {UsersService} from "../../../../services/users.service";
 
 @Component({
   selector: 'app-manage-user-item',
@@ -8,10 +9,13 @@ import {User} from "../../../../models/user.model";
 })
 export class ManageUserItemComponent implements OnInit {
   @Input() user!: User;
+  @Input() canManage = false;
 
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
-  ngOnInit() {
-    console.log(this.user)
+  ngOnInit() {}
+
+  async showUserInfo() {
+    await this.usersService.showUserProfile(this.user.uuid);
   }
 }

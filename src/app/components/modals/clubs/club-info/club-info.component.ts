@@ -14,6 +14,7 @@ import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
 export class ClubInfoComponent  implements OnInit {
   activeClub$= this.clubsService.activeClub$;
   user$ = this.usersService.user$;
+  clubCode$ = this.clubsService.clubCode$;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
 
@@ -30,6 +31,13 @@ export class ClubInfoComponent  implements OnInit {
     await modal.present();
   }
 
+  async createClubCode() {
+    await this.clubsService.createClubCode(this.activeClub$.getValue().id);
+  }
+
+  showClubCode() {
+    alert(this.clubCode$.getValue().code)
+  }
 
   createGroupInputs = [
     { placeholder: 'Name', type: "text"},

@@ -1,6 +1,6 @@
-<ion-item>
+<ion-item (click)="showUserInfo()">
   {{user.name}} {{user.surname}}
-  <ion-button>
+  <ion-button *ngIf="canManage">
     <ion-icon name="trash-outline">Kosz</ion-icon>
   </ion-button>
 </ion-item>

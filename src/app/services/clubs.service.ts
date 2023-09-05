@@ -8,6 +8,7 @@ import { Lessons } from '../models/lessons.model';
 import {UsersService} from "./users.service";
 import {CalendarLesson, Club, ClubRank, Group,} from '../models/club.model';
 import {group} from "@angular/animations";
+import {ClubCode} from "../models/club-code.model";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class ClubsService {
   usersData$ = this.usersService.usersData$;
   // groupUuids$ = new BehaviorSubject<string[]>([]);
   clubs$: BehaviorSubject<Club[]> = new BehaviorSubject<Club[]>([]);
+  clubCode$: BehaviorSubject<ClubCode> = new BehaviorSubject<ClubCode>({clubId: '', code: ''})
   // groups$ = new BehaviorSubject<Group[]>([]);
   // titles$ = new BehaviorSubject<any[]>([]);
 
@@ -43,6 +45,16 @@ export class ClubsService {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
       tap((club: Club) => this.clubs$.next([...this.clubs$.getValue(), club]))
+    ).subscribe();
+  }
+
+  async createClubCode(clubId: string) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.get<ClubCode>( environment.apiBaseUrl + '/clubs/' + clubId + '/code', {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+        tap((code) => this.clubCode$.next(code))
     ).subscribe();
   }
 
@@ -212,7 +224,17 @@ export class ClubsService {
   async addUsersToGroup(uuids: string[]) {
     const auth = localStorage.getItem('auth');
 
-    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users', { uuids },{
+    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users', {uuids},{
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((club: Club) => this.activeClub$.next(club))
+    ).subscribe();
+  }
+
+  async removeUserFromGroup(uuid: string) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.delete<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users/' + uuid ,{
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
       tap((club: Club) => this.activeClub$.next(club))

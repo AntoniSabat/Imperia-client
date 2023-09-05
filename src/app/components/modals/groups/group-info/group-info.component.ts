@@ -25,7 +25,6 @@ export class GroupInfoComponent  implements OnInit {
 
     this.usersData$.subscribe(() => {
       const group = this.getGroup(this.activeGroup$.getValue());
-      console.log(this.usersService.user$)
       const groupUsers = [...group.admins, ...group.participants].map(uuid => this.usersService.getUser(uuid)).sort((a, b) => a.surname.localeCompare(b.surname));
       if (groupUsers.length > 5)
         groupUsers.length = 5;
