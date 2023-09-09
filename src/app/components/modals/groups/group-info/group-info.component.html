@@ -10,7 +10,7 @@
 <ion-content>
   <ion-header>Name: {{getGroup(this.activeGroup$.getValue()).name}}</ion-header>
   <ion-header>Desc: {{getGroup(this.activeGroup$.getValue()).description}}</ion-header>
-  <ion-text>Users amount: {{getGroup(this.activeGroup$.getValue()).participants.length}}</ion-text>
+  <ion-text>Users amount: {{getGroup(this.activeGroup$.getValue()).participants.length+1}}</ion-text>
   <ion-card>
     <ion-card-content>
       <ion-button (click)="editGroup()">
@@ -20,7 +20,7 @@
         <ion-text>Users</ion-text>
         <ion-button (click)="addUsers()" color="dark"><ion-icon name="add-outline"></ion-icon></ion-button>
       </ion-card-header>
-      <app-manage-user-item *ngFor="let user of limitedGroupUsers$ | async" [user]="user" [canManage]="false"></app-manage-user-item>
+      <app-manage-user-item *ngFor="let user of limitedGroupUsers$ | async" [user]="user" [level]="'group'" [canManage]="false"></app-manage-user-item>
       <ion-button (click)="seeAllGroupUsersModal()">See all</ion-button>
     </ion-card-content>
   </ion-card>

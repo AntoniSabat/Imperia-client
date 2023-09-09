@@ -24,7 +24,7 @@ export class ClubsPage implements OnInit {
 
   async showClubDetails(club: Club) {
     await this.clubsService.setActiveClub(club);
-    await this.clubsService.loadGroupsForActiveClub();
+    await this.clubsService.loadGroupsFromActiveClub();
 
     const modal = await this.modalCtrl.create({
       component: ClubInfoComponent

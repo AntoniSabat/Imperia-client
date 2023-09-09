@@ -10,12 +10,13 @@ import {UsersService} from "../../../../services/users.service";
 export class ManageUserItemComponent implements OnInit {
   @Input() user!: User;
   @Input() canManage = false;
+  @Input() level = '';
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {}
 
   async showUserInfo() {
-    await this.usersService.showUserProfile(this.user.uuid);
+    await this.usersService.showUserProfile(this.user.uuid, this.level);
   }
 }

@@ -11,7 +11,7 @@
   <ion-card>
     <ion-card-content>
 
-      <ng-container *ngIf="editingField === 'name' || editingField === 'surname' || editingField === 'email'">
+      <ng-container *ngIf="field === 'name' || field === 'surname' || field === 'email'">
         <ion-item>
           <ion-input label="Edit name" labelPlacement="floating" [value]="user$.getValue().name" [(ngModel)]="user$.getValue().name"></ion-input>
         </ion-item>
@@ -25,7 +25,7 @@
         </ion-item>
       </ng-container>
 
-      <ng-container *ngIf="editingField==='password'">
+      <ng-container *ngIf="field==='password'">
         <ion-item>
           <ion-input type="password" label="Input old password" labelPlacement="floating" placeholder="**********" [(ngModel)]="user$.getValue().password"></ion-input>
         </ion-item>

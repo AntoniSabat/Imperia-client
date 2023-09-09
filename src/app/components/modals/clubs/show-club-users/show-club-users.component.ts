@@ -12,7 +12,6 @@ import {User} from "../../../../models/user.model";
 })
 export class ShowClubUsersComponent  implements OnInit {
   activeClub$ = this.clubsService.activeClub$;
-  activeGroup$ = this.clubsService.activeGroup$;
   usersData$ = this.usersService.usersData$;
   users$ = new BehaviorSubject<User[]>([]);
 

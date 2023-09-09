@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button color="dark" fill="none" (click)="back()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>Edit club info</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+
+      <ng-container *ngIf="field === 'name'">
+        <ion-item>
+          <ion-input label="Edit name" labelPlacement="floating" [value]="club$.getValue().name" [(ngModel)]="club$.getValue().name"></ion-input>
+        </ion-item>
+      </ng-container>
+      <ng-container *ngIf="field === 'description'">
+        <ion-item>
+          <ion-input label="Edit description" labelPlacement="floating" [value]="club$.getValue().description" [(ngModel)]="club$.getValue().description"></ion-input>
+        </ion-item>
+      </ng-container>
+
+      <ion-button color="dark" size="full" (click)="editData()">Save</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

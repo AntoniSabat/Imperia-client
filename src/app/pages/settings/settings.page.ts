@@ -15,7 +15,7 @@ export class SettingsPage implements OnInit {
   user$ = this.usersService.user$;
 
 
-  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router) { }
 
   async ngOnInit() {
     await this.whoAmI();
@@ -26,10 +26,11 @@ export class SettingsPage implements OnInit {
   }
 
   async editPersonalInfo(field: string) {
-    this.usersService.setEditingAccountField(field);
-
     const modal = await this.modalCtrl.create({
-      component: PersonalInfoComponent
+      component: PersonalInfoComponent,
+      componentProps: {
+        field: field
+      }
     })
     await modal.present();
 

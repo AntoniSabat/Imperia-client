@@ -5,6 +5,8 @@ import {ModalController} from "@ionic/angular";
 import {ShowClubUsersComponent} from "../show-club-users/show-club-users.component";
 import {UsersService, UserType} from "../../../../services/users.service";
 import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
+import {EditClubComponent} from "../edit-club/edit-club.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-club-info',
@@ -14,9 +16,8 @@ import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
 export class ClubInfoComponent  implements OnInit {
   activeClub$= this.clubsService.activeClub$;
   user$ = this.usersService.user$;
-  clubCode$ = this.clubsService.clubCode$;
 
-  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
+  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService, private router: Router) { }
 
   async ngOnInit() {}
 
@@ -35,12 +36,23 @@ export class ClubInfoComponent  implements OnInit {
     await this.clubsService.createClubCode(this.activeClub$.getValue().id);
   }
 
-  showClubCode() {
-    alert(this.clubCode$.getValue().code)
+  async showClubCode() {
+    const {status, data} = await this.clubsService.getClubCode(this.activeClub$.getValue().id);
+
+    if (status == 'correct')
+      alert(data?.code ?? "No code")
   }
 
-  editClub() {
-    console.log('Edytuje ustawienia klubu')
+  async editClub() {
+    const modal = await this.modalCtrl.create({
+      component: EditClubComponent,
+    })
+    await modal.present();
+
+    const {data} = await modal.onDidDismiss();
+    if (data === 'close') {
+      await this.modalCtrl.dismiss();
+    }
   }
 
   createGroupInputs = [

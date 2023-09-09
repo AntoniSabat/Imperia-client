@@ -17,8 +17,6 @@ export enum UserType {
   providedIn: 'root'
 })
 export class UsersService {
-  activeUserData!: User;
-  editingAccountField = '';
   userInitialValue: User = {
     name: '',
     surname: '',
@@ -36,20 +34,19 @@ export class UsersService {
       announcementsNotifications: true
     }
   };
-  preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false};
-  showUserUuid$ = new BehaviorSubject<string>('');
-
 
   user$ = new BehaviorSubject<User>(this.userInitialValue);
   usersData$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  preferences$ = new BehaviorSubject<Preferences>(this.preferencesInitialValue);
 
   constructor(private http: HttpClient, private modalCtrl: ModalController) {}
 
-  async showUserProfile(uuid: string) {
-    this.showUserUuid$.next(uuid);
+  async showUserProfile(uuid: string, level: string) {
     const modal = await this.modalCtrl.create({
-      component: ShowUserInfoComponent
+      component: ShowUserInfoComponent,
+      componentProps: {
+        uuid: uuid,
+        level: level
+      }
     })
     await modal.present();
   }
@@ -150,13 +147,5 @@ export class UsersService {
         this.user$.next(user)
       })
     ).subscribe();
-  }
-
-
-  setEditingAccountField(field: string) {
-    this.editingAccountField = field;
-  }
-  getEditingAccountField() {
-    return this.editingAccountField;
   }
 }

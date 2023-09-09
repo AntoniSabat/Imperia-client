@@ -3,7 +3,7 @@
     <ion-buttons>
       <ion-button (click)="back()">Back</ion-button>
     </ion-buttons>
-    <ion-title>{{usersService.getUser(userUuid$.getValue()).name}} {{usersService.getUser(userUuid$.getValue()).surname}}</ion-title>
+    <ion-title>{{usersService.getUser(uuid).name}} {{usersService.getUser(uuid).surname}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     <ion-button>
       <ion-icon name="send-outline"></ion-icon>
     </ion-button>
-    <ion-button (click)="removeUserFromGroup()">
+    <ion-button *ngIf="level=='group'" (click)="removeUserFromGroup()">
       <ion-icon name="trash-bin-outline"></ion-icon>
     </ion-button>
     <ion-button (click)="removeUser()">
@@ -20,10 +20,10 @@
     </ion-button>
   </div>
   <ion-list>
-    <ion-item>Name: {{usersService.getUser(userUuid$.getValue()).name}}</ion-item>
-    <ion-item>Surname: {{usersService.getUser(userUuid$.getValue()).surname}}</ion-item>
-    <ion-item>Email: {{usersService.getUser(userUuid$.getValue()).email}}</ion-item>
-    <ion-item>Rank: {{usersService.getUser(userUuid$.getValue()).type}}</ion-item>
+    <ion-item>Name: {{usersService.getUser(uuid).name}}</ion-item>
+    <ion-item>Surname: {{usersService.getUser(uuid).surname}}</ion-item>
+    <ion-item>Email: {{usersService.getUser(uuid).email}}</ion-item>
+    <ion-item>Rank: {{usersService.getUser(uuid).type}}</ion-item>
     <ion-item>Payments: Tutaj będzie lista płatności</ion-item>
   </ion-list>
 </ion-content>
