@@ -17,7 +17,7 @@
     <ion-item *ngFor="let user of searchedUsers$ | async">
 <!--      <ion-checkbox (ionChange)="handleCheckedUsers($event, user.uuid)" [checked]="checkedUsers.has(user.uuid ?? '')">{{user.name + ' ' + user.surname}}</ion-checkbox>-->
       <ion-checkbox fill="none" color="dark" (ionChange)="handleCheckedUsers($event, user.uuid)" [checked]="checkedUsers.has(user.uuid ?? '')">
-        <ion-text> {{user.name}}</ion-text>
+        <ion-text> {{user.name}} {{user.surname}}</ion-text>
 <!--        <ion-icon name="add-outline"></ion-icon>-->
       </ion-checkbox>
     </ion-item>

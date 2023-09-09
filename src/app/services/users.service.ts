@@ -75,10 +75,10 @@ export class UsersService {
   async loadActiveUser() {
     const auth = localStorage.getItem('auth');
 
-    this.http.get<User>( environment.apiBaseUrl + '/users/info', {
+    this.http.get<any>( environment.apiBaseUrl + '/users/info', {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((user: User) => this.user$.next(user))
+      tap((user: any) => this.user$.next(user))
     ).subscribe();
   }
 
@@ -143,26 +143,15 @@ export class UsersService {
   async editPreferences(preferences: Preferences) {
     const auth = localStorage.getItem('auth');
 
-    this.http.patch<Preferences>( environment.apiBaseUrl + '/users/preferences', preferences, {
+    this.http.patch<User>( environment.apiBaseUrl + '/users/', {preferences}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((preferences: Preferences) => this.preferences$.next(preferences))
+      tap((user: User) => {
+        this.user$.next(user)
+      })
     ).subscribe();
   }
 
-  async loadPreferences() {
-    const auth = localStorage.getItem('auth');
-
-    this.http.get<Preferences>( environment.apiBaseUrl + '/users/preferences', {
-      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-    }).pipe(
-      tap((preferences: Preferences) => this.preferences$.next(preferences))
-    ).subscribe();
-  }
-
-  getActiveUser() {
-   return this.activeUserData;
-  }
 
   setEditingAccountField(field: string) {
     this.editingAccountField = field;

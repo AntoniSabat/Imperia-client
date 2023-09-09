@@ -13,15 +13,12 @@ import {Preferences, User} from "../../models/user.model";
 })
 export class SettingsPage implements OnInit {
   user$ = this.usersService.user$;
-  preferences$ = this.usersService.preferences$;
-  preferences: Preferences = {announcementsNotifications: false, lessonsNotifications: false, conversationsNotifications: false, darkMode: false};
 
 
   constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private cdr: ChangeDetectorRef) { }
 
   async ngOnInit() {
     await this.whoAmI();
-    await this.getPreferences();
   }
 
   async whoAmI() {
@@ -42,18 +39,10 @@ export class SettingsPage implements OnInit {
   }
 
   async changeUserPreferences() {
-    const newPreferences: Preferences = {
-      announcementsNotifications: this.preferences.announcementsNotifications,
-      conversationsNotifications: this.preferences.conversationsNotifications,
-      lessonsNotifications: this.preferences.lessonsNotifications,
-      darkMode: this.preferences.darkMode
-    }
-    await this.usersService.editPreferences(newPreferences);
+    console.log(this.user$.getValue().preferences)
+    await this.usersService.editPreferences(this.user$.getValue().preferences)
   }
 
-  async getPreferences() {
-    await this.usersService.loadPreferences();
-  }
 
   async logOut() {
     await lostSession();

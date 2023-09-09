@@ -39,6 +39,10 @@ export class ClubInfoComponent  implements OnInit {
     alert(this.clubCode$.getValue().code)
   }
 
+  editClub() {
+    console.log('Edytuje ustawienia klubu')
+  }
+
   createGroupInputs = [
     { placeholder: 'Name', type: "text"},
     { placeholder: "Description", type: "text"},

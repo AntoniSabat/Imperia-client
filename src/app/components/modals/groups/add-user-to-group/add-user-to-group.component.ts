@@ -59,7 +59,7 @@ export class AddUserToGroupComponent  implements OnInit {
 
   async addToGroup() {
     await this.clubsService.addUsersToGroup([...this.checkedUsers]);
-    await this.modalCtrl.dismiss();
+    await this.modalCtrl.dismiss('added');
   }
 
   onIonInfinite(ev: any) {

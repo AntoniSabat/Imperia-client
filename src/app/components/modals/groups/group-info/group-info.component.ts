@@ -20,20 +20,28 @@ export class GroupInfoComponent  implements OnInit {
   getGroup = this.clubsService.getGroup;
   constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private usersService: UsersService) { }
 
+  async loadLimitedUsers(groupId: string) {
+    const group = this.getGroup(groupId);
+    const groupUsers = [...group.admins, ...group.participants].map(uuid => this.usersService.getUser(uuid)).sort((a, b) => a.surname.localeCompare(b.surname));
+    if (groupUsers.length > 5)
+      groupUsers.length = 5;
+    this.limitedGroupUsers$.next(groupUsers);
+  }
+
   async ngOnInit() {
     await this.usersService.addUsersData(this.activeClub$.getValue().groups.find(group => group.id == this.activeGroup$.getValue())?.participants ?? []);
 
-    this.usersData$.subscribe(() => {
-      const group = this.getGroup(this.activeGroup$.getValue());
-      const groupUsers = [...group.admins, ...group.participants].map(uuid => this.usersService.getUser(uuid)).sort((a, b) => a.surname.localeCompare(b.surname));
-      if (groupUsers.length > 5)
-        groupUsers.length = 5;
-      this.limitedGroupUsers$.next(groupUsers);
-    });
+    this.usersData$.subscribe(() => this.loadLimitedUsers(this.activeGroup$.getValue()));
+
+    this.activeClub$.subscribe(() => this.loadLimitedUsers(this.activeGroup$.getValue()))
   }
 
   async back() {
     await this.modalCtrl.dismiss();
+  }
+
+  editGroup() {
+    console.log('edytuje grupe')
   }
 
   async addUsers() {

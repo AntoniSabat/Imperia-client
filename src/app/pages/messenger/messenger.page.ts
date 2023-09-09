@@ -29,11 +29,11 @@ export class MessengerPage implements OnInit {
   async ngOnInit() {
     await this.whoAmI();
 
-    this.conversations$.subscribe(
-      (conversations) => {
-        this.openChat(conversations[0]?.id ?? null)
-      }
-    )
+    // this.conversations$.subscribe(
+    //   (conversations) => {
+    //     this.openChat(conversations[0]?.id ?? null)
+    //   }
+    // )
   }
 
   async whoAmI() {

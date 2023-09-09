@@ -20,7 +20,7 @@ import { ConversationsService } from './services/conversations.service';
 import { CreateConversationComponent } from './components/modals/conversations/create-conversation/create-conversation.component';
 import { ChatComponent } from './components/modals/conversations/chat/chat.component';
 import { ShowUsersComponent } from "./components/modals/groups/show-users/show-users.component";
-import {ManageUserItemComponent} from "./components/modals/groups/manage-user-item/manage-user-item.component";
+import {ManageUserItemComponent} from "./components/modals/users/manage-user-item/manage-user-item.component";
 import { ShowUserInfoComponent } from "./components/modals/users/show-user-info/show-user-info.component";
 
 @NgModule({

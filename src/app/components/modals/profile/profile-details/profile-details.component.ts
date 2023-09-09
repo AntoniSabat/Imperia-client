@@ -22,7 +22,6 @@ export class ProfileDetailsComponent implements OnInit {
 
   async whoAmI() {
     await this.usersService.loadActiveUser();
-    const user = this.usersService.getActiveUser();
 
     this.user$.getValue().clubs.map(async (clubID: string) => {
       const club = await this.clubsService.getClubInfo(clubID);
