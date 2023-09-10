@@ -9,6 +9,8 @@ import {ClubsService} from "../../../../services/clubs.service";
   styleUrls: ['./show-user-info.component.scss'],
 })
 export class ShowUserInfoComponent implements OnInit {
+  @Input() clubId: string = "";
+  @Input() groupId: string = "";
   @Input() uuid!: string;
   @Input() level!: string;
 
@@ -23,7 +25,7 @@ export class ShowUserInfoComponent implements OnInit {
   async removeUser() {
     console.log('usuwam z klubu')
     if (confirm("Are you sure you want to remove user from club?")) {
-      await this.clubsService.removeUserFromClub(this.uuid);
+      await this.clubsService.removeUserFromClub(this.clubId, this.uuid);
       await this.modalCtrl.dismiss();
     }
   }
@@ -31,7 +33,7 @@ export class ShowUserInfoComponent implements OnInit {
   async removeUserFromGroup() {
     console.log('usuwam z grupy')
     if (confirm('Are you sure you want to remove user from group?')) {
-      await this.clubsService.removeUserFromGroup(this.uuid);
+      await this.clubsService.removeUserFromGroup(this.clubId, this.groupId, this.uuid);
       await this.modalCtrl.dismiss();
     }
   }

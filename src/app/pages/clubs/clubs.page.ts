@@ -23,11 +23,13 @@ export class ClubsPage implements OnInit {
   }
 
   async showClubDetails(club: Club) {
-    await this.clubsService.setActiveClub(club);
-    await this.clubsService.loadGroupsFromActiveClub();
+    await this.clubsService.loadGroupsFromActiveClub(club.id);
 
     const modal = await this.modalCtrl.create({
-      component: ClubInfoComponent
+      component: ClubInfoComponent,
+      componentProps: {
+        clubId: club.id
+      }
     })
     await modal.present();
   }

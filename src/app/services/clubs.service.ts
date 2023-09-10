@@ -16,9 +16,6 @@ import {ClubCode} from "../models/club-code.model";
 export class ClubsService {
   initialClubValue: Club = {name: '', description: '', groups: [], defaulTitle: -1, titles: [], id: '', users: [], announcements: [], payment: JSON, properties: {}}
   initialGroupValue: Group = {id: '', name: '', description: '', admins: [], participants: [], lessons: []};
-
-  activeGroup$ = new BehaviorSubject<string>('');
-  activeClub$ = new BehaviorSubject<Club>(this.initialClubValue);
   usersData$ = this.usersService.usersData$;
   // groupUuids$ = new BehaviorSubject<string[]>([]);
   clubs$: BehaviorSubject<Club[]> = new BehaviorSubject<Club[]>([]);
@@ -32,9 +29,22 @@ export class ClubsService {
 
   constructor(private http: HttpClient, private usersService: UsersService) {}
 
-  async setActiveClub(club: Club) {
-    this.activeClub$.next(club);
-    this.activeGroup$.next('');
+  async pushClub(club: Club) {
+    const clubs = this.clubs$.getValue().filter(c => c.id != club.id);
+    clubs.push(club);
+    this.clubs$.next(clubs);
+  }
+
+  getClub(id: string) {
+    return this.clubs$.getValue().find(club => club.id == id) ?? this.initialClubValue;
+  }
+
+  getGroup(clubId: string, groupId: string) {
+    try {
+      return this.getClub(clubId).groups.find(group => group.id == groupId) ?? this.initialGroupValue;
+    } catch {
+      return this.initialGroupValue;
+    }
   }
 
   async createClub(name: string, description: string) {
@@ -63,7 +73,7 @@ export class ClubsService {
     this.http.patch<Club>( environment.apiBaseUrl + '/clubs/' + id, {name, description}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((club: Club) => this.activeClub$.next(club))
+      tap((club: Club) => this.pushClub(club))
     ).subscribe();
   }
 
@@ -93,18 +103,18 @@ export class ClubsService {
       return {status: 'correct', data: response?.data}
   }
 
-  async loadGroupsFromActiveClub() {
+  async loadGroupsFromActiveClub(clubId: string) {
     const auth = localStorage.getItem('auth');
-    const rank = this.activeClub$.getValue().users.find(user => user.uuid == this.user$.getValue().uuid)?.rank;
+    const club = this.getClub(clubId);
+    const rank = club.users.find(user => user.uuid == this.user$.getValue().uuid)?.rank;
 
-    this.http.get<Group[]>(environment.apiBaseUrl + `/clubs/${this.activeClub$.getValue().id}/${rank == ClubRank.OWNER || rank == ClubRank.COACH ? 'groups' : 'groupsforuser'}`, {
+    this.http.get<Group[]>(environment.apiBaseUrl + `/clubs/${club.id}/${rank == ClubRank.OWNER || rank == ClubRank.COACH ? 'groups' : 'groupsforuser'}`, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
       tap((groups: Group[]) => {
-        const club = this.activeClub$.getValue();
         club.groups = groups;
 
-        this.activeClub$.next(club);
+        this.pushClub(club);
       })
     ).subscribe();
   }
@@ -130,18 +140,17 @@ export class ClubsService {
     ).subscribe();
   }
 
-  async removeUserFromClub(uuid: string) {
+  async removeUserFromClub(clubId: string, uuid: string) {
     const auth = localStorage.getItem('auth');
 
-    this.http.delete<Club>(environment.apiBaseUrl + `/clubs/${this.activeClub$.getValue().id}/users/${uuid}` ,{
+    this.http.delete<Club>(environment.apiBaseUrl + `/clubs/${this.getClub(clubId).id}/users/${uuid}` ,{
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((club: Club) => this.activeClub$.next(club))
+      tap((club: Club) => {
+        console.log(club)
+        this.pushClub(club)
+      })
     ).subscribe();
-  }
-
-  setActiveGroup(id: string) {
-    this.activeGroup$.next(id);
   }
 
   // async loadGroups() {
@@ -247,33 +256,33 @@ export class ClubsService {
     ).subscribe()
   }
 
-  async createGroup(name: string, description: string) {
+  async createGroup(clubId: string, name: string, description: string) {
     const auth = localStorage.getItem('auth');
 
-    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/', {name, description},{
+    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + clubId + '/groups/', {name, description},{
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((club: Club) => this.activeClub$.next(club))
+      tap((club: Club) => this.pushClub(club))
     ).subscribe();
   }
 
-  async addUsersToGroup(uuids: string[]) {
+  async addUsersToGroup(clubId: string, groupId: string, uuids: string[]) {
     const auth = localStorage.getItem('auth');
 
-    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users', {uuids},{
+    this.http.post<Club>(environment.apiBaseUrl + '/clubs/' + clubId + '/groups/' + groupId + '/users', {uuids},{
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((club: Club) => this.activeClub$.next(club))
+      tap((club: Club) => this.pushClub(club))
     ).subscribe();
   }
 
-  async removeUserFromGroup(uuid: string) {
+  async removeUserFromGroup(clubId: string, groupId: string, uuid: string) {
     const auth = localStorage.getItem('auth');
 
-    this.http.delete<Club>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/users/' + uuid ,{
+    this.http.delete<Club>(environment.apiBaseUrl + '/clubs/' + clubId + '/groups/' + groupId + '/users/' + uuid ,{
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((club: Club) => this.activeClub$.next(club))
+      tap((club: Club) => this.pushClub(club))
     ).subscribe();
   }
 
@@ -296,14 +305,6 @@ export class ClubsService {
   //     tap((titles: Title[]) => this.titles$.next(titles))
   //   ).subscribe();
   // }
-
-  getGroup(id: string) : Group {
-    try {
-      return this.activeClub$.getValue().groups.find(group => group.id == id) ?? this.initialGroupValue;
-    } catch {
-      return this.initialGroupValue;
-    }
-  }
 
   async addAnnouncement(cludId: string, body: Announcement) {
     const auth = localStorage.getItem('auth');

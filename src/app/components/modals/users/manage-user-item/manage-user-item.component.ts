@@ -8,6 +8,8 @@ import {UsersService} from "../../../../services/users.service";
   styleUrls: ['./manage-user-item.component.scss'],
 })
 export class ManageUserItemComponent implements OnInit {
+  @Input() clubId: string = '';
+  @Input() groupId: string = '';
   @Input() user!: User;
   @Input() canManage = false;
   @Input() level = '';
@@ -17,6 +19,6 @@ export class ManageUserItemComponent implements OnInit {
   ngOnInit() {}
 
   async showUserInfo() {
-    await this.usersService.showUserProfile(this.user.uuid, this.level);
+    await this.usersService.showUserProfile(this.clubId, this.groupId, this.user.uuid, this.level);
   }
 }

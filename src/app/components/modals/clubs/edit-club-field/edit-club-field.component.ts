@@ -8,19 +8,25 @@ import {ClubsService} from "../../../../services/clubs.service";
   styleUrls: ['./edit-club-field.component.scss'],
 })
 export class EditClubFieldComponent  implements OnInit {
-  club$ = this.clubsService.activeClub$;
+  @Input() clubId!: string;
   @Input() field = '';
+
+  name: string = this.clubsService.getClub(this.clubId).name;
+  description: string = this.clubsService.getClub(this.clubId).description;
 
   constructor(private modalCtrl: ModalController, private clubsService: ClubsService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.name = this.clubsService.getClub(this.clubId).name;
+    this.description = this.clubsService.getClub(this.clubId).description;
+  }
 
   async back() {
     await this.modalCtrl.dismiss();
   }
 
   async editData() {
-    await this.clubsService.updateClubInfo(this.club$.getValue().id, this.club$.getValue().name, this.club$.getValue().description);
+    await this.clubsService.updateClubInfo(this.clubId, this.name, this.description);
     await this.modalCtrl.dismiss();
   }
 }

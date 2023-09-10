@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClubsService} from "../../../../services/clubs.service";
 import {UsersService} from "../../../../services/users.service";
 import {User} from "../../../../models/user.model";
@@ -11,18 +11,19 @@ import {Group} from "../../../../models/club.model";
   templateUrl: './add-user-to-group.component.html',
   styleUrls: ['./add-user-to-group.component.scss'],
 })
-export class AddUserToGroupComponent  implements OnInit {
-  activeGroup$ = this.clubsService.activeGroup$;
-  activeClub$ = this.clubsService.activeClub$;
+export class AddUserToGroupComponent implements OnInit {
+  @Input() clubId!: string;
+  @Input() groupId!: string;
+
   usersData$ = this.usersService.usersData$;
 
+  group$ = new BehaviorSubject<Group>(this.clubsService.initialGroupValue)
   checkedUsers: Set<string> = new Set();
   searchedUsers$ = new BehaviorSubject<User[]>([]);
 
   user$ = this.usersService.user$;
   input$ = new BehaviorSubject<string>('');
   getUser = this.usersService.getUser;
-  getGroup = this.clubsService.getGroup;
 
   constructor(private clubsService: ClubsService, private usersService: UsersService, private modalCtrl: ModalController) { }
 
@@ -31,18 +32,19 @@ export class AddUserToGroupComponent  implements OnInit {
   }
 
   async ngOnInit() {
-    await this.usersService.addUsersData(this.activeClub$.getValue().users.map(user => user.uuid));
+    await this.usersService.addUsersData(this.clubsService.getClub(this.clubId).users.map(user => user.uuid));
     this.input$.pipe(
-      // debounceTime(400),
+      debounceTime(300),
       distinctUntilChanged()
     ).subscribe((input: string) => {
-      const group = this.getGroup(this.activeGroup$.getValue());
+      const group = this.clubsService.getGroup(this.clubId, this.groupId);
       const users = [...group.admins, ...group.participants];
-      this.searchedUsers$.next(this.activeClub$.getValue().users
+      this.searchedUsers$.next(this.clubsService.getClub(this.clubId).users
         .map((user: any) => this.getUser(user.uuid))
         .filter(user => `${user.name} ${user.surname}`.toLowerCase().includes(input.toLowerCase()) && user.uuid != this.user$.getValue().uuid && !users.includes(user.uuid))
       )
     })
+    this.clubsService.clubs$.subscribe(() => this.group$.next(this.clubsService.getGroup(this.clubId, this.groupId)))
   }
 
   async handleCheckedUsers(ev: any, uuid: string | undefined) {
@@ -58,7 +60,7 @@ export class AddUserToGroupComponent  implements OnInit {
   }
 
   async addToGroup() {
-    await this.clubsService.addUsersToGroup([...this.checkedUsers]);
+    await this.clubsService.addUsersToGroup(this.clubId, this.groupId, [...this.checkedUsers]);
     await this.modalCtrl.dismiss('added');
   }
 

@@ -3,7 +3,7 @@
     <ion-buttons>
       <ion-button (click)="back()" color="dark" fill="none">Back</ion-button>
     </ion-buttons>
-    <ion-title>{{activeClub$.getValue().name}}</ion-title>
+    <ion-title>{{club$.getValue().name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,9 +19,9 @@
       </div>
       <ion-icon style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
 
-      <ion-card-title>{{activeClub$.getValue().name}}</ion-card-title>
+      <ion-card-title>{{club$.getValue().name}}</ion-card-title>
 
-      <ion-card-subtitle>{{activeClub$.getValue().description}}</ion-card-subtitle>
+      <ion-card-subtitle>{{club$.getValue().description}}</ion-card-subtitle>
     </ion-card-content>
   </ion-card>
 
@@ -42,7 +42,7 @@
       </ion-button>
 
       <ion-list style="margin-top: 10px">
-        <ion-item *ngFor="let group of activeClub$.getValue().groups">
+        <ion-item *ngFor="let group of club$.getValue().groups">
           <ion-label (click)="showGroupDetails(group.id)">{{group.name}}</ion-label>
         </ion-item>
       </ion-list>

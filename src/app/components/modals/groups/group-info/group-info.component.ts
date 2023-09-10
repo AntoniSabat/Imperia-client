@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
 import {IonInput, ModalController} from "@ionic/angular";
 import {ClubsService} from "../../../../services/clubs.service";
 import {AddUserToGroupComponent} from "../add-user-to-group/add-user-to-group.component";
@@ -6,22 +6,25 @@ import {UsersService} from "../../../../services/users.service";
 import {BehaviorSubject} from "rxjs";
 import {User} from "../../../../models/user.model";
 import { ShowUsersComponent } from "../show-users/show-users.component";
+import {Group} from "../../../../models/club.model";
+import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-group-info',
   templateUrl: './group-info.component.html',
   styleUrls: ['./group-info.component.scss'],
 })
-export class GroupInfoComponent  implements OnInit {
-  activeClub$ = this.clubsService.activeClub$;
-  activeGroup$ = this.clubsService.activeGroup$;
-  usersData$ = this.usersService.usersData$;
+export class GroupInfoComponent implements OnInit {
+  @Input() clubId!: string;
+  @Input() groupId!: string;
+
+  group$ = new BehaviorSubject<Group>(this.clubsService.getGroup(this.clubId, this.groupId));
+  usersData$= this.usersService.usersData$;
   limitedGroupUsers$ = new BehaviorSubject<User[]>([]);
-  getGroup = this.clubsService.getGroup;
   constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private usersService: UsersService) { }
 
-  async loadLimitedUsers(groupId: string) {
-    const group = this.getGroup(groupId);
+  async loadLimitedUsers() {
+    const group = this.clubsService.getGroup(this.clubId, this.groupId);
     const groupUsers = [...group.admins, ...group.participants].map(uuid => this.usersService.getUser(uuid)).sort((a, b) => a.surname.localeCompare(b.surname));
     if (groupUsers.length > 5)
       groupUsers.length = 5;
@@ -29,9 +32,12 @@ export class GroupInfoComponent  implements OnInit {
   }
 
   async ngOnInit() {
-    await this.usersService.addUsersData(this.activeClub$.getValue().groups.find(group => group.id == this.activeGroup$.getValue())?.participants ?? []);
-    this.usersData$.subscribe(() => this.loadLimitedUsers(this.activeGroup$.getValue()));
-    this.activeClub$.subscribe(() => this.loadLimitedUsers(this.activeGroup$.getValue()))
+    await this.usersService.addUsersData(this.clubsService.getClub(this.clubId).groups.find(group => group.id == this.groupId)?.participants ?? []);
+    this.usersData$.subscribe(() => this.loadLimitedUsers());
+    this.clubsService.clubs$.subscribe(() => {
+      this.loadLimitedUsers();
+      this.group$.next(this.clubsService.getGroup(this.clubId, this.groupId));
+    })
   }
 
   async back() {
@@ -44,7 +50,11 @@ export class GroupInfoComponent  implements OnInit {
 
   async addUsers() {
     const modal = await this.modalCtrl.create({
-      component: AddUserToGroupComponent
+      component: AddUserToGroupComponent,
+      componentProps: {
+        clubId: this.clubId,
+        groupId: this.groupId
+      }
     });
     await modal.present();
 
@@ -53,7 +63,11 @@ export class GroupInfoComponent  implements OnInit {
 
   async seeAllGroupUsersModal() {
     const modal = await  this.modalCtrl.create({
-      component: ShowUsersComponent
+      component: ShowUsersComponent,
+      componentProps: {
+        clubId: this.clubId,
+        groupId: this.groupId
+      }
     })
     await modal.present();
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Club, ClubRank, Group} from "../../../../models/club.model";
 import {ClubsService} from "../../../../services/clubs.service";
 import {ModalController} from "@ionic/angular";
@@ -7,19 +7,23 @@ import {UsersService, UserType} from "../../../../services/users.service";
 import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
 import {EditClubComponent} from "../edit-club/edit-club.component";
 import {Router} from "@angular/router";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-club-info',
   templateUrl: './club-info.component.html',
   styleUrls: ['./club-info.component.scss'],
 })
-export class ClubInfoComponent  implements OnInit {
-  activeClub$= this.clubsService.activeClub$;
+export class ClubInfoComponent implements OnInit {
+  @Input() clubId!: string;
+  club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
   user$ = this.usersService.user$;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService, private router: Router) { }
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    this.clubsService.clubs$.subscribe(() => this.club$.next(this.clubsService.getClub(this.clubId)))
+  }
 
   async back() {
     await this.modalCtrl.dismiss(null, 'back');
@@ -27,17 +31,20 @@ export class ClubInfoComponent  implements OnInit {
 
   async showClubUsers() {
     const modal = await this.modalCtrl.create({
-      component: ShowClubUsersComponent
+      component: ShowClubUsersComponent,
+      componentProps: {
+        clubId: this.clubId
+      }
     })
     await modal.present();
   }
 
   async createClubCode() {
-    await this.clubsService.createClubCode(this.activeClub$.getValue().id);
+    await this.clubsService.createClubCode(this.clubId);
   }
 
   async showClubCode() {
-    const {status, data} = await this.clubsService.getClubCode(this.activeClub$.getValue().id);
+    const {status, data} = await this.clubsService.getClubCode(this.clubId);
 
     if (status == 'correct')
       alert(data?.code ?? "No code")
@@ -46,6 +53,9 @@ export class ClubInfoComponent  implements OnInit {
   async editClub() {
     const modal = await this.modalCtrl.create({
       component: EditClubComponent,
+      componentProps: {
+        clubId: this.clubId
+      }
     })
     await modal.present();
 
@@ -72,14 +82,17 @@ export class ClubInfoComponent  implements OnInit {
       else if (desc == '')
         alert('Description must be filled')
       else
-        await this.clubsService.createGroup(name, desc);
+        await this.clubsService.createGroup(this.clubId, name, desc);
     }
   }
 
-  async showGroupDetails(group: string) {
-    this.clubsService.setActiveGroup(group);
+  async showGroupDetails(groupId: string) {
     const modal = await this.modalCtrl.create({
-      component: GroupInfoComponent
+      component: GroupInfoComponent,
+      componentProps: {
+        clubId: this.clubId,
+        groupId: groupId
+      }
     })
     await modal.present();
   }

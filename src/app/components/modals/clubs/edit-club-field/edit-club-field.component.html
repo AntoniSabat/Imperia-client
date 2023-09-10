@@ -13,12 +13,12 @@
 
       <ng-container *ngIf="field === 'name'">
         <ion-item>
-          <ion-input label="Edit name" labelPlacement="floating" [value]="club$.getValue().name" [(ngModel)]="club$.getValue().name"></ion-input>
+          <ion-input label="Edit name" labelPlacement="floating" [(ngModel)]="name"></ion-input>
         </ion-item>
       </ng-container>
       <ng-container *ngIf="field === 'description'">
         <ion-item>
-          <ion-input label="Edit description" labelPlacement="floating" [value]="club$.getValue().description" [(ngModel)]="club$.getValue().description"></ion-input>
+          <ion-input label="Edit description" labelPlacement="floating" [(ngModel)]="description"></ion-input>
         </ion-item>
       </ng-container>
 

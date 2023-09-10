@@ -40,10 +40,12 @@ export class UsersService {
 
   constructor(private http: HttpClient, private modalCtrl: ModalController) {}
 
-  async showUserProfile(uuid: string, level: string) {
+  async showUserProfile(clubId: string, groupId: string, uuid: string, level: string) {
     const modal = await this.modalCtrl.create({
       component: ShowUserInfoComponent,
       componentProps: {
+        clubId: clubId,
+        groupId: groupId,
         uuid: uuid,
         level: level
       }
