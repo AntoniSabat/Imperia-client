@@ -31,6 +31,10 @@ export class AddUserToGroupComponent implements OnInit {
     await this.modalCtrl.dismiss('refresh');
   }
 
+  formarUuid(user: User) {
+    return user?.uuid ?? "";
+  }
+
   async ngOnInit() {
     await this.usersService.addUsersData(this.clubsService.getClub(this.clubId).users.map(user => user.uuid));
     this.input$.pipe(

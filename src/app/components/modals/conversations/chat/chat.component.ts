@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
-import { Message, MessageType } from 'src/app/models/conversation.model';
+import {Conversation, Message, MessageType} from 'src/app/models/conversation.model';
 import { ConversationsService } from 'src/app/services/conversations.service';
+import {UsersService} from "../../../../services/users.service";
 
 @Component({
   selector: 'app-chat',
@@ -10,28 +11,35 @@ import { ConversationsService } from 'src/app/services/conversations.service';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent implements OnInit {
+  @Input() conversationId!: string;
+
   conversations$ = this.conversationsService.conversations$;
-  messages$ = this.conversationsService.messages$
+  conversation = new BehaviorSubject<Conversation>(this.conversationsService.initialConversationValue);
+
   msgInput: string = '';
-  id = this.conversationsService.activeConversation;
-  conversation = this.conversations$.getValue().find((conversation) => conversation.id == this.id);
 
   constructor(
     private modalCtrl: ModalController,
-    private conversationsService: ConversationsService
-  ) { }
+    private conversationsService: ConversationsService,
+    private usersService: UsersService
+  ) {}
+
+  getFullname(uuid: string) {
+    const user = this.usersService.getUser(uuid);
+    return `${user.name} ${user.surname}`;
+  }
 
   async ngOnInit() {
-    await this.conversationsService.loadMessages(0, 10);
+    this.conversationsService.loadMessages(this.conversationId, 0, 10);
+    this.conversation.next(this.conversations$.getValue().find((conversation) => conversation.id == this.conversationId) ?? this.conversationsService.initialConversationValue)
   }
 
   async goBackHome() {
-    this.id = null;
     await this.modalCtrl.dismiss(null, 'back');
   }
 
   async sendMessage() {
-    this.conversationsService.sendConversationMessage(this.id ?? '', -1, MessageType.MESSAGE, this.msgInput);
+    this.conversationsService.sendConversationMessage(this.conversationId, -1, MessageType.MESSAGE, this.msgInput);
     console.log(this.msgInput)
     this.msgInput = '';
   }

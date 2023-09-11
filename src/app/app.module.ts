@@ -24,9 +24,27 @@ import {ManageUserItemComponent} from "./components/modals/users/manage-user-ite
 import { ShowUserInfoComponent } from "./components/modals/users/show-user-info/show-user-info.component";
 import { EditClubComponent} from "./components/modals/clubs/edit-club/edit-club.component";
 import { EditClubFieldComponent } from "./components/modals/clubs/edit-club-field/edit-club-field.component";
+import {ChatInfoComponent} from "./components/modals/conversations/chat-info/chat-info.component";
 
 @NgModule({
-  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent, CreateConversationComponent, ChatComponent, ShowUsersComponent, ManageUserItemComponent, ShowUserInfoComponent, EditClubComponent, EditClubFieldComponent],
+  declarations: [
+    AppComponent,
+    ProfileDetailsComponent,
+    PersonalInfoComponent,
+    ClubInfoComponent,
+    ShowClubUsersComponent,
+    AddAnnouncementComponent,
+    GroupInfoComponent,
+    AddUserToGroupComponent,
+    CreateConversationComponent,
+    ChatComponent,
+    ShowUsersComponent,
+    ManageUserItemComponent,
+    ShowUserInfoComponent,
+    EditClubComponent,
+    EditClubFieldComponent,
+    ChatInfoComponent
+  ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, ConversationsService],
   bootstrap: [AppComponent],

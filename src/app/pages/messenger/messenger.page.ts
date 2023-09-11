@@ -70,9 +70,16 @@ export class MessengerPage implements OnInit {
   }
 
   async openChat(id: string | null) {
-    this.conversationsService.activeConversation = id;
+    await this.usersService.addUsersData(
+      this.conversations$.getValue()
+      .map(c => {return {id: c.id, uuids: [...c.admins, ...c.uuids]}})
+      .find(c => c.id == id)?.uuids ?? []
+    );
     const modal = await this.modalCtrl.create({
-      component: ChatComponent
+      component: ChatComponent,
+      componentProps: {
+        conversationId: id
+      }
     })
     await modal.present()
   }

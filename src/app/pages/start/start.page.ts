@@ -19,6 +19,9 @@ export class StartPage implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+    if (localStorage.getItem('auth'))
+      this.router.navigate(['home'], {
+        replaceUrl: true
+      })
   }
-
 }

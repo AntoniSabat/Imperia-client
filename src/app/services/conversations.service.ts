@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
+import {Injectable} from "@angular/core";
+import {environment} from "../../environments/environment";
 import * as io from 'socket.io-client';
-import { BehaviorSubject, tap } from "rxjs";
-import { Conversation, ConversationType, Message, MessageType } from "../models/conversation.model";
-import { HttpClient } from "@angular/common/http";
-import { User } from "../models/user.model";
+import {BehaviorSubject, tap} from "rxjs";
+import {Conversation, ConversationType, Message, MessageType} from "../models/conversation.model";
+import {HttpClient} from "@angular/common/http";
+import {User} from "../models/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -13,10 +13,9 @@ export class ConversationsService {
     private socket;
     searchedUsers$ = new BehaviorSubject<Partial<User>[]>([]);
     conversations$ = new BehaviorSubject<Conversation[]>([]);
-    messages$ = new BehaviorSubject<Message[]>([]);
-    activeConversation: string | null = null;
+    initialConversationValue: Conversation = {id: '', name: '', admins: [], uuids: [], messages: [], type: ConversationType.GROUP}
 
-    constructor(private http: HttpClient) { 
+    constructor(private http: HttpClient) {
         const auth = localStorage.getItem('auth');
 
         this.socket = io.connect(environment.apiWsUrl, {
@@ -52,27 +51,34 @@ export class ConversationsService {
         this.socket.on('messages', (data) => {
             console.log('messages:', data);
 
-            if (this.activeConversation != data.id) return;
-
             try {
-                const messages: Message[] = this.messages$.getValue();
+                const conversation: Conversation | undefined = this.conversations$.getValue().find(c => c.id = data.id);
+
+                if (!conversation)
+                  return;
+
+                const messages: Message[] = conversation.messages;
                 const newMessages: Message[] = data.messages[0].messages;
 
                 if (!messages || !newMessages) return;
 
-                if (messages?.length == 0) this.messages$.next(newMessages);
+                if (messages?.length > 0) {
+                    const map = new Map<number, Message>();
 
-                const map = new Map<number, Message>();
-                
-                messages.forEach(message => {
-                    map.set(message.id, message);
-                });
+                    messages.forEach(message => {
+                        map.set(message.id, message);
+                    });
 
-                newMessages.forEach(message => {
-                    map.set(message.id, message);
-                });
+                    newMessages.forEach(message => {
+                        map.set(message.id, message);
+                    });
 
-                this.messages$.next([...Array.from(map.values()).sort((a, b) => a.id - b.id)])
+                    conversation.messages = [...Array.from(map.values()).sort((a, b) => a.id - b.id)];
+                } else {
+                  conversation.messages = newMessages;
+                }
+                console.log('test', this.conversations$.getValue(), conversation)
+                this.conversations$.next([...this.conversations$.getValue().filter(c => c.id != data.id), conversation]);
             } catch {}
         });
 
@@ -91,9 +97,9 @@ export class ConversationsService {
         ).subscribe();
     }
 
-    loadMessages(skip: number, limit: number) {
+    loadMessages(id: string, skip: number, limit: number) {
         this.sendMessage('getMessages', {
-            id: this.activeConversation,
+            id,
             skip,
             limit
         })
