@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import {Conversation, Message, MessageType} from 'src/app/models/conversation.model';
 import { ConversationsService } from 'src/app/services/conversations.service';
 import {UsersService} from "../../../../services/users.service";
+import {ChatInfoComponent} from "../chat-info/chat-info.component";
 
 @Component({
   selector: 'app-chat',
@@ -42,5 +43,15 @@ export class ChatComponent implements OnInit {
     this.conversationsService.sendConversationMessage(this.conversationId, -1, MessageType.MESSAGE, this.msgInput);
     console.log(this.msgInput)
     this.msgInput = '';
+  }
+
+  async openInfo() {
+    const modal = await this.modalCtrl.create({
+      component: ChatInfoComponent,
+      componentProps: {
+        conversationId: this.conversationId
+      }
+    });
+    await modal.present();
   }
 }

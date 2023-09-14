@@ -15,6 +15,10 @@ export class ConversationsService {
     conversations$ = new BehaviorSubject<Conversation[]>([]);
     initialConversationValue: Conversation = {id: '', name: '', admins: [], uuids: [], messages: [], type: ConversationType.GROUP}
 
+    getConversation(id: string) {
+      return this.conversations$.getValue().find(c => c.id == id) ?? this.initialConversationValue;
+    }
+
     constructor(private http: HttpClient) {
         const auth = localStorage.getItem('auth');
 
