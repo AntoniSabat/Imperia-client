@@ -20,7 +20,6 @@ export class PersonalInfoComponent  implements OnInit {
   }
   @Input() field = '';
 
-
   constructor(private modalCtrl: ModalController, private usersService: UsersService) { }
 
   async cancel() {

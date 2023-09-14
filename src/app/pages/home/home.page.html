@@ -2,10 +2,10 @@
   <ion-toolbar>
     <ion-title slot="start"></ion-title>
     <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">
-      <div *ngIf="shouldDisplayImage$ | async" class="profileImg">
+      <div *ngIf="shouldDisplayImage" class="profileImg">
         <img src="{{userImageSrc}}" alt="">
       </div>
-      <ion-icon *ngIf="!(shouldDisplayImage$ | async)" name="person-outline"></ion-icon>
+      <ion-icon *ngIf="!shouldDisplayImage" name="person-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>

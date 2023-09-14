@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-button color="dark" fill="none" (click)="goBackHome()">Back</ion-button>
-    <ion-title>{{conversation.getValue().name}}</ion-title>
+    <ion-title>{{conversation$.getValue().name}}</ion-title>
     <ion-button color="dark" fill="none" slot="end" (click)="openInfo()">
       <ion-icon name="menu-outline"></ion-icon>
     </ion-button>
@@ -10,7 +10,7 @@
 
 <ion-content>
   <ion-infinite-scroll>
-    <div class="message" *ngFor="let message of conversation.getValue().messages">
+    <div class="message" *ngFor="let message of conversation$.getValue().messages">
       <p>{{getFullname(message.uuid)}}</p>
       <p>{{message.message.content}}</p>
     </div>

@@ -5,6 +5,7 @@ import {BehaviorSubject, tap} from "rxjs";
 import {Conversation, ConversationType, Message, MessageType} from "../models/conversation.model";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user.model";
+import {logIn} from "ionicons/icons";
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,7 @@ export class ConversationsService {
     }
 
     constructor(private http: HttpClient) {
+        this.conversations$.subscribe((obj) => console.log('info', obj))
         const auth = localStorage.getItem('auth');
 
         this.socket = io.connect(environment.apiWsUrl, {
@@ -81,7 +83,6 @@ export class ConversationsService {
                 } else {
                   conversation.messages = newMessages;
                 }
-                console.log('test', this.conversations$.getValue(), conversation)
                 this.conversations$.next([...this.conversations$.getValue().filter(c => c.id != data.id), conversation]);
             } catch {}
         });

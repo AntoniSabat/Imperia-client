@@ -11,7 +11,10 @@
   <ion-card>
     <ion-card-content>
       <ion-item lines="none">
-        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <div [ngSwitch]="checkImageUrl(formatImageUrl(user$.getValue().profileImage))">
+          <img *ngSwitchCase="true" class="profileImg" src="{{formatImageUrl(user$.getValue().profileImage)}}" alt="">
+          <ion-icon *ngSwitchDefault style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
+        </div>
         <ion-text>{{user$.getValue().name}} {{user$.getValue().surname}}</ion-text>
       </ion-item>
     </ion-card-content>

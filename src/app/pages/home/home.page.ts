@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
 import { ClubsService } from 'src/app/services/clubs.service';
 import { ConversationsService } from 'src/app/services/conversations.service';
 import { User } from 'src/app/models/user.model';
-import {BehaviorSubject} from "rxjs";
+import {checkImageUrl} from "../../utils";
 
 @Component({
   selector: 'app-home',
@@ -17,9 +17,10 @@ import {BehaviorSubject} from "rxjs";
 })
 export class HomePage implements OnInit {
   userImageSrc = '';
-  shouldDisplayImage$ = new BehaviorSubject<Boolean>(false);
+  shouldDisplayImage = false;
   user$ = this.usersService.user$;
   lessons$ = this.clubsService.todayLessons$;
+  checkImageUrl = checkImageUrl;
   constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService, private conversationsService: ConversationsService) { }
 
   async ngOnInit() {
@@ -27,19 +28,11 @@ export class HomePage implements OnInit {
     await this.clubsService.loadTodayLessons();
   }
 
-  checkImageUrl(url: string) {
-    if (!url) return false;
-    else {
-      const pattern = new RegExp('^https?:\\/\\/.+\\.(png|jpg|jpeg|bmg|gif|webp)$', 'i');
-      return pattern.test(url);
-    }
-  }
-
   async whoAmI() {
     this.user$.subscribe(
       (user: User) => {
         this.userImageSrc = environment.apiBaseUrl + '/files/' + user.profileImage;
-        this.shouldDisplayImage$.next(this.checkImageUrl(this.userImageSrc));
+        this.shouldDisplayImage = this.checkImageUrl(this.userImageSrc);
       }
     )
     await this.usersService.loadActiveUser();

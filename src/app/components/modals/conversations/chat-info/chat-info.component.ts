@@ -14,15 +14,14 @@ export class ChatInfoComponent implements OnInit {
 
   constructor(private conversationService: ConversationsService) { }
 
-  async loadConversation() {
-    this.conversation$.next(
-      this.conversationService.conversations$.getValue()
-      .find(c => c.id == this.conversationId) ?? this.conversationService.initialConversationValue
-    );
+  async loadConversation(conversations: Conversation[]) {
+    const conv = conversations.find((conversation) => conversation.id == this.conversationId);
+    if (conv)
+      this.conversation$.next(conv)
   }
 
   async ngOnInit() {
-    await this.loadConversation();
-    this.conversationService.conversations$.subscribe(this.loadConversation);
+    await this.loadConversation(this.conversationService.conversations$.getValue());
+    this.conversationService.conversations$.subscribe((conversations) => this.loadConversation(conversations));
   }
 }

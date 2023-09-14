@@ -14,8 +14,7 @@ import {ChatInfoComponent} from "../chat-info/chat-info.component";
 export class ChatComponent implements OnInit {
   @Input() conversationId!: string;
 
-  conversations$ = this.conversationsService.conversations$;
-  conversation = new BehaviorSubject<Conversation>(this.conversationsService.initialConversationValue);
+  conversation$ = new BehaviorSubject<Conversation>(this.conversationsService.initialConversationValue);
 
   msgInput: string = '';
 
@@ -30,9 +29,16 @@ export class ChatComponent implements OnInit {
     return `${user.name} ${user.surname}`;
   }
 
+  async loadConversation(conversations: Conversation[]) {
+    const conv = conversations.find((conversation) => conversation.id == this.conversationId);
+    if (conv)
+      this.conversation$.next(conv)
+  }
+
   async ngOnInit() {
+    await this.loadConversation(this.conversationsService.conversations$.getValue());
     this.conversationsService.loadMessages(this.conversationId, 0, 10);
-    this.conversation.next(this.conversations$.getValue().find((conversation) => conversation.id == this.conversationId) ?? this.conversationsService.initialConversationValue)
+    this.conversationsService.conversations$.subscribe(conversations => this.loadConversation(conversations));
   }
 
   async goBackHome() {

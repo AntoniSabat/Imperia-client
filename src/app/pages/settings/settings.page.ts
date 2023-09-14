@@ -4,7 +4,7 @@ import {ModalController} from "@ionic/angular";
 import {PersonalInfoComponent} from "../../components/modals/profile/edit-personal-info/personal-info.component";
 import {lostSession} from "../../axios";
 import {Router} from "@angular/router";
-import {Preferences, User} from "../../models/user.model";
+import {checkImageUrl, formatImageUrl} from "../../utils";
 
 @Component({
   selector: 'app-settings',
@@ -14,6 +14,8 @@ import {Preferences, User} from "../../models/user.model";
 export class SettingsPage implements OnInit {
   user$ = this.usersService.user$;
 
+  checkImageUrl = checkImageUrl;
+  formatImageUrl = formatImageUrl;
 
   constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router) { }
 

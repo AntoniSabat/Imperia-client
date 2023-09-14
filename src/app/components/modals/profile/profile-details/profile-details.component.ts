@@ -4,6 +4,7 @@ import {UsersService, UserType} from "../../../../services/users.service";
 import {Router} from "@angular/router";
 import {ClubsService} from "../../../../services/clubs.service";
 import {Club} from "../../../../models/club.model";
+import {checkImageUrl, formatImageUrl} from "../../../../utils";
 
 @Component({
   selector: 'app-profile-details',
@@ -13,6 +14,9 @@ import {Club} from "../../../../models/club.model";
 export class ProfileDetailsComponent implements OnInit {
   user$ = this.usersService.user$;
   clubs: Club[] = [];
+
+   checkImageUrl = checkImageUrl;
+   formatImageUrl = formatImageUrl;
 
   constructor(private modalCtrl: ModalController, private usersService: UsersService, private router: Router, private clubsService: ClubsService) { }
 
