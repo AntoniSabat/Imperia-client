@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../../../models/user.model";
 import {UsersService} from "../../../../services/users.service";
+import {checkImageUrl, formatImageUrl} from "../../../../utils";
 
 @Component({
   selector: 'app-manage-user-item',
@@ -21,4 +22,7 @@ export class ManageUserItemComponent implements OnInit {
   async showUserInfo() {
     await this.usersService.showUserProfile(this.clubId, this.groupId, this.user.uuid, this.level);
   }
+
+  protected readonly formatImageUrl = formatImageUrl;
+  protected readonly checkImageUrl = checkImageUrl;
 }

@@ -11,7 +11,7 @@ import {Club} from "../../../../models/club.model";
   templateUrl: './show-club-users.component.html',
   styleUrls: ['./show-club-users.component.scss'],
 })
-export class ShowClubUsersComponent  implements OnInit {
+export class ShowClubUsersComponent implements OnInit {
   @Input() clubId!: string;
   club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId))
   usersData$ = this.usersService.usersData$;
