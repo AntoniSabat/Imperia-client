@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>{{usersService.getUser(uuid).name}} {{usersService.getUser(uuid).surname}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-button>
+      <ion-icon name="send-outline"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="level=='group'" (click)="removeUserFromGroup()">
+      <ion-icon name="trash-bin-outline"></ion-icon>
+    </ion-button>
+    <ion-button (click)="removeUser()">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </div>
+  <ion-list>
+    <ion-item>Name: {{usersService.getUser(uuid).name}}</ion-item>
+    <ion-item>Surname: {{usersService.getUser(uuid).surname}}</ion-item>
+    <ion-item>Email: {{usersService.getUser(uuid).email}}</ion-item>
+    <ion-item>Rank: {{usersService.getUser(uuid).type}}</ion-item>
+    <ion-item>Payments: Tutaj będzie lista płatności</ion-item>
+  </ion-list>
+</ion-content>

@@ -1,13 +1,23 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>messenger</ion-title>
+    <ion-button slot="end" color="dark" fill="none" (click)="createConversation()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-button>
+<!--    <ion-title>Conversations</ion-title>-->
+<!--    <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">-->
+<!--      <div *ngIf="shouldDisplayImage$ | async" class="profileImg">-->
+<!--        <img src="{{userImageSrc}}" alt="">-->
+<!--      </div>-->
+<!--      <ion-icon *ngIf="!(shouldDisplayImage$ | async)" name="person-outline"></ion-icon>-->
+<!--    </ion-button>-->
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">messenger</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-button style="width: 100%" *ngFor="let conversation of conversations$ | async" (click)="openChat(conversation.id)">
+    {{conversation.name}}
+  </ion-button>
+  <h4 *ngIf="conversations$.getValue().length <= 0">
+    No conversations
+  </h4>
 </ion-content>

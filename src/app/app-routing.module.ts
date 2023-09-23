@@ -4,6 +4,11 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'tabs'
+  },
+  {
+    path: 'start',
     loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
   },
   {
@@ -17,22 +22,6 @@ const routes: Routes = [
   {
     path: 'info',
     loadChildren: () => import('./pages/info/info.module').then( m => m.InfoPageModule)
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: 'calendar',
-    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
-  },
-  {
-    path: 'payments',
-    loadChildren: () => import('./pages/payments/payments.module').then( m => m.PaymentsPageModule)
-  },
-  {
-    path: 'messenger',
-    loadChildren: () => import('./pages/messenger/messenger.module').then( m => m.MessengerPageModule)
   },
   {
     path: 'users',
@@ -49,6 +38,10 @@ const routes: Routes = [
   {
     path: 'newses',
     loadChildren: () => import('./pages/newses/newses.module').then( m => m.NewsesPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   }
 ];
 

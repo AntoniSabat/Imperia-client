@@ -16,11 +16,37 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {GroupInfoComponent} from "./components/modals/groups/group-info/group-info.component";
 import {AddUserToGroupComponent} from "./components/modals/groups/add-user-to-group/add-user-to-group.component";
+import { ConversationsService } from './services/conversations.service';
+import { CreateConversationComponent } from './components/modals/conversations/create-conversation/create-conversation.component';
+import { ChatComponent } from './components/modals/conversations/chat/chat.component';
+import { ShowUsersComponent } from "./components/modals/groups/show-users/show-users.component";
+import {ManageUserItemComponent} from "./components/modals/users/manage-user-item/manage-user-item.component";
+import { ShowUserInfoComponent } from "./components/modals/users/show-user-info/show-user-info.component";
+import { EditClubComponent} from "./components/modals/clubs/edit-club/edit-club.component";
+import { EditClubFieldComponent } from "./components/modals/clubs/edit-club-field/edit-club-field.component";
+import {ChatInfoComponent} from "./components/modals/conversations/chat-info/chat-info.component";
 
 @NgModule({
-  declarations: [AppComponent, ProfileDetailsComponent, PersonalInfoComponent, ClubInfoComponent, ShowClubUsersComponent, AddAnnouncementComponent, GroupInfoComponent, AddUserToGroupComponent],
+  declarations: [
+    AppComponent,
+    ProfileDetailsComponent,
+    PersonalInfoComponent,
+    ClubInfoComponent,
+    ShowClubUsersComponent,
+    AddAnnouncementComponent,
+    GroupInfoComponent,
+    AddUserToGroupComponent,
+    CreateConversationComponent,
+    ChatComponent,
+    ShowUsersComponent,
+    ManageUserItemComponent,
+    ShowUserInfoComponent,
+    EditClubComponent,
+    EditClubFieldComponent,
+    ChatInfoComponent
+  ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
+  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, ConversationsService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

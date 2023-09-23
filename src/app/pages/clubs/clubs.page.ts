@@ -11,28 +11,25 @@ import {ClubInfoComponent} from "../../components/modals/clubs/club-info/club-in
   styleUrls: ['./clubs.page.scss'],
 })
 export class ClubsPage implements OnInit {
-  clubs$ = this.clubsService.clubs$;
+  clubs$= this.clubsService.clubs$;
 
   constructor(private usersService: UsersService, private clubsService: ClubsService, private modalCtrl: ModalController) { }
 
   async ngOnInit() {
-    await this.whoAmI();
-    await this.getClubs();
-  }
-
-  async whoAmI() {
+    // who am I
     await this.usersService.loadActiveUser();
-  }
-
-  async getClubs() {
+    // get clubs
     await this.clubsService.loadClubs();
   }
 
   async showClubDetails(club: Club) {
-    this.clubsService.setActiveClub(club);
+    await this.clubsService.loadGroupsFromActiveClub(club.id);
 
     const modal = await this.modalCtrl.create({
-      component: ClubInfoComponent
+      component: ClubInfoComponent,
+      componentProps: {
+        clubId: club.id
+      }
     })
     await modal.present();
   }

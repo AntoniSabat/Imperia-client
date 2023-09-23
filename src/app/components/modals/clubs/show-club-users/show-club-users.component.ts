@@ -1,34 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClubsService} from "../../../../services/clubs.service";
-import {Club} from "../../../../models/club.model";
 import {ModalController} from "@ionic/angular";
-import {User} from "../../../../models/user.model";
 import {UsersService} from "../../../../services/users.service";
 import {BehaviorSubject} from "rxjs";
+import {User} from "../../../../models/user.model";
+import {Club} from "../../../../models/club.model";
 
 @Component({
   selector: 'app-show-club-users',
   templateUrl: './show-club-users.component.html',
   styleUrls: ['./show-club-users.component.scss'],
 })
-export class ShowClubUsersComponent  implements OnInit {
-  club$ = this.clubsService.activeClub$;
-  usersID$ = new BehaviorSubject<string[]>([]);
-  clubUsers$ = this.usersService.clubUsers$;
+export class ShowClubUsersComponent implements OnInit {
+  @Input() clubId!: string;
+  club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId))
+  usersData$ = this.usersService.usersData$;
+  users$ = new BehaviorSubject<User[]>([]);
 
-  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) { }
+  constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService) {}
 
   async ngOnInit() {
-    await this.clubsService.loadActiveClub();
-
-    this.club$.getValue().users.map((user: any) => {
-      this.usersID$.next([...this.usersID$.getValue(), user.uuid])
-    });
-    await this.getUsersInfo();
-  }
-
-  async getUsersInfo() {
-    await this.usersService.loadClubUsersInfo(this.usersID$.getValue())
+    this.usersData$.subscribe(() => {
+      this.users$.next(this.clubsService.getClub(this.clubId).users.map(user => user.uuid).map(uuid => this.usersService.getUser(uuid)))
+    })
+    this.clubsService.clubs$.subscribe(() => this.club$.next(this.clubsService.getClub(this.clubId)))
+    await this.usersService.addUsersData(this.clubsService.getClub(this.clubId).users.map(user => user.uuid));
   }
 
   async back() {

@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ClubsService} from "../../../../services/clubs.service";
-import {Club, ClubRank, Group} from "../../../../models/club.model";
 import {UsersService} from "../../../../services/users.service";
 import {User} from "../../../../models/user.model";
-import {ModalController} from "@ionic/angular";
-import {BehaviorSubject} from "rxjs";
-import {add, logoGoogle} from "ionicons/icons";
+import {InfiniteScrollCustomEvent, ModalController} from "@ionic/angular";
+import {BehaviorSubject, debounceTime, distinctUntilChanged} from "rxjs";
+import {Group} from "../../../../models/club.model";
 
 @Component({
   selector: 'app-add-user-to-group',
   templateUrl: './add-user-to-group.component.html',
   styleUrls: ['./add-user-to-group.component.scss'],
 })
-export class AddUserToGroupComponent  implements OnInit {
-  club$ = this.clubsService.activeClub$;
-  group$ = this.clubsService.activeGroup$;
-  usersID$ = new BehaviorSubject<string[]>([]);
-  activeGroup$ = this.clubsService.activeGroup$;
-  clubUsers$ = this.usersService.clubUsers$;
-  groupUsers$ = this.usersService.groupUsers$;
+export class AddUserToGroupComponent implements OnInit {
+  @Input() clubId!: string;
+  @Input() groupId!: string;
+
+  usersData$ = this.usersService.usersData$;
+
+  group$ = new BehaviorSubject<Group>(this.clubsService.initialGroupValue)
+  checkedUsers: Set<string> = new Set();
+  searchedUsers$ = new BehaviorSubject<User[]>([]);
+
+  user$ = this.usersService.user$;
+  input$ = new BehaviorSubject<string>('');
+  getUser = this.usersService.getUser;
 
   constructor(private clubsService: ClubsService, private usersService: UsersService, private modalCtrl: ModalController) { }
 
@@ -26,29 +31,53 @@ export class AddUserToGroupComponent  implements OnInit {
     await this.modalCtrl.dismiss('refresh');
   }
 
+  formarUuid(user: User) {
+    return user?.uuid ?? "";
+  }
+
   async ngOnInit() {
-    await this.clubsService.loadActiveClub();
-    await this.clubsService.loadActiveGroup();
-
-    this.club$.getValue().users.map((user: any) => {
-      this.usersID$.next([...this.usersID$.getValue(), user.uuid])
-    });
-    await this.getUsersInfo();
+    await this.usersService.addUsersData(this.clubsService.getClub(this.clubId).users.map(user => user.uuid));
+    this.input$.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((input: string) => {
+      const group = this.clubsService.getGroup(this.clubId, this.groupId);
+      const users = [...group.admins, ...group.participants];
+      this.searchedUsers$.next(this.clubsService.getClub(this.clubId).users
+        .map((user: any) => this.getUser(user.uuid))
+        .filter(user => `${user.name} ${user.surname}`.toLowerCase().includes(input.toLowerCase()) && user.uuid != this.user$.getValue().uuid && !users.includes(user.uuid))
+      )
+    })
+    this.clubsService.clubs$.subscribe(() => this.group$.next(this.clubsService.getGroup(this.clubId, this.groupId)))
   }
 
-  async getUsersInfo() {
-    await this.usersService.loadClubUsersInfo(this.usersID$.getValue())
-    await this.usersService.loadGroupUsersInfo(this.activeGroup$.getValue().participants);
+  async handleCheckedUsers(ev: any, uuid: string | undefined) {
+    if (!uuid) return;
+    if (ev.target.checked)
+      this.checkedUsers.add(uuid);
+    else
+      this.checkedUsers.delete(uuid);
   }
 
-  async addToGroup(user: User) {
-    await this.clubsService.addParticipantToGroup(user.uuid);
-    this.groupUsers$.next([...this.groupUsers$.getValue(), user ])
+  async searchUser(e: any) {
+    this.input$.next(e.target.value);
+  }
 
-    const uuids = this.groupUsers$.getValue().map(groupUser => groupUser.uuid);
-    await this.usersService.loadGroupUsersInfo(uuids);
+  async addToGroup() {
+    await this.clubsService.addUsersToGroup(this.clubId, this.groupId, [...this.checkedUsers]);
+    await this.modalCtrl.dismiss('added');
+  }
 
-    const addedUser = this.clubUsers$.getValue().find(clubUser => clubUser.uuid === user.uuid);
-    console.log(this.clubUsers$.getValue(), addedUser)
+  onIonInfinite(ev: any) {
+    this.generateUsers();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500)
+  }
+
+  generateUsers() {
+    const count = this.searchedUsers$.getValue().length + 1;
+    // for (let i = 0; i < 25; i++)
+      // this.searchedUsers$.next()
   }
 }

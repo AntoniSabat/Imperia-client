@@ -1,0 +1,10 @@
+<ion-item (click)="showUserInfo()">
+  <div [ngSwitch]="checkImageUrl(formatImageUrl(user.profileImage))" class="profileImgWrapper">
+    <img *ngSwitchCase="true" class="profileImg" src="{{formatImageUrl(user.profileImage)}}" alt="">
+    <ion-icon *ngSwitchDefault name="person-outline"></ion-icon>
+  </div>
+  {{user.name}} {{user.surname}}
+  <ion-button *ngIf="canManage">
+    <ion-icon name="menu-outline"></ion-icon>
+  </ion-button>
+</ion-item>

@@ -12,8 +12,6 @@
 
 
 <ion-content>
-<!--  <ion-button (click)="goToCalendar()">Calendar</ion-button>-->
-  <ion-button (click)="goToClubs()">Clubs</ion-button>
   <div class="container">
     <h2 class="welcome">Hi, {{user$.getValue().name}} 👋</h2>
     <div class="box" *ngIf="lessons$.getValue().length > 0">

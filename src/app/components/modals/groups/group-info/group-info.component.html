@@ -3,31 +3,25 @@
     <ion-buttons>
       <ion-button (click)="back()" color="dark" fill="none">Back</ion-button>
     </ion-buttons>
-    <ion-title>{{activeGroup$.getValue().name}}</ion-title>
+    <ion-title>{{group$.getValue().name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-header>Name: {{activeGroup$.getValue().name}}</ion-header>
-  <ion-header>Desc: {{activeGroup$.getValue().description}}</ion-header>
-  <ion-text>Users amount: {{activeGroup$.getValue().participants.length}}</ion-text>
+  <ion-header>Name: {{group$.getValue().name}}</ion-header>
+  <ion-header>Desc: {{group$.getValue().description}}</ion-header>
+  <ion-text>Users amount: {{group$.getValue().participants.length+1}}</ion-text>
   <ion-card>
     <ion-card-content>
-      <ion-card-subtitle>Users</ion-card-subtitle>
-      <ion-button (click)="addUsers()"  size="full">Add users to group <ion-icon name="add-outline"></ion-icon></ion-button>
-      <ul>
-        <li *ngFor="let user of groupUsers$ | async">{{user.name}} {{user.surname}}</li>
-      </ul>
+      <ion-button (click)="editGroup()">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-card-header>
+        <ion-text>Users</ion-text>
+        <ion-button (click)="addUsers()" color="dark"><ion-icon name="add-outline"></ion-icon></ion-button>
+      </ion-card-header>
+      <app-manage-user-item *ngFor="let user of limitedGroupUsers$ | async" [user]="user" [level]="'group'" [canManage]="false"></app-manage-user-item>
+      <ion-button (click)="seeAllGroupUsersModal()">See all</ion-button>
     </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-content>Titles</ion-card-content>
-    <ion-item>
-      <ion-input #title label-placement="floating" label="Add title..."></ion-input>
-      <ion-button (click)="addTitle(title)">Add</ion-button>
-    </ion-item>
-    <ul>
-      <li *ngFor="let title of titles$ | async"><ion-text>{{title.content}}</ion-text> <ion-button (click)="setDefaultTitle(title.id)">Set default</ion-button></li>
-    </ul>
   </ion-card>
 </ion-content>

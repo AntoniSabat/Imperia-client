@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from "@ionic/angular";
 import {UsersService, UserType} from "../../../../services/users.service";
 import {Club} from "../../../../models/club.model";
@@ -18,8 +18,7 @@ export class PersonalInfoComponent  implements OnInit {
     newPassword: '',
     confirmPassword: ''
   }
-  editingField = '';
-
+  @Input() field = '';
 
   constructor(private modalCtrl: ModalController, private usersService: UsersService) { }
 
@@ -29,7 +28,6 @@ export class PersonalInfoComponent  implements OnInit {
 
   async ngOnInit() {
     await this.whoAmI();
-    this.editingField = this.usersService.getEditingAccountField();
   }
 
   async whoAmI() {
@@ -37,7 +35,7 @@ export class PersonalInfoComponent  implements OnInit {
   }
 
   async editData() {
-    if (this.editingField === 'password') {
+    if (this.field === 'password') {
       console.log('zmieniam haslo');
       if (this.userData.newPassword !== this.userData.confirmPassword)
         console.log('Hasła nie są takie same');

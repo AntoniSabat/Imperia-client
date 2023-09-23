@@ -1,0 +1,12 @@
+.profileImg {
+  width: 7rem;
+  height: 7rem;
+  object-fit: cover;
+  border-radius: 1.5rem;
+}
+
+div:has(.profileImg) {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

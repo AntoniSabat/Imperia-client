@@ -18,7 +18,5 @@ export class StartPage implements OnInit {
   }
   constructor(private router: Router) { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

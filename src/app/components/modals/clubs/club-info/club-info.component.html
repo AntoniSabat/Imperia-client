@@ -3,18 +3,25 @@
     <ion-buttons>
       <ion-button (click)="back()" color="dark" fill="none">Back</ion-button>
     </ion-buttons>
-    <ion-title>{{club.name.slice(0,1).toUpperCase() + club.name.slice(1).toLowerCase()}}</ion-title>
+    <ion-title>{{club$.getValue().name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card>
     <ion-card-content>
+      <div style="display: flex">
+        <ion-button (click)="createClubCode()">Create code</ion-button>
+        <ion-button (click)="showClubCode()">Show code</ion-button>
+        <ion-button (click)="editClub()">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+      </div>
       <ion-icon style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
 
-      <ion-card-title>{{club.name.slice(0,1).toUpperCase() + club.name.slice(1).toLowerCase()}}</ion-card-title>
+      <ion-card-title>{{club$.getValue().name}}</ion-card-title>
 
-      <ion-card-subtitle>{{club.description}}</ion-card-subtitle>
+      <ion-card-subtitle>{{club$.getValue().description}}</ion-card-subtitle>
     </ion-card-content>
   </ion-card>
 
@@ -35,8 +42,8 @@
       </ion-button>
 
       <ion-list style="margin-top: 10px">
-        <ion-item *ngFor="let group of groups$ | async">
-          <ion-label (click)="showGroupDetails(group)">{{group.name}}</ion-label>
+        <ion-item *ngFor="let group of club$.getValue().groups">
+          <ion-label (click)="showGroupDetails(group.id)">{{group.name}}</ion-label>
         </ion-item>
       </ion-list>
 

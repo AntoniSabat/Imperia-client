@@ -11,7 +11,10 @@
   <ion-card>
     <ion-card-content>
       <ion-item lines="none">
-        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <div [ngSwitch]="checkImageUrl(formatImageUrl(user$.getValue().profileImage))">
+          <img *ngSwitchCase="true" class="profileImg" src="{{formatImageUrl(user$.getValue().profileImage)}}" alt="">
+          <ion-icon *ngSwitchDefault style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
+        </div>
         <ion-text>{{user$.getValue().name}} {{user$.getValue().surname}}</ion-text>
       </ion-item>
     </ion-card-content>
@@ -40,16 +43,16 @@
     <ion-card-content>
       <ion-card-subtitle>Preferences</ion-card-subtitle>
       <ion-item>
-        <ion-checkbox  [checked]="preferences$.getValue().announcementsNotifications" class="preference-checkbox" name="announcementsNotifications" [(ngModel)]="preferences$.getValue().announcementsNotifications" (ionChange)="changeUserPreferences()">Announcements notifications</ion-checkbox>
+        <ion-checkbox (ionChange)="changeUserPreferences()" [(ngModel)]="user$.getValue().preferences.announcementsNotifications" [checked]="user$.getValue().preferences.announcementsNotifications">Announcements notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox  [checked]="preferences$.getValue().conversationsNotifications" class="preference-checkbox" name="conversationsNotifications" [(ngModel)]="preferences$.getValue().conversationsNotifications" (ionChange)="changeUserPreferences()">Messenger notifications</ion-checkbox>
+        <ion-checkbox (ionChange)="changeUserPreferences()" [(ngModel)]="user$.getValue().preferences.conversationsNotifications" [checked]="user$.getValue().preferences.conversationsNotifications">Messenger notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox  [checked]="preferences$.getValue().lessonsNotifications" class="preference-checkbox" name="lessonsNotifications" [(ngModel)]="preferences$.getValue().lessonsNotifications" (ionChange)="changeUserPreferences()">Calendar Notifications</ion-checkbox>
+        <ion-checkbox (ionChange)="changeUserPreferences()" [(ngModel)]="user$.getValue().preferences.lessonsNotifications" [checked]="user$.getValue().preferences.lessonsNotifications">Calendar notifications</ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-checkbox [checked]="preferences$.getValue().darkMode" class="preference-checkbox" name="darkMode" [(ngModel)]="preferences$.getValue().darkMode" (ionChange)="changeUserPreferences()">Dark mode</ion-checkbox>
+        <ion-checkbox (ionChange)="changeUserPreferences()" [(ngModel)]="user$.getValue().preferences.darkMode" [checked]="user$.getValue().preferences.darkMode">Dark mode</ion-checkbox>
       </ion-item>
     </ion-card-content>
   </ion-card>

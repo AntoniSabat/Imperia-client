@@ -5,8 +5,13 @@ export interface User {
   surname: string;
   email: string;
   password: string;
-  preferences: Preferences;
-  profileImg: string;
+  preferences: {
+    darkMode: Boolean;
+    conversationsNotifications: Boolean;
+    lessonsNotifications: Boolean;
+    announcementsNotifications: Boolean;
+  };
+  profileImage: string;
   type: UserType;
   uuid: string;
   clubs: [];
@@ -14,10 +19,10 @@ export interface User {
 }
 
 export interface Preferences {
-  announcementsNotifications: boolean;
-  conversationsNotifications: boolean;
-  lessonsNotifications: boolean;
-  darkMode: boolean;
+  darkMode: Boolean;
+  conversationsNotifications: Boolean;
+  lessonsNotifications: Boolean;
+  announcementsNotifications: Boolean;
 }
 
 export interface DebtDetail {

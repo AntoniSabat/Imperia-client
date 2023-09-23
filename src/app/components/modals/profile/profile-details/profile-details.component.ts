@@ -4,30 +4,33 @@ import {UsersService, UserType} from "../../../../services/users.service";
 import {Router} from "@angular/router";
 import {ClubsService} from "../../../../services/clubs.service";
 import {Club} from "../../../../models/club.model";
+import {checkImageUrl, formatImageUrl} from "../../../../utils";
 
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile-details.component.html',
   styleUrls: ['./profile-details.component.scss'],
 })
-export class ProfileDetailsComponent  implements OnInit {
+export class ProfileDetailsComponent implements OnInit {
   user$ = this.usersService.user$;
-  clubs$ = this.clubsService.clubs$;
+  clubs: Club[] = [];
+
+   checkImageUrl = checkImageUrl;
+   formatImageUrl = formatImageUrl;
 
   constructor(private modalCtrl: ModalController, private usersService: UsersService, private router: Router, private clubsService: ClubsService) { }
 
   async ngOnInit() {
     await this.whoAmI();
-    await this.getClubs();
   }
 
   async whoAmI() {
     await this.usersService.loadActiveUser();
-    const user = this.usersService.getActiveUser();
-  }
 
-  async getClubs() {
-    await this.clubsService.loadClubs();
+    this.user$.getValue().clubs.map(async (clubID: string) => {
+      const club = await this.clubsService.getClubInfo(clubID);
+      this.clubs.push(club.data);
+    });
   }
 
   async goBackHome() {

@@ -19,9 +19,9 @@ export class LoginPage {
   async login() {
     const response = await this.usersService.signin(this.email, this.password);
     if (response.status == 'correct') {
-      console.log(response.data);
+      localStorage.setItem('auth', response.data)
       this.resetInputs();
-      await this.router.navigate(['home']);
+      await this.router.navigate(['']);
     }
     else {
       console.log('Hasło niepoprawne: ', response.data)

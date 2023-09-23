@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {Method, useFetch} from "../axios";
 import {Preferences, User} from "../models/user.model";
 import {HttpClient} from "@angular/common/http";
-import {Club} from "../models/club.model";
 import {environment} from "../../environments/environment";
 import {BehaviorSubject, tap} from "rxjs";
+import {ModalController} from "@ionic/angular";
+import {ShowUserInfoComponent} from "../components/modals/users/show-user-info/show-user-info.component";
 
 export enum UserType {
   COACH = 'COACH',
@@ -16,8 +17,6 @@ export enum UserType {
   providedIn: 'root'
 })
 export class UsersService {
-  activeUserData!: User;
-  editingAccountField = '';
   userInitialValue: User = {
     name: '',
     surname: '',
@@ -27,7 +26,7 @@ export class UsersService {
     uuid: '',
     clubs: [],
     conversations: [],
-    profileImg: '',
+    profileImage: '',
     preferences: {
       darkMode: true,
       conversationsNotifications: true,
@@ -35,14 +34,24 @@ export class UsersService {
       announcementsNotifications: true
     }
   };
-  preferencesInitialValue: Preferences = {announcementsNotifications: false, conversationsNotifications: false, lessonsNotifications: false, darkMode: false };
 
   user$ = new BehaviorSubject<User>(this.userInitialValue);
-  clubUsers$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  groupUsers$ = new BehaviorSubject<User[]>([]);
-  preferences$ = new BehaviorSubject<Preferences>(this.preferencesInitialValue);
+  usersData$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private modalCtrl: ModalController) {}
+
+  async showUserProfile(clubId: string, groupId: string, uuid: string, level: string) {
+    const modal = await this.modalCtrl.create({
+      component: ShowUserInfoComponent,
+      componentProps: {
+        clubId: clubId,
+        groupId: groupId,
+        uuid: uuid,
+        level: level
+      }
+    })
+    await modal.present();
+  }
 
   async signin(email: string, password: string) : Promise<any> {
     const { response, error } = await useFetch(Method.POST, 'auth/signin', {email, password});
@@ -65,11 +74,20 @@ export class UsersService {
   async loadActiveUser() {
     const auth = localStorage.getItem('auth');
 
-    this.http.get<User>( environment.apiBaseUrl + '/users/info', {
+    this.http.get<any>( environment.apiBaseUrl + '/users/info', {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((user: User) => this.user$.next(user))
+      tap((user: any) => this.user$.next(user))
     ).subscribe();
+  }
+
+  async getUserInfo(id: string) {
+    const { response, error } = await useFetch(Method.GET, 'users/' + id, {});
+
+    if (error)
+      return {status: 'error', data: error};
+    else
+      return {status: 'correct', data: response?.data}
   }
 
   // async loadUsersInfo(uuids: string[]) {
@@ -81,23 +99,24 @@ export class UsersService {
   //     tap((users: User[]) => this.users$.next(users))
   //   ).subscribe();
   // }
-  async loadClubUsersInfo(uuids: string[]) {
+
+  async addUsersData(uuids: string[]) {
     const auth = localStorage.getItem('auth');
 
-    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
+    const loadedUuids = this.usersData$.getValue().map(user => user.uuid);
+    const uniqueUuids = uuids.filter(uuid => !loadedUuids.includes(uuid));
+
+    if (uniqueUuids.length <= 0) return;
+
+    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids: uniqueUuids}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((users: User[]) => this.clubUsers$.next(users))
+      tap((newUsers: User[]) => this.usersData$.next([...this.usersData$.getValue(), ...newUsers]))
     ).subscribe();
   }
-  async loadGroupUsersInfo(uuids: string[]) {
-    const auth = localStorage.getItem('auth');
 
-    this.http.post<User[]>( environment.apiBaseUrl + '/users/uuids', {uuids}, {
-      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-    }).pipe(
-      tap((users: User[]) => this.groupUsers$.next(users))
-    ).subscribe();
+  getUser(uuid: string) : User {
+    return [...this.usersData$.getValue(), this.user$.getValue()].find(user => user.uuid == uuid) ?? this.userInitialValue;
   }
 
   async editPassword(email: string, oldPassword: string, newPassword: string) {
@@ -123,31 +142,12 @@ export class UsersService {
   async editPreferences(preferences: Preferences) {
     const auth = localStorage.getItem('auth');
 
-    this.http.patch<Preferences>( environment.apiBaseUrl + '/users/preferences', preferences, {
+    this.http.patch<User>( environment.apiBaseUrl + '/users/', {preferences}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
-      tap((preferences: Preferences) => this.preferences$.next(preferences))
+      tap((user: User) => {
+        this.user$.next(user)
+      })
     ).subscribe();
-  }
-
-  async loadPreferences() {
-    const auth = localStorage.getItem('auth');
-
-    this.http.get<Preferences>( environment.apiBaseUrl + '/users/preferences', {
-      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-    }).pipe(
-      tap((preferences: Preferences) => this.preferences$.next(preferences))
-    ).subscribe();
-  }
-
-  getActiveUser() {
-   return this.activeUserData;
-  }
-
-  setEditingAccountField(field: string) {
-    this.editingAccountField = field;
-  }
-  getEditingAccountField() {
-    return this.editingAccountField;
   }
 }

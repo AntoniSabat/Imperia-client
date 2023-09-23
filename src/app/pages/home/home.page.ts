@@ -6,6 +6,9 @@ import {ProfileDetailsComponent} from "../../components/modals/profile/profile-d
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import { ClubsService } from 'src/app/services/clubs.service';
+import { ConversationsService } from 'src/app/services/conversations.service';
+import { User } from 'src/app/models/user.model';
+import {checkImageUrl} from "../../utils";
 
 @Component({
   selector: 'app-home',
@@ -17,25 +20,27 @@ export class HomePage implements OnInit {
   shouldDisplayImage = false;
   user$ = this.usersService.user$;
   lessons$ = this.clubsService.todayLessons$;
-  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService) { }
+  checkImageUrl = checkImageUrl;
+  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService, private conversationsService: ConversationsService) { }
 
   async ngOnInit() {
-    await this.whoAmI();
-    await this.clubsService.loadTodayLessons()
-  }
+    if (!localStorage.getItem('auth'))
+      this.router.navigate(['start'], {
+        replaceUrl: true
+      })
 
-  checkImageUrl(url: string) {
-    if (!url) return false;
-    else {
-      const pattern = new RegExp('^https?:\\/\\/.+\\.(png|jpg|jpeg|bmg|gif|webp)$', 'i');
-      return pattern.test(url);
-    }
+    await this.whoAmI();
+    await this.clubsService.loadTodayLessons();
   }
 
   async whoAmI() {
+    this.user$.subscribe(
+      (user: User) => {
+        this.userImageSrc = environment.apiBaseUrl + '/files/' + user.profileImage;
+        this.shouldDisplayImage = this.checkImageUrl(this.userImageSrc);
+      }
+    )
     await this.usersService.loadActiveUser();
-    this.userImageSrc =  environment.apiBaseUrl + '/files/' + this.user$.getValue().profileImg;
-    this.shouldDisplayImage = this.checkImageUrl(this.userImageSrc);
   }
 
   async showProfileDetails() {
@@ -50,12 +55,9 @@ export class HomePage implements OnInit {
   }
 
   goToCalendar() {
-    this.router.navigate(['calendar']);
-  }
-  goToClubs() {
-    this.router.navigate(['clubs']);
+    this.router.navigate(['tabs', 'calendar']);
   }
   goToPayments() {
-    this.router.navigate(['payments'])
+    this.router.navigate(['tabs', 'payments'])
   }
 }

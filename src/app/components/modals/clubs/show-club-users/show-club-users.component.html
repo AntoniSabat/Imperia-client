@@ -9,8 +9,7 @@
 
 <ion-content>
     <ion-list>
-      <ion-item *ngFor="let user of clubUsers$ | async">
-        <ion-label>{{user.name.slice(0,1).toUpperCase() + user.name.slice(1).toLowerCase()}} {{user.surname.slice(0,1).toUpperCase() + user.surname.slice(1).toLowerCase()}}</ion-label>
-      </ion-item>
+        <app-manage-user-item *ngFor="let user of users$ | async" [level]="'club'" [user]="user" [canManage]="true"></app-manage-user-item>
     </ion-list>
 </ion-content>
+
