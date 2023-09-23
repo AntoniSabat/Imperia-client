@@ -3,11 +3,12 @@ import {IonInput, ModalController} from "@ionic/angular";
 import {ClubsService} from "../../../../services/clubs.service";
 import {AddUserToGroupComponent} from "../add-user-to-group/add-user-to-group.component";
 import {UsersService} from "../../../../services/users.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, debounceTime, distinctUntilChanged} from "rxjs";
 import {User} from "../../../../models/user.model";
 import { ShowUsersComponent } from "../show-users/show-users.component";
 import {Group} from "../../../../models/club.model";
 import {group} from "@angular/animations";
+import {checkImageUrl, formatImageUrl} from "../../../../utils";
 
 @Component({
   selector: 'app-group-info',
@@ -17,6 +18,12 @@ import {group} from "@angular/animations";
 export class GroupInfoComponent implements OnInit {
   @Input() clubId!: string;
   @Input() groupId!: string;
+
+  checkedUsers: Set<string> = new Set();
+  searchedUsers$ = new BehaviorSubject<User[]>([]);
+
+  user$ = this.usersService.user$;
+  input$ = new BehaviorSubject<string>('');
 
   group$ = new BehaviorSubject<Group>(this.clubsService.getGroup(this.clubId, this.groupId));
   usersData$= this.usersService.usersData$;
@@ -32,8 +39,19 @@ export class GroupInfoComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.usersService.addUsersData(this.clubsService.getClub(this.clubId).groups.find(group => group.id == this.groupId)?.participants ?? []);
+    await this.usersService.addUsersData([...this.clubsService.getClub(this.clubId).groups.find(group => group.id == this.groupId)?.participants ?? [], ...this.clubsService.getClub(this.clubId).users.map(user => user.uuid)]);
     this.usersData$.subscribe(() => this.loadLimitedUsers());
+    this.input$.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe((input: string) => {
+      const group = this.clubsService.getGroup(this.clubId, this.groupId);
+      const users = [...group.admins, ...group.participants];
+      this.searchedUsers$.next(this.clubsService.getClub(this.clubId).users
+        .map((user: any) => this.usersService.getUser(user.uuid))
+        .filter(user => `${user.name} ${user.surname}`.toLowerCase().includes(input.toLowerCase()) && user.uuid != this.user$.getValue().uuid && !users.includes(user.uuid))
+      )
+    })
     this.clubsService.clubs$.subscribe(() => {
       this.loadLimitedUsers();
       this.group$.next(this.clubsService.getGroup(this.clubId, this.groupId));
@@ -46,6 +64,10 @@ export class GroupInfoComponent implements OnInit {
 
   editGroup() {
 
+  }
+
+  formatUuid(user: User) {
+    return user?.uuid ?? "";
   }
 
   async addUsers() {
@@ -71,4 +93,26 @@ export class GroupInfoComponent implements OnInit {
     })
     await modal.present();
   }
+
+  async handleCheckedUsers(ev: any, uuid: string | undefined) {
+    if (!uuid) return;
+    if (ev.target.checked)
+      this.checkedUsers.add(uuid);
+    else
+      this.checkedUsers.delete(uuid);
+  }
+
+  async searchUser(e: any) {
+    this.input$.next(e.target.value);
+  }
+
+  async addToGroup() {
+    await this.clubsService.addUsersToGroup(this.clubId, this.groupId, [...this.checkedUsers]);
+    await this.modalCtrl.dismiss();
+    this.checkedUsers.clear();
+    this.searchedUsers$.next([]);
+  }
+
+  protected readonly checkImageUrl = checkImageUrl;
+  protected readonly formatImageUrl = formatImageUrl;
 }

@@ -1,4 +1,13 @@
 <ion-tabs>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title slot="start"></ion-title>
+      <ion-button slot="end" color="dark" fill="none" [ngSwitch]="checkImageUrl(formatImageUrl(user$.getValue().profileImage))" (click)="showProfileDetails()">
+        <img *ngSwitchCase="true" class="profileImg" src="{{formatImageUrl(user$.getValue().profileImage)}}" alt="">
+        <ion-icon *ngSwitchDefault name="person-outline"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="home">
       <ion-icon name="home-outline"></ion-icon>

@@ -1,0 +1,8 @@
+@import "../../../theme/variables.scss";
+
+ion-content {
+  --background: $primary;
+  background: $primary;
+  --color: $white;
+  position: relative;
+}

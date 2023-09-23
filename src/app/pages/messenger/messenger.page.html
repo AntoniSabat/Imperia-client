@@ -1,8 +1,8 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-button slot="end" color="dark" fill="none" (click)="createConversation()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-button>
+<!--<ion-header>-->
+<!--  <ion-toolbar>-->
+<!--    <ion-button slot="end" color="dark" fill="none" (click)="createConversation()">-->
+<!--      <ion-icon name="add-outline"></ion-icon>-->
+<!--    </ion-button>-->
 <!--    <ion-title>Conversations</ion-title>-->
 <!--    <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">-->
 <!--      <div *ngIf="shouldDisplayImage$ | async" class="profileImg">-->
@@ -10,8 +10,8 @@
 <!--      </div>-->
 <!--      <ion-icon *ngIf="!(shouldDisplayImage$ | async)" name="person-outline"></ion-icon>-->
 <!--    </ion-button>-->
-  </ion-toolbar>
-</ion-header>
+<!--  </ion-toolbar>-->
+<!--</ion-header>-->
 
 <ion-content>
   <ion-button style="width: 100%" *ngFor="let conversation of conversations$ | async" (click)="openChat(conversation.id)">
