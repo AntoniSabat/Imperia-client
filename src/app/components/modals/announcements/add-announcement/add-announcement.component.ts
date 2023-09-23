@@ -51,7 +51,6 @@ export class AddAnnouncementComponent  implements OnInit {
   }
 
   async addAnnouncement() {
-    console.log(this.usersWhoGetsMessage)
     const type = this.toAll ? ClubNewsType.BROADCAST : ClubNewsType.SELECTED;
 
     let clubs: Club[] = [];

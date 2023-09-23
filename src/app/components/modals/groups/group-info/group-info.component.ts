@@ -45,7 +45,7 @@ export class GroupInfoComponent implements OnInit {
   }
 
   editGroup() {
-    console.log('edytuje grupe')
+
   }
 
   async addUsers() {

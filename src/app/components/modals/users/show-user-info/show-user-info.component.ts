@@ -23,7 +23,6 @@ export class ShowUserInfoComponent implements OnInit {
   ngOnInit() {}
 
   async removeUser() {
-    console.log('usuwam z klubu')
     if (confirm("Are you sure you want to remove user from club?")) {
       await this.clubsService.removeUserFromClub(this.clubId, this.uuid);
       await this.modalCtrl.dismiss();
@@ -31,7 +30,6 @@ export class ShowUserInfoComponent implements OnInit {
   }
 
   async removeUserFromGroup() {
-    console.log('usuwam z grupy')
     if (confirm('Are you sure you want to remove user from group?')) {
       await this.clubsService.removeUserFromGroup(this.clubId, this.groupId, this.uuid);
       await this.modalCtrl.dismiss();

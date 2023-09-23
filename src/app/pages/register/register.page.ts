@@ -30,16 +30,12 @@ export class RegisterPage {
        const response = await this.usersService.signup(this.name, this.surname, this.type, this.email, this.password);
 
       if (response.status == 'correct') {
-        console.log(response.data);
         this.resetInputs();
         await this.router.navigate(['']);
       }
       else {
-        console.log('Hasło niepoprawne: ', response.data)
         this.resetInputs();
       }
     }
-    else
-      console.log('Hasła nie pasują do siebie')
   }
 }

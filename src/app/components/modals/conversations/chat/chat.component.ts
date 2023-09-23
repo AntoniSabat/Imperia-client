@@ -47,7 +47,6 @@ export class ChatComponent implements OnInit {
 
   async sendMessage() {
     this.conversationsService.sendConversationMessage(this.conversationId, -1, MessageType.MESSAGE, this.msgInput);
-    console.log(this.msgInput)
     this.msgInput = '';
   }
 

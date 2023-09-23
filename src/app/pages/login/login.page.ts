@@ -24,7 +24,6 @@ export class LoginPage {
       await this.router.navigate(['']);
     }
     else {
-      console.log('Hasło niepoprawne: ', response.data)
       this.resetInputs();
     }
   }

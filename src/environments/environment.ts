@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://10.20.30.105:3001',
-  apiWsUrl: 'ws://10.20.30.105:3001'
+  apiBaseUrl: 'http://127.0.0.1:3001',
+  apiWsUrl: 'ws://127.0.0.1:3001'
 };
 
 /*

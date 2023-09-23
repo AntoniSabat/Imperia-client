@@ -42,7 +42,6 @@ export class SettingsPage implements OnInit {
   }
 
   async changeUserPreferences() {
-    console.log(this.user$.getValue().preferences)
     await this.usersService.editPreferences(this.user$.getValue().preferences)
   }
 

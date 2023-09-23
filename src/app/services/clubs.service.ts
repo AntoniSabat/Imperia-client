@@ -147,7 +147,6 @@ export class ClubsService {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
       tap((club: Club) => {
-        console.log(club)
         this.pushClub(club)
       })
     ).subscribe();
