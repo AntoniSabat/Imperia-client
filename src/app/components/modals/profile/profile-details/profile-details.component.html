@@ -42,11 +42,11 @@
         </ion-accordion>
         <ion-accordion value="clubs">
           <ion-item slot="header">
-            <ion-label>Your clubs ({{clubs$.getValue().length}})</ion-label>
+            <ion-label>Your clubs ({{clubs.length}})</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
-            <ng-container *ngIf="clubs$.getValue().length; else noClubs">
-              <ion-item *ngFor="let club of clubs$ | async">
+            <ng-container *ngIf="clubs.length; else noClubs">
+              <ion-item *ngFor="let club of clubs">
                 <ion-label>{{club.name}}</ion-label>
               </ion-item>
             </ng-container>
