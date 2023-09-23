@@ -32,7 +32,7 @@ export class RegisterPage {
       if (response.status == 'correct') {
         console.log(response.data);
         this.resetInputs();
-        await this.router.navigate(['home']);
+        await this.router.navigate(['']);
       }
       else {
         console.log('Hasło niepoprawne: ', response.data)

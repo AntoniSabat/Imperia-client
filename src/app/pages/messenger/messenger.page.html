@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button slot="start" color="dark" fill="none" (click)="createConversation()">
+    <ion-button slot="end" color="dark" fill="none" (click)="createConversation()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-button>
-    <ion-title>Conversations</ion-title>
-    <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">
-      <div *ngIf="shouldDisplayImage$ | async" class="profileImg">
-        <img src="{{userImageSrc}}" alt="">
-      </div>
-      <ion-icon *ngIf="!(shouldDisplayImage$ | async)" name="person-outline"></ion-icon>
-    </ion-button>
+<!--    <ion-title>Conversations</ion-title>-->
+<!--    <ion-button slot="end" color="dark" fill="none" (click)="showProfileDetails()">-->
+<!--      <div *ngIf="shouldDisplayImage$ | async" class="profileImg">-->
+<!--        <img src="{{userImageSrc}}" alt="">-->
+<!--      </div>-->
+<!--      <ion-icon *ngIf="!(shouldDisplayImage$ | async)" name="person-outline"></ion-icon>-->
+<!--    </ion-button>-->
   </ion-toolbar>
 </ion-header>
 

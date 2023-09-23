@@ -6,8 +6,8 @@ import { MessengerPage } from './messenger.page';
 const routes: Routes = [
   {
     path: '',
-    component: MessengerPage
-  }
+    component: MessengerPage,
+  },
 ];
 
 @NgModule({

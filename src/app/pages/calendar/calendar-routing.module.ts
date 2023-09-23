@@ -6,7 +6,14 @@ import { CalendarPage } from './calendar.page';
 const routes: Routes = [
   {
     path: '',
-    component: CalendarPage
+    component: CalendarPage,
+    // children: [
+    //   {
+    //     path: 'home',
+    //     redirectTo: '',
+    //     pathMatch: 'full'
+    //   }
+    // ]
   }
 ];
 

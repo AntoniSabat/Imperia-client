@@ -21,7 +21,7 @@ export class LoginPage {
     if (response.status == 'correct') {
       localStorage.setItem('auth', response.data)
       this.resetInputs();
-      await this.router.navigate(['home']);
+      await this.router.navigate(['']);
     }
     else {
       console.log('Hasło niepoprawne: ', response.data)

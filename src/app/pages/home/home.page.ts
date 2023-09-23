@@ -24,6 +24,11 @@ export class HomePage implements OnInit {
   constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService, private conversationsService: ConversationsService) { }
 
   async ngOnInit() {
+    if (!localStorage.getItem('auth'))
+      this.router.navigate(['start'], {
+        replaceUrl: true
+      })
+
     await this.whoAmI();
     await this.clubsService.loadTodayLessons();
   }
@@ -50,15 +55,9 @@ export class HomePage implements OnInit {
   }
 
   goToCalendar() {
-    this.router.navigate(['calendar']);
-  }
-  goToClubs() {
-    this.router.navigate(['clubs']);
-  }
-  goToConversations() {
-    this.router.navigate(['messenger']);
+    this.router.navigate(['tabs', 'calendar']);
   }
   goToPayments() {
-    this.router.navigate(['payments'])
+    this.router.navigate(['tabs', 'payments'])
   }
 }

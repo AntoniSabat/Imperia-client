@@ -52,7 +52,7 @@ export class CreateConversationComponent implements OnInit {
     this.conversationsService.sendMessage('createConversation', {
       name: this.name$.getValue(),
       uuids: [...this.checkedUsers],
-      type: this.checkedUsers.size == 1 ? ConversationType.FACE_TO_FACE : ConversationType.GROUP
+      type: ConversationType.GROUP
     });
     this.modalCtrl.dismiss();
   }

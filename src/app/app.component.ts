@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
+import {UsersService} from "./services/users.service";
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  user$ = this.usersService.user$;
+
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Home', url: '/tabs/home', icon: 'mail' },
+    { title: 'Clubs', url: '/clubs', icon: 'layers' },
+    { title: 'Calendar', url: '/tabs/calendar', icon: 'calendar' },
+    { title: 'Announcements', url: '/newses', icon: 'mail' },
+    { title: 'Payments', url: '/tabs/payments', icon: 'cart' },
+    { title: 'Chat', url: '/tabs/messenger', icon: 'chatbox-ellipses' },
+    { title: 'Settings', url: '/settings', icon: 'settings' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  constructor(private readonly usersService: UsersService) {}
 }
