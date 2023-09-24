@@ -25,6 +25,10 @@ const routes: Routes = [
         loadChildren: () => import('../messenger/messenger.module').then(m => m.MessengerPageModule)
       },
       {
+        path: 'clubs',
+        loadChildren: () => import('../clubs/clubs.module').then(m => m.ClubsPageModule)
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: 'home'

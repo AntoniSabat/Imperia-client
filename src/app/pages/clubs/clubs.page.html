@@ -1,22 +1,13 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons>
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Clubs</ion-title>
-    <ion-button id="create-club" slot="end" fill="none">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-button id="create-club" slot="end" fill="none" *ngIf="user$.getValue().type !== 'STUDENT' && user$.getValue().type !== 'PARENT'">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-button>
   <ion-button id="join-club" size="full">Join club</ion-button>
 
   <div class="container">
     <div *ngFor="let club of clubs$ | async" (click)="showClubDetails(club)" class="club">{{club.name}}</div>
   </div>
 
-  <ion-alert trigger="create-club" (didDismiss)="createClub($event)" header="Please enter club data" [buttons]="clubButtons" [inputs]="createClubInputs"></ion-alert>
+  <ion-alert *ngIf="user$.getValue().type !== 'STUDENT' && user$.getValue().type !== 'PARENT'" trigger="create-club" (didDismiss)="createClub($event)" header="Please enter club data" [buttons]="clubButtons" [inputs]="createClubInputs"></ion-alert>
   <ion-alert trigger="join-club" (didDismiss)="joinClub($event)"  header="Please enter club code"  [buttons]="clubButtons" [inputs]="joinClubInputs"></ion-alert>
 </ion-content>

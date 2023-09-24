@@ -1,7 +1,11 @@
 <ion-tabs>
   <ion-header>
     <ion-toolbar>
-      <ion-title slot="start"></ion-title>
+      <ion-menu-toggle slot="start">
+        <ion-button fill="none">
+          <ion-icon name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
       <ion-button slot="end" color="dark" fill="none" [ngSwitch]="checkImageUrl(formatImageUrl(user$.getValue().profileImage))" (click)="showProfileDetails()">
         <img *ngSwitchCase="true" class="profileImg" src="{{formatImageUrl(user$.getValue().profileImage)}}" alt="">
         <ion-icon *ngSwitchDefault name="person-outline"></ion-icon>
@@ -16,6 +20,10 @@
     <ion-tab-button tab="calendar">
       <ion-icon name="calendar-outline"></ion-icon>
       Calendar
+    </ion-tab-button>
+    <ion-tab-button tab="clubs">
+      <ion-icon name="basketball-outline"></ion-icon>
+      Clubs
     </ion-tab-button>
     <ion-tab-button tab="payments">
       <ion-icon name="card-outline"></ion-icon>

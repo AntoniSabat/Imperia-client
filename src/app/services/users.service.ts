@@ -38,7 +38,9 @@ export class UsersService {
   user$ = new BehaviorSubject<User>(this.userInitialValue);
   usersData$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
-  constructor(private http: HttpClient, private modalCtrl: ModalController) {}
+  constructor(private http: HttpClient, private modalCtrl: ModalController) {
+    this.loadActiveUser()
+  }
 
   async showUserProfile(clubId: string, groupId: string, uuid: string, level: string) {
     const modal = await this.modalCtrl.create({

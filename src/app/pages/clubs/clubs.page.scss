@@ -1,3 +1,9 @@
+@import "../../../theme/variables.scss";
+
+ion-content {
+  --background: $primary;
+}
+
 .container {
   margin-top: 20px;
   display: flex;
@@ -8,8 +14,9 @@
 .club {
   width: 40%;
   aspect-ratio: 1;
-  border: 1px solid black;
+  border: 1px solid $white;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: $white;
 }

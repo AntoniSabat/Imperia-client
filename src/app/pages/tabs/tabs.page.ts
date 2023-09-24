@@ -14,7 +14,10 @@ export class TabsPage implements OnInit {
   protected readonly checkImageUrl = checkImageUrl;
   user$ = this.usersService.user$;
 
-  constructor(private usersService: UsersService, private modalCtrl: ModalController) { }
+  constructor(
+    private usersService: UsersService,
+    private modalCtrl: ModalController,
+  ) {}
 
   async showProfileDetails() {
     const modal = await this.modalCtrl.create({

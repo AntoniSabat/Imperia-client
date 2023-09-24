@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import axios from "axios";
+import { Component, OnInit } from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
 import {ProfileDetailsComponent} from "../../components/modals/profile/profile-details/profile-details.component";
@@ -16,12 +15,16 @@ import {checkImageUrl} from "../../utils";
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  userImageSrc = '';
-  shouldDisplayImage = false;
   user$ = this.usersService.user$;
   lessons$ = this.clubsService.todayLessons$;
   checkImageUrl = checkImageUrl;
-  constructor(private usersService: UsersService, private modalCtrl: ModalController, private router: Router, private clubsService: ClubsService, private conversationsService: ConversationsService) { }
+  constructor(
+    private usersService: UsersService,
+    private modalCtrl: ModalController,
+    private router: Router,
+    private clubsService: ClubsService,
+    private conversationsService: ConversationsService
+  ) { }
 
   async ngOnInit() {
     if (!localStorage.getItem('auth'))
@@ -29,27 +32,8 @@ export class HomePage implements OnInit {
         replaceUrl: true
       })
 
-    await this.whoAmI();
     await this.clubsService.loadTodayLessons();
   }
-
-  async whoAmI() {
-    this.user$.subscribe(
-      (user: User) => {
-        this.userImageSrc = environment.apiBaseUrl + '/files/' + user.profileImage;
-        this.shouldDisplayImage = this.checkImageUrl(this.userImageSrc);
-      }
-    )
-    await this.usersService.loadActiveUser();
-  }
-
-  async showProfileDetails() {
-    const modal = await this.modalCtrl.create({
-      component: ProfileDetailsComponent
-    })
-    await modal.present();
-  }
-
   showAnnouncementDetails() {
     console.log('pokazuje szczegóły ogłoszenia')
   }

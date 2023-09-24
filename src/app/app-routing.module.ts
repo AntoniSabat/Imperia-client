@@ -32,10 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
   },
   {
-    path: 'clubs',
-    loadChildren: () => import('./pages/clubs/clubs.module').then( m => m.ClubsPageModule)
-  },
-  {
     path: 'newses',
     loadChildren: () => import('./pages/newses/newses.module').then( m => m.NewsesPageModule)
   },

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {UsersService} from "./services/users.service";
+import {IonList} from "@ionic/angular";
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -10,7 +11,7 @@ export class AppComponent {
 
   public appPages = [
     { title: 'Home', url: '/tabs/home', icon: 'mail' },
-    { title: 'Clubs', url: '/clubs', icon: 'layers' },
+    { title: 'Clubs', url: '/tabs/clubs', icon: 'basketball' },
     { title: 'Calendar', url: '/tabs/calendar', icon: 'calendar' },
     { title: 'Announcements', url: '/newses', icon: 'mail' },
     { title: 'Payments', url: '/tabs/payments', icon: 'cart' },
@@ -18,5 +19,7 @@ export class AppComponent {
     { title: 'Settings', url: '/settings', icon: 'settings' },
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+  ) {}
 }

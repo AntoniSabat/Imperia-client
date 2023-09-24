@@ -16,7 +16,6 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {GroupInfoComponent} from "./components/modals/groups/group-info/group-info.component";
 import {AddUserToGroupComponent} from "./components/modals/groups/add-user-to-group/add-user-to-group.component";
-import { ConversationsService } from './services/conversations.service';
 import { CreateConversationComponent } from './components/modals/conversations/create-conversation/create-conversation.component';
 import { ChatComponent } from './components/modals/conversations/chat/chat.component';
 import { ShowUsersComponent } from "./components/modals/groups/show-users/show-users.component";
@@ -46,7 +45,7 @@ import {ChatInfoComponent} from "./components/modals/conversations/chat-info/cha
     ChatInfoComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, ConversationsService],
+  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
