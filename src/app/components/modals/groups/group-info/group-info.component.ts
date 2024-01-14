@@ -7,8 +7,8 @@ import {BehaviorSubject, debounceTime, distinctUntilChanged} from "rxjs";
 import {User} from "../../../../models/user.model";
 import { ShowUsersComponent } from "../show-users/show-users.component";
 import {Group} from "../../../../models/club.model";
-import {group} from "@angular/animations";
 import {checkImageUrl, formatImageUrl} from "../../../../utils";
+import {GroupSettingsComponent} from "../group-settings/group-settings.component";
 
 @Component({
   selector: 'app-group-info',
@@ -62,8 +62,20 @@ export class GroupInfoComponent implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
-  editGroup() {
+  async groupSettings() {
+    const modal = await this.modalCtrl.create({
+      component: GroupSettingsComponent,
+      componentProps: {
+          clubId: this.clubId,
+          groupId: this.groupId
+      }
+    });
+    await modal.present();
 
+    const {data} = await modal.onDidDismiss();
+    if (data === 'close') {
+      await this.modalCtrl.dismiss();
+    }
   }
 
   formatUuid(user: User) {

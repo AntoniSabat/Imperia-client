@@ -21,10 +21,10 @@ import { ChatComponent } from './components/modals/conversations/chat/chat.compo
 import { ShowUsersComponent } from "./components/modals/groups/show-users/show-users.component";
 import {ManageUserItemComponent} from "./components/modals/users/manage-user-item/manage-user-item.component";
 import { ShowUserInfoComponent } from "./components/modals/users/show-user-info/show-user-info.component";
-import { EditClubComponent} from "./components/modals/clubs/edit-club/edit-club.component";
 import { EditClubFieldComponent } from "./components/modals/clubs/edit-club-field/edit-club-field.component";
 import {ChatInfoComponent} from "./components/modals/conversations/chat-info/chat-info.component";
-import {ClubSettingsComponent} from "./components/clubs/club-settings/club-settings.component";
+import {ClubSettingsComponent} from "./components/modals/clubs/club-settings/club-settings.component";
+import {GroupSettingsComponent} from "./components/modals/groups/group-settings/group-settings.component";
 
 @NgModule({
   declarations: [
@@ -41,10 +41,10 @@ import {ClubSettingsComponent} from "./components/clubs/club-settings/club-setti
     ShowUsersComponent,
     ManageUserItemComponent,
     ShowUserInfoComponent,
-    EditClubComponent,
     EditClubFieldComponent,
     ChatInfoComponent,
-    ClubSettingsComponent
+    ClubSettingsComponent,
+    GroupSettingsComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],

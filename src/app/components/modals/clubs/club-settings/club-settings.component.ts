@@ -1,17 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {ModalController} from "@ionic/angular";
-import {EditClubFieldComponent} from "../edit-club-field/edit-club-field.component";
-import {ClubsService} from "../../../../services/clubs.service";
-import {Router} from "@angular/router";
+import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Club} from "../../../../models/club.model";
+import {ModalController} from "@ionic/angular";
+import {ClubsService} from "../../../../services/clubs.service";
+import {Router} from "@angular/router";
+import {EditClubFieldComponent} from "../edit-club-field/edit-club-field.component";
 
 @Component({
-  selector: 'app-edit-club',
-  templateUrl: './edit-club.component.html',
-  styleUrls: ['./edit-club.component.scss'],
+  selector: 'app-club-settings',
+  templateUrl: './club-settings.component.html',
+  styleUrls: ['./club-settings.component.scss'],
 })
-export class EditClubComponent implements OnInit {
+export class ClubSettingsComponent  implements OnInit {
   @Input() clubId!: string;
   club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
   constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private router: Router) { }
@@ -21,7 +21,18 @@ export class EditClubComponent implements OnInit {
   }
 
   async back() {
-    await this.modalCtrl.dismiss();
+    await this.modalCtrl.dismiss(null, 'close');
+  }
+
+  async createClubCode() {
+    await this.clubsService.createClubCode(this.clubId);
+  }
+
+  async showClubCode() {
+    const {status, data} = await this.clubsService.getClubCode(this.clubId);
+
+    if (status == 'correct')
+      alert(data?.code ?? "No code")
   }
 
   async editClubInfo(field: string) {

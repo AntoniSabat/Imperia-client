@@ -5,10 +5,10 @@ import {ModalController} from "@ionic/angular";
 import {ShowClubUsersComponent} from "../show-club-users/show-club-users.component";
 import {UsersService, UserType} from "../../../../services/users.service";
 import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
-import {EditClubComponent} from "../edit-club/edit-club.component";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
-import { ClubSettingsComponent } from 'src/app/components/clubs/club-settings/club-settings.component';
+import { ClubSettingsComponent } from 'src/app/components/modals/clubs/club-settings/club-settings.component';
+import {GroupSettingsComponent} from "../../groups/group-settings/group-settings.component";
 
 @Component({
   selector: 'app-club-info',
