@@ -1,0 +1,53 @@
+import {Component, Input, OnInit} from '@angular/core';
+import {BehaviorSubject} from "rxjs";
+import {Club} from "../../../models/club.model";
+import {ModalController} from "@ionic/angular";
+import {ClubsService} from "../../../services/clubs.service";
+import {Router} from "@angular/router";
+import {EditClubFieldComponent} from "../../modals/clubs/edit-club-field/edit-club-field.component";
+
+@Component({
+  selector: 'app-club-settings',
+  templateUrl: './club-settings.component.html',
+  styleUrls: ['./club-settings.component.scss'],
+})
+export class ClubSettingsComponent  implements OnInit {
+  @Input() clubId!: string;
+  club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
+  constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private router: Router) { }
+
+  ngOnInit() {
+    this.clubsService.clubs$.subscribe(() => this.club$.next(this.clubsService.getClub(this.clubId)))
+  }
+
+  async back() {
+    await this.modalCtrl.dismiss(null, 'close');
+  }
+
+  async createClubCode() {
+    await this.clubsService.createClubCode(this.clubId);
+  }
+
+  async showClubCode() {
+    const {status, data} = await this.clubsService.getClubCode(this.clubId);
+
+    if (status == 'correct')
+      alert(data?.code ?? "No code")
+  }
+
+  async editClubInfo(field: string) {
+    const modal = await this.modalCtrl.create({
+      component: EditClubFieldComponent,
+      componentProps: {
+        clubId: this.clubId,
+        field: field
+      }
+    })
+    await modal.present();
+  }
+
+  async removeClub() {
+    await this.clubsService.removeClub(this.club$.getValue().id);
+    await this.modalCtrl.dismiss('close');
+  }
+}

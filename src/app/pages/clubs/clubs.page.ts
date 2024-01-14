@@ -79,12 +79,22 @@ export class ClubsPage implements OnInit {
   ]
 
   async createClub(e: any) {
+<<<<<<< Updated upstream
     if (e.detail.role === 'ok') {
       const name = e.detail.data.values[0];
       const desc = e.detail.data.values[1];
       console.log(name, desc)
       await this.clubsService.createClub(name, desc);
     }
+=======
+    // TODO: przywrocic to i tworzyc z alertu
+    // if (e.detail.role === 'ok') {
+    //   const name = e.detail.data.values[0];
+    //   const desc = e.detail.data.values[1];
+      // await this.clubsService.createClub(name, desc);
+      await this.clubsService.createClub('test', 'test');
+    // }
+>>>>>>> Stashed changes
   }
 
   protected readonly UserType = UserType;

@@ -10,13 +10,9 @@
 <ion-content>
   <ion-card>
     <ion-card-content>
-      <div style="display: flex">
-        <ion-button (click)="createClubCode()">Create code</ion-button>
-        <ion-button (click)="showClubCode()">Show code</ion-button>
-        <ion-button (click)="editClub()">
-          <ion-icon name="create-outline"></ion-icon>
+        <ion-button (click)="clubSettings()">
+          <ion-icon name="settings-outline"></ion-icon>
         </ion-button>
-      </div>
       <ion-icon style="font-size: 50px; margin-left: 110px; margin-top: 0px; margin-bottom: 20px; border: 1px solid black; border-radius: 50%; padding: 20px" name="person-outline"></ion-icon>
 
       <ion-card-title>{{club$.getValue().name}}</ion-card-title>

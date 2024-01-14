@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
     { title: 'Chat', url: '/tabs/messenger', icon: 'chatbox-ellipses' },
     { title: 'Settings', url: '/settings', icon: 'settings' },
   ];
+<<<<<<< Updated upstream
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor(
     private readonly usersService: UsersService,
@@ -25,4 +26,8 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     await this.usersService.loadActiveUser();
   }
+=======
+
+  constructor(private readonly usersService: UsersService) {}
+>>>>>>> Stashed changes
 }

@@ -24,6 +24,7 @@ import { ShowUserInfoComponent } from "./components/modals/users/show-user-info/
 import { EditClubComponent} from "./components/modals/clubs/edit-club/edit-club.component";
 import { EditClubFieldComponent } from "./components/modals/clubs/edit-club-field/edit-club-field.component";
 import {ChatInfoComponent} from "./components/modals/conversations/chat-info/chat-info.component";
+import {ClubSettingsComponent} from "./components/clubs/club-settings/club-settings.component";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {ChatInfoComponent} from "./components/modals/conversations/chat-info/cha
     ShowUserInfoComponent,
     EditClubComponent,
     EditClubFieldComponent,
-    ChatInfoComponent
+    ChatInfoComponent,
+    ClubSettingsComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
