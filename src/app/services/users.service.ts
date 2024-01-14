@@ -10,7 +10,8 @@ import {ShowUserInfoComponent} from "../components/modals/users/show-user-info/s
 export enum UserType {
   COACH = 'COACH',
   STUDENT = 'STUDENT',
-  PARENT = 'PARENT'
+  PARENT = 'PARENT',
+  OWNER = 'OWNER',
 }
 
 @Injectable({
