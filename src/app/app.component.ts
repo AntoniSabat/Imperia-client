@@ -1,12 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UsersService} from "./services/users.service";
-import {IonList} from "@ionic/angular";
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   user$ = this.usersService.user$;
 
   public appPages = [
@@ -22,4 +21,8 @@ export class AppComponent {
   constructor(
     private readonly usersService: UsersService,
   ) {}
+
+  async ngOnInit() {
+    await this.usersService.loadActiveUser();
+  }
 }
