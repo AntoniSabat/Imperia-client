@@ -1,7 +1,7 @@
 <ion-content>
-  <ion-button id="create-club" slot="end" fill="none" *ngIf="user$.getValue().type !== 'STUDENT' && user$.getValue().type !== 'PARENT'">
-    <ion-icon name="add-outline"></ion-icon>
-  </ion-button>
+  <button id="create-club" style="color: white" *ngIf="user$.getValue().type === UserType.OWNER" style="color: white">
+    Dodaj
+  </button>
   <ion-button id="join-club" size="full">Join club</ion-button>
 
   <div class="container">
