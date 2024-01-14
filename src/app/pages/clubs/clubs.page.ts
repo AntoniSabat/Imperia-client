@@ -18,9 +18,7 @@ export class ClubsPage implements OnInit {
   constructor(private usersService: UsersService, private clubsService: ClubsService, private modalCtrl: ModalController, private alertController: AlertController) { }
 
   async ngOnInit() {
-    // who am I
     await this.usersService.loadActiveUser();
-    // get clubs
     await this.clubsService.loadClubs();
   }
 
