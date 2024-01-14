@@ -11,11 +11,7 @@ export enum UserType {
   COACH = 'COACH',
   STUDENT = 'STUDENT',
   PARENT = 'PARENT',
-<<<<<<< Updated upstream
   OWNER = 'OWNER',
-=======
-  OWNER = "OWNER"
->>>>>>> Stashed changes
 }
 
 @Injectable({
