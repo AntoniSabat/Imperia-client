@@ -6,7 +6,7 @@ import {BehaviorSubject, tap} from "rxjs";
 import {environment} from "../../environments/environment";
 import { Lessons } from '../models/lessons.model';
 import {UsersService} from "./users.service";
-import {CalendarLesson, Club, ClubRank, Group,} from '../models/club.model';
+import {CalendarLesson, Club, ClubRank, Group, Title,} from '../models/club.model';
 import {group} from "@angular/animations";
 import {ClubCode} from "../models/club-code.model";
 
@@ -304,25 +304,18 @@ export class ClubsService {
     ).subscribe();
   }
 
-  // loadTitles() {
-  //   const auth = localStorage.getItem('auth');
-  //
-  //   this.http.get<any[]>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/titles',{
-  //     headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-  //   }).pipe(
-  //     tap((titles: any[]) => this.titles$.next(titles))
-  //   ).subscribe();
-  // }
+  async addTitles(clubId: string, titles: Title[]) {
+    const auth = localStorage.getItem('auth');
+    const club = this.getClub(clubId);
 
-  // addTitle(title: string | number | null | undefined) {
-  //   const auth = localStorage.getItem('auth');
-  //
-  //   this.http.post<Title[]>(environment.apiBaseUrl + '/clubs/' + this.activeClub$.getValue().id + '/groups/' + this.activeGroup$.getValue() + '/titles', {title}, {
-  //     headers: auth ? {Authorization: `Bearer ${auth}`} : {}
-  //   }).pipe(
-  //     tap((titles: Title[]) => this.titles$.next(titles))
-  //   ).subscribe();
-  // }
+    club.titles = titles;
+
+    this.http.patch<Club>( environment.apiBaseUrl + '/clubs/' + clubId, {name: club.name, description: club.description, titles: club.titles}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+        tap((club: Club) => this.pushClub(club))
+    ).subscribe();
+  }
 
   async addAnnouncement(cludId: string, body: Announcement) {
     const auth = localStorage.getItem('auth');

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {Club} from "../../../../models/club.model";
+import {Club, Title} from "../../../../models/club.model";
 import {ModalController} from "@ionic/angular";
 import {ClubsService} from "../../../../services/clubs.service";
 import {Router} from "@angular/router";
@@ -23,6 +23,18 @@ export class ClubSettingsComponent  implements OnInit {
 
   async back() {
     await this.modalCtrl.dismiss(null, 'close');
+  }
+
+  async addTitle() {
+    this.club$.getValue().titles.push({id: this.club$.getValue().titles.length+1, content: ''})
+  }
+
+  async saveTitles() {
+    await this.clubsService.addTitles(this.clubId, this.club$.getValue().titles);
+  }
+
+  async deleteTitle(i: number) {
+    this.club$.getValue().titles.splice(i, 1);
   }
 
   async createClubCode() {
