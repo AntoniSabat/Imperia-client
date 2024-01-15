@@ -13,10 +13,11 @@ import {EditClubFieldComponent} from "../edit-club-field/edit-club-field.compone
 })
 export class ClubSettingsComponent  implements OnInit {
   @Input() clubId!: string;
-  club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
+  club$!: BehaviorSubject<Club>;
   constructor(private modalCtrl: ModalController, private clubsService: ClubsService, private router: Router) { }
 
   ngOnInit() {
+    this.club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
     this.clubsService.clubs$.subscribe(() => this.club$.next(this.clubsService.getClub(this.clubId)))
   }
 

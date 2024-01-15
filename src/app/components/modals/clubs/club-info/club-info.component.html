@@ -38,9 +38,11 @@
       </ion-button>
 
       <ion-list style="margin-top: 10px">
-        <ion-item *ngFor="let group of club$.getValue().groups">
-          <ion-label (click)="showGroupDetails(group.id)">{{group.name}}</ion-label>
-        </ion-item>
+        <ng-container *ngIf="club$.getValue().groups">
+          <ion-item *ngFor="let group of club$.getValue().groups">
+            <ion-label (click)="showGroupDetails(group.id)">{{group.name}}</ion-label>
+          </ion-item>
+        </ng-container>
       </ion-list>
 
     </ion-card-content>

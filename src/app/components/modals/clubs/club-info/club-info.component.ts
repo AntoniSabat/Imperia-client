@@ -8,7 +8,6 @@ import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
 import { ClubSettingsComponent } from 'src/app/components/modals/clubs/club-settings/club-settings.component';
-import {GroupSettingsComponent} from "../../groups/group-settings/group-settings.component";
 
 @Component({
   selector: 'app-club-info',
@@ -17,12 +16,13 @@ import {GroupSettingsComponent} from "../../groups/group-settings/group-settings
 })
 export class ClubInfoComponent implements OnInit {
   @Input() clubId!: string;
-  club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
+  club$!: BehaviorSubject<Club>
   user$ = this.usersService.user$;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService, private router: Router) { }
 
   async ngOnInit() {
+    this.club$  = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
     this.clubsService.clubs$.subscribe(() => this.club$.next(this.clubsService.getClub(this.clubId)))
   }
 

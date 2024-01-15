@@ -285,6 +285,25 @@ export class ClubsService {
     ).subscribe();
   }
 
+  async updateGroup(clubId: string, groupId: string, name: string, description: string) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.patch<Club>(environment.apiBaseUrl + '/clubs/' + clubId + '/groups/' + groupId, {name, description}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+        tap((club: Club) => this.pushClub(club))
+    ).subscribe();
+  }
+
+  async removeGroup(clubId: string, groupId: string) {
+    const auth = localStorage.getItem('auth');
+    this.http.delete<Club>(environment.apiBaseUrl + '/clubs/' + clubId + '/groups/' + groupId ,{
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((club: Club) => this.pushClub(club))
+    ).subscribe();
+  }
+
   // loadTitles() {
   //   const auth = localStorage.getItem('auth');
   //

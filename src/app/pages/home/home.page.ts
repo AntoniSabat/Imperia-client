@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     if (!localStorage.getItem('auth'))
-      this.router.navigate(['start'], {
+      await this.router.navigate(['start'], {
         replaceUrl: true
       })
 
