@@ -17,10 +17,7 @@ export class AppComponent implements OnInit {
     { title: 'Chat', url: '/tabs/messenger', icon: 'chatbox-ellipses' },
     { title: 'Settings', url: '/settings', icon: 'settings' },
   ];
-  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor(
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   async ngOnInit() {
     await this.usersService.loadActiveUser();

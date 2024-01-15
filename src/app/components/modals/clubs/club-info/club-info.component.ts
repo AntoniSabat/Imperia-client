@@ -5,9 +5,9 @@ import {ModalController} from "@ionic/angular";
 import {ShowClubUsersComponent} from "../show-club-users/show-club-users.component";
 import {UsersService, UserType} from "../../../../services/users.service";
 import {GroupInfoComponent} from "../../groups/group-info/group-info.component";
-import {EditClubComponent} from "../edit-club/edit-club.component";
 import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
+import { ClubSettingsComponent } from 'src/app/components/modals/clubs/club-settings/club-settings.component';
 
 @Component({
   selector: 'app-club-info',
@@ -16,12 +16,13 @@ import {BehaviorSubject} from "rxjs";
 })
 export class ClubInfoComponent implements OnInit {
   @Input() clubId!: string;
-  club$ = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
+  club$!: BehaviorSubject<Club>
   user$ = this.usersService.user$;
 
   constructor(private clubsService: ClubsService, private modalCtrl: ModalController, private usersService: UsersService, private router: Router) { }
 
   async ngOnInit() {
+    this.club$  = new BehaviorSubject<Club>(this.clubsService.getClub(this.clubId));
     this.clubsService.clubs$.subscribe(() => this.club$.next(this.clubsService.getClub(this.clubId)))
   }
 
@@ -39,20 +40,9 @@ export class ClubInfoComponent implements OnInit {
     await modal.present();
   }
 
-  async createClubCode() {
-    await this.clubsService.createClubCode(this.clubId);
-  }
-
-  async showClubCode() {
-    const {status, data} = await this.clubsService.getClubCode(this.clubId);
-
-    if (status == 'correct')
-      alert(data?.code ?? "No code")
-  }
-
-  async editClub() {
+  async clubSettings() {
     const modal = await this.modalCtrl.create({
-      component: EditClubComponent,
+      component: ClubSettingsComponent,
       componentProps: {
         clubId: this.clubId
       }

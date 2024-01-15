@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EditClubComponent } from './edit-club.component';
+import { GroupSettingsComponent } from './group-settings.component';
 
-describe('EditClubComponent', () => {
-  let component: EditClubComponent;
-  let fixture: ComponentFixture<EditClubComponent>;
+describe('GroupSettingsComponent', () => {
+  let component: GroupSettingsComponent;
+  let fixture: ComponentFixture<GroupSettingsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditClubComponent ],
+      declarations: [ GroupSettingsComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EditClubComponent);
+    fixture = TestBed.createComponent(GroupSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

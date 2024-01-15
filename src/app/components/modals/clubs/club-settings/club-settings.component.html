@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()">Back</ion-button>
+    </ion-buttons>
+    <ion-title>Ustawienia klubu: {{this.club$.getValue().name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <div style="display: flex">
+      <ion-button (click)="createClubCode()">Create code</ion-button>
+      <ion-button (click)="showClubCode()">Show code</ion-button>
+    </div>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-text>{{this.club$.getValue().name}}</ion-text>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-subtitle>Edit club</ion-card-subtitle>
+      <ion-item (click)="editClubInfo('name')">
+        <ion-input label="Name" labelPlacement="floating" [value]="this.club$.getValue().name"></ion-input>
+      </ion-item>
+      <ion-item (click)="editClubInfo('description')">
+        <ion-input label="Description" labelPlacement="floating" [value]="this.club$.getValue().description"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <div class="grid grid-cols-[50%_15%_35%]  gap-5 mt-5 pl-2">
+      <ng-container *ngFor="let title of club$.getValue().titles; let i = index">
+        <div>
+          <p *ngIf="i === club$.getValue().defaultTitle-1" class="mt-[20px]">Szablon | DOMYŚLNY</p><br>
+          <p *ngIf="!(i === club$.getValue().defaultTitle-1)" class="mt-[20px]">Szablon</p><br>
+          <input style="width: 100%;" class="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                 type="text" placeholder="Szablon*" [(ngModel)]="title.content" /> <br>
+        </div>
+        <div>
+          <button class="mt-[70px] right-10px bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  (click)="deleteTitle(i)">Usuń</button>
+        </div>
+        <div>
+          <button class="mt-[70px] right-10px bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  (click)="setDefaultTitle(i)">Domyślny</button>
+        </div>
+      </ng-container>
+    </div>
+
+    <div>
+      <button class="mt-[20px] bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              (click)="addTitle()">Dodaj tytuł</button>
+    </div>
+
+    <ion-button (click)="saveTitles()">Zapisz szablony</ion-button>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-button (click)="removeClub()">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

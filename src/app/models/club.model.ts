@@ -3,7 +3,7 @@ export interface Club {
   name: string;
   description: string;
   users: { uuid: string, rank: ClubRank }[];
-  defaulTitle: number;
+  defaultTitle: number;
   titles: Title[];
   announcements: {};
   properties: {};
