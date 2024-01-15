@@ -29,8 +29,12 @@ export class ClubSettingsComponent  implements OnInit {
     this.club$.getValue().titles.push({id: this.club$.getValue().titles.length+1, content: ''})
   }
 
+
+  defaultTitle!: number;
   async saveTitles() {
     await this.clubsService.addTitles(this.clubId, this.club$.getValue().titles);
+    if (this.defaultTitle)
+      await this.clubsService.setDefaultTitle(this.clubId, this.defaultTitle);
   }
 
   async deleteTitle(i: number) {
@@ -39,6 +43,11 @@ export class ClubSettingsComponent  implements OnInit {
 
   async createClubCode() {
     await this.clubsService.createClubCode(this.clubId);
+  }
+
+  async setDefaultTitle(i: number) {
+    this.defaultTitle = this.club$.getValue().titles[i].id;
+    console.log(this.defaultTitle)
   }
 
   async showClubCode() {

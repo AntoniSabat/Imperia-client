@@ -14,7 +14,7 @@ import {ClubCode} from "../models/club-code.model";
   providedIn: 'root'
 })
 export class ClubsService {
-  initialClubValue: Club = {name: '', description: '', groups: [], defaulTitle: -1, titles: [], id: '', users: [], announcements: [], payment: JSON, properties: {}}
+  initialClubValue: Club = {name: '', description: '', groups: [], defaultTitle: -1, titles: [], id: '', users: [], announcements: [], payment: JSON, properties: {}}
   initialGroupValue: Group = {id: '', name: '', description: '', admins: [], participants: [], lessons: []};
   usersData$ = this.usersService.usersData$;
   // groupUuids$ = new BehaviorSubject<string[]>([]);
@@ -311,6 +311,17 @@ export class ClubsService {
     club.titles = titles;
 
     this.http.patch<Club>( environment.apiBaseUrl + '/clubs/' + clubId, {name: club.name, description: club.description, titles: club.titles}, {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+        tap((club: Club) => this.pushClub(club))
+    ).subscribe();
+  }
+
+  async setDefaultTitle(clubId: string, defaultTitleId: number) {
+    const auth = localStorage.getItem('auth');
+    const club = this.getClub(clubId);
+
+    this.http.patch<Club>( environment.apiBaseUrl + '/clubs/' + clubId, {name: club.name, description: club.description, defaultTitle: defaultTitleId}, {
       headers: auth ? {Authorization: `Bearer ${auth}`} : {}
     }).pipe(
         tap((club: Club) => this.pushClub(club))

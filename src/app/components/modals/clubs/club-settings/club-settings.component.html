@@ -36,16 +36,21 @@
   </ion-card>
 
   <ion-card>
-    <div class="grid grid-cols-[40%_40%_20%]  gap-5 mt-5">
+    <div class="grid grid-cols-[50%_15%_35%]  gap-5 mt-5 pl-2">
       <ng-container *ngFor="let title of club$.getValue().titles; let i = index">
         <div>
-          <p class="mt-[20px]">Szablon</p><br>
+          <p *ngIf="i === club$.getValue().defaultTitle-1" class="mt-[20px]">Szablon | DOMYŚLNY</p><br>
+          <p *ngIf="!(i === club$.getValue().defaultTitle-1)" class="mt-[20px]">Szablon</p><br>
           <input style="width: 100%;" class="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                  type="text" placeholder="Szablon*" [(ngModel)]="title.content" /> <br>
         </div>
         <div>
           <button class="mt-[70px] right-10px bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   (click)="deleteTitle(i)">Usuń</button>
+        </div>
+        <div>
+          <button class="mt-[70px] right-10px bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  (click)="setDefaultTitle(i)">Domyślny</button>
         </div>
       </ng-container>
     </div>
