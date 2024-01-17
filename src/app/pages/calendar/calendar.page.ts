@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {Lesson} from "../../models/lesson.model";
 import {Lessons} from "../../models/lessons.model";
 import { ClubsService } from 'src/app/services/clubs.service';
 import { CalendarLesson } from 'src/app/models/club.model';
@@ -20,7 +19,11 @@ export class CalendarPage implements OnInit {
     this.generateDates();
     const today = new Date();
     await this.clubsService.loadCalendarLessons(`${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`);
-    
+    await this.clubsService.loadTodayLessons();
+
+    this.clubsService.todayLessons$.subscribe((lessons: CalendarLesson[]) => {
+      console.log(lessons);
+    })
     // this.creatingLessons(`${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`)
     // this.lessonsType = this.changeDisplay(this.lessons,'L'); // lekcja
     // this.trainingsType = this.changeDisplay(this.lessons,'T'); // trening
