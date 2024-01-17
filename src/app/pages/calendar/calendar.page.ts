@@ -15,13 +15,12 @@ export class CalendarPage implements OnInit {
 
   constructor(private clubsService: ClubsService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.generateTimes();
     this.generateDates();
     const today = new Date();
-    this.clubsService.loadCalendarLessons(`${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`);
-
-
+    await this.clubsService.loadCalendarLessons(`${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`);
+    
     // this.creatingLessons(`${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`)
     // this.lessonsType = this.changeDisplay(this.lessons,'L'); // lekcja
     // this.trainingsType = this.changeDisplay(this.lessons,'T'); // trening
