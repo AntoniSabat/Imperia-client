@@ -18,8 +18,10 @@
           <ion-col size="12" style="border-bottom: 1px solid black; height: 41.666px"> {{hour}}</ion-col>
         </ion-row>
         <div *ngFor="let lesson of (lessons$ | async)" #lesson class="lesson" [ngStyle]="{'--cols': lesson.cols, '--color': lesson.color, '--start': lesson.start, '--end': lesson.end, '--pos': lesson.pos}">
-          <p class="title">{{lesson.stats.title}}</p>
-          <p class="time">{{lesson.hours}}</p>
+          <div>
+            <p class="title">{{lesson.stats.title}}</p>
+            <p class="time">{{lesson.hours}}</p>
+          </div>
         </div>
       </div>
 
