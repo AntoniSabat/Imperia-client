@@ -43,6 +43,8 @@
           <p *ngIf="!(i === club$.getValue().defaultTitle-1)" class="mt-[20px]">Szablon</p><br>
           <input style="width: 100%;" class="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                  type="text" placeholder="Szablon*" [(ngModel)]="title.content" /> <br>
+          <input style="width: 100%;" class="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                 type="text" placeholder="Czas trw*" [(ngModel)]="title.duration" /> <br>
         </div>
         <div>
           <button class="mt-[70px] right-10px bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

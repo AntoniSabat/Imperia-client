@@ -5,6 +5,8 @@ export interface Club {
   users: { uuid: string, rank: ClubRank }[];
   defaultTitle: number;
   titles: Title[];
+  // TODO: fix, it can not be any
+  lessons: any[];
   announcements: {};
   properties: {};
   payment: JSON;
@@ -53,13 +55,12 @@ export interface Group {
   description: string;
   admins: string[];
   participants: string[];
-  // TODO: fix it (it cannot be any)
-  lessons: any[];
 }
 
 export interface Title {
   id: number;
   content: string;
+  duration: string;
 }
 
 export enum ClubRank {

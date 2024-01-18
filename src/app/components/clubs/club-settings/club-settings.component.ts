@@ -26,7 +26,7 @@ export class ClubSettingsComponent  implements OnInit {
   }
 
   async addTitle() {
-    this.club$.getValue().titles.push({id: this.club$.getValue().titles.length+1, content: ''})
+    this.club$.getValue().titles.push({id: this.club$.getValue().titles.length+1, content: '', duration: ''})
   }
 
 

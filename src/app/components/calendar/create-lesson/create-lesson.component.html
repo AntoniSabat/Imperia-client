@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()" color="dark" fill="none">Back</ion-button>
+    </ion-buttons>
+    <ion-title>Create Lesson</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Wybierz klub</ion-label>
+  </ion-item>
+  <ng-select (change)="chooseClub()" [items]="clubs$ | async" [(ngModel)]="selectedClub" bindLabel="name" placeholder="select a club" [multiple]="false"></ng-select>
+
+  <!--  TODO: zrobic nowy model pracownikow w klubie i pobierac juz gotowe dane z imieniem i nazwiskiem-->
+  <ng-container *ngIf="employees$.getValue().length">
+    <ion-item>Wybierz trenera</ion-item>
+    <ng-select (change)="chooseEmployee()" [items]="employees$ | async" [(ngModel)]="selectedEmployee" bindLabel="uuid" placeholder="select a employee" [multiple]="false">
+      <ng-template ng-label-tmp let-item="item">
+        {{ item.name }} {{ item.surname }}
+      </ng-template>
+    </ng-select>
+  </ng-container>
+</ion-content>

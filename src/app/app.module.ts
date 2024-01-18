@@ -27,6 +27,7 @@ import {ClubSettingsComponent} from "./components/clubs/club-settings/club-setti
 import {GroupSettingsComponent} from "./components/groups/group-settings/group-settings.component";
 import {EditGroupFieldComponent} from "./components/groups/edit-group-field/edit-group-field.component";
 import {LessonInfoComponent} from "./components/calendar/lesson-info/lesson-info.component";
+import {CreateLessonComponent} from "./components/calendar/create-lesson/create-lesson.component";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {LessonInfoComponent} from "./components/calendar/lesson-info/lesson-info
     ClubSettingsComponent,
     GroupSettingsComponent,
     EditGroupFieldComponent,
-    LessonInfoComponent
+    LessonInfoComponent,
+    CreateLessonComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],

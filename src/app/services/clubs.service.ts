@@ -9,16 +9,18 @@ import {UsersService} from "./users.service";
 import {CalendarLesson, Club, ClubRank, Group, Title,} from '../models/club.model';
 import {group} from "@angular/animations";
 import {ClubCode} from "../models/club-code.model";
+import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClubsService {
-  initialClubValue: Club = {name: '', description: '', groups: [], defaultTitle: -1, titles: [], id: '', users: [], announcements: [], payment: JSON, properties: {}}
-  initialGroupValue: Group = {id: '', name: '', description: '', admins: [], participants: [], lessons: []};
+  initialClubValue: Club = {name: '', description: '', groups: [], defaultTitle: -1, titles: [], lessons: [], id: '', users: [], announcements: [], payment: JSON, properties: {}}
+  initialGroupValue: Group = {id: '', name: '', description: '', admins: [], participants: []};
   usersData$ = this.usersService.usersData$;
   // groupUuids$ = new BehaviorSubject<string[]>([]);
   clubs$: BehaviorSubject<Club[]> = new BehaviorSubject<Club[]>([]);
+  employees$ = new BehaviorSubject<User[]>([]);
   // groups$ = new BehaviorSubject<Group[]>([]);
   // titles$ = new BehaviorSubject<any[]>([]);
 
@@ -45,6 +47,16 @@ export class ClubsService {
     } catch {
       return this.initialGroupValue;
     }
+  }
+
+  async loadEmployees(clubId: string) {
+    const auth = localStorage.getItem('auth');
+
+    this.http.get<User[]>( environment.apiBaseUrl + '/clubs/' + clubId + '/employees', {
+      headers: auth ? {Authorization: `Bearer ${auth}`} : {}
+    }).pipe(
+      tap((users: User[]) => this.employees$.next(users))
+    ).subscribe();
   }
 
   async createClub(name: string, description: string) {

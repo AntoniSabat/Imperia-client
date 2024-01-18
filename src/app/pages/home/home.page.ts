@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
-import {ProfileDetailsComponent} from "../../components/profile/profile-details/profile-details.component";
 import {Router} from "@angular/router";
-import {environment} from "../../../environments/environment";
 import { ClubsService } from 'src/app/services/clubs.service';
 import { ConversationsService } from 'src/app/services/conversations.service';
-import { User } from 'src/app/models/user.model';
 import {checkImageUrl} from "../../utils";
 
 @Component({
@@ -38,10 +35,10 @@ export class HomePage implements OnInit {
     console.log('pokazuje szczegóły ogłoszenia')
   }
 
-  goToCalendar() {
-    this.router.navigate(['tabs', 'calendar']);
+  async goToCalendar() {
+    await this.router.navigate(['tabs', 'calendar']);
   }
-  goToPayments() {
-    this.router.navigate(['tabs', 'payments'])
+  async goToPayments() {
+    await this.router.navigate(['tabs', 'payments'])
   }
 }

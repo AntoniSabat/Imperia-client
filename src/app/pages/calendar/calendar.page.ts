@@ -6,6 +6,7 @@ import {Lesson} from "../../models/lesson.model";
 import {ModalController} from "@ionic/angular";
 import {LessonInfoComponent} from "../../components/calendar/lesson-info/lesson-info.component";
 import {ShowClubUsersComponent} from "../../components/clubs/show-club-users/show-club-users.component";
+import {CreateLessonComponent} from "../../components/calendar/create-lesson/create-lesson.component";
 
 @Component({
   selector: 'app-calendar',
@@ -67,6 +68,13 @@ export class CalendarPage implements OnInit {
       const dateString = this.formatDate(date);
       this.dates.push(dateString);
     }
+  }
+
+  async createLesson() {
+    const modal = await this.modalCtrl.create({
+      component: CreateLessonComponent,
+    })
+    await modal.present();
   }
 
   formatDate(date: Date): string {

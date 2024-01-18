@@ -1,6 +1,9 @@
 <div class="ion-page" id="main-content">
 
   <ion-content >
+    <ion-button (click)="createLesson()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-button>
     <ion-row style="margin-bottom: 10px">
       <ion-col style="text-align: center" size="4" (click)="chooseType('L')">Lekcje</ion-col>
       <ion-col style="text-align: center" size="4" (click)="chooseType('T')">Treningi</ion-col>
