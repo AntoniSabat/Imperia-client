@@ -26,8 +26,10 @@ export interface LessonParticipant {
 export interface LessonStats {
   title: string;
   teacher: string;
+  teacherUuid: string;
   cancelled: boolean;
   payment: number;
+  participants: LessonParticipant[];
 }
 
 export enum LessonType {

@@ -26,6 +26,7 @@ import {ChatInfoComponent} from "./components/modals/conversations/chat-info/cha
 import {ClubSettingsComponent} from "./components/modals/clubs/club-settings/club-settings.component";
 import {GroupSettingsComponent} from "./components/modals/groups/group-settings/group-settings.component";
 import {EditGroupFieldComponent} from "./components/modals/groups/edit-group-field/edit-group-field.component";
+import {LessonInfoComponent} from "./calendar/lesson-info/lesson-info.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {EditGroupFieldComponent} from "./components/modals/groups/edit-group-fie
     ChatInfoComponent,
     ClubSettingsComponent,
     GroupSettingsComponent,
-    EditGroupFieldComponent
+    EditGroupFieldComponent,
+    LessonInfoComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgSelectModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],

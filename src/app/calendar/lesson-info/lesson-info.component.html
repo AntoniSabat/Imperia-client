@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button (click)="back()" color="dark" fill="none">Back</ion-button>
+    </ion-buttons>
+    <ion-title>{{lesson.stats.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Cena</ion-label>
+    <ion-badge slot="end">{{lesson.payment}}zł</ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>Uczestnicy</ion-label>
+  </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label>{{lesson.stats.teacher}}</ion-label>
+    </ion-item>
+    <ion-item *ngFor="let user of lesson.stats.participants">
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label>{{user.uuid}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <ion-label>Godzina</ion-label>
+    <ion-label>{{lesson.hours}}</ion-label>
+  </ion-item>
+  <ion-item *ngIf="lesson.stats.cancelled">
+    <ion-label style="color: red">Anulowane</ion-label>
+  </ion-item>
+</ion-content>
