@@ -7,26 +7,26 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ProfileDetailsComponent } from "./components/modals/profile/profile-details/profile-details.component";
-import { PersonalInfoComponent } from "./components/modals/profile/edit-personal-info/personal-info.component";
-import { ClubInfoComponent } from "./components/modals/clubs/club-info/club-info.component";
-import { ShowClubUsersComponent } from "./components/modals/clubs/show-club-users/show-club-users.component";
-import { AddAnnouncementComponent} from "./components/modals/announcements/add-announcement/add-announcement.component";
+import { ProfileDetailsComponent } from "./components/profile/profile-details/profile-details.component";
+import { PersonalInfoComponent } from "./components/profile/edit-personal-info/personal-info.component";
+import {ClubInfoComponent} from "./components/clubs/club-info/club-info.component";
+import {ShowClubUsersComponent} from "./components/clubs/show-club-users/show-club-users.component";
+import { AddAnnouncementComponent} from "./components/announcements/add-announcement/add-announcement.component";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {GroupInfoComponent} from "./components/modals/groups/group-info/group-info.component";
-import {AddUserToGroupComponent} from "./components/modals/groups/add-user-to-group/add-user-to-group.component";
-import { CreateConversationComponent } from './components/modals/conversations/create-conversation/create-conversation.component';
-import { ChatComponent } from './components/modals/conversations/chat/chat.component';
-import { ShowUsersComponent } from "./components/modals/groups/show-users/show-users.component";
-import {ManageUserItemComponent} from "./components/modals/users/manage-user-item/manage-user-item.component";
-import { ShowUserInfoComponent } from "./components/modals/users/show-user-info/show-user-info.component";
-import { EditClubFieldComponent } from "./components/modals/clubs/edit-club-field/edit-club-field.component";
-import {ChatInfoComponent} from "./components/modals/conversations/chat-info/chat-info.component";
-import {ClubSettingsComponent} from "./components/modals/clubs/club-settings/club-settings.component";
-import {GroupSettingsComponent} from "./components/modals/groups/group-settings/group-settings.component";
-import {EditGroupFieldComponent} from "./components/modals/groups/edit-group-field/edit-group-field.component";
-import {LessonInfoComponent} from "./calendar/lesson-info/lesson-info.component";
+import {GroupInfoComponent} from "./components/groups/group-info/group-info.component";
+import {AddUserToGroupComponent} from "./components/groups/add-user-to-group/add-user-to-group.component";
+import { CreateConversationComponent } from './components/conversations/create-conversation/create-conversation.component';
+import { ChatComponent } from './components/conversations/chat/chat.component';
+import { ShowUsersComponent } from "./components/groups/show-users/show-users.component";
+import {ManageUserItemComponent} from "./components/users/manage-user-item/manage-user-item.component";
+import { ShowUserInfoComponent } from "./components/users/show-user-info/show-user-info.component";
+import {EditClubFieldComponent} from "./components/clubs/edit-club-field/edit-club-field.component";
+import {ChatInfoComponent} from "./components/conversations/chat-info/chat-info.component";
+import {ClubSettingsComponent} from "./components/clubs/club-settings/club-settings.component";
+import {GroupSettingsComponent} from "./components/groups/group-settings/group-settings.component";
+import {EditGroupFieldComponent} from "./components/groups/edit-group-field/edit-group-field.component";
+import {LessonInfoComponent} from "./components/calendar/lesson-info/lesson-info.component";
 
 @NgModule({
   declarations: [

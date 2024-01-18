@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
-import {PersonalInfoComponent} from "../../components/modals/profile/edit-personal-info/personal-info.component";
+import {PersonalInfoComponent} from "../../components/profile/edit-personal-info/personal-info.component";
 import {lostSession} from "../../axios";
 import {Router} from "@angular/router";
 import {checkImageUrl, formatImageUrl} from "../../utils";

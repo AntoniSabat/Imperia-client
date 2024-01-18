@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {checkImageUrl, formatImageUrl} from "../../utils";
 import {UsersService} from "../../services/users.service";
-import {ProfileDetailsComponent} from "../../components/modals/profile/profile-details/profile-details.component";
+import {ProfileDetailsComponent} from "../../components/profile/profile-details/profile-details.component";
 import {ModalController} from "@ionic/angular";
 
 @Component({

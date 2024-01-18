@@ -3,7 +3,7 @@ import {UsersService, UserType} from "../../services/users.service";
 import {Club} from "../../models/club.model";
 import {ClubsService} from "../../services/clubs.service";
 import {AlertController, ModalController} from "@ionic/angular";
-import {ClubInfoComponent} from "../../components/modals/clubs/club-info/club-info.component";
+import {ClubInfoComponent} from "../../components/clubs/club-info/club-info.component";
 import {async} from "rxjs";
 
 @Component({

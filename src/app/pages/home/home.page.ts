@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UsersService} from "../../services/users.service";
 import {ModalController} from "@ionic/angular";
-import {ProfileDetailsComponent} from "../../components/modals/profile/profile-details/profile-details.component";
+import {ProfileDetailsComponent} from "../../components/profile/profile-details/profile-details.component";
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import { ClubsService } from 'src/app/services/clubs.service';

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ModalController} from "@ionic/angular";
 import {
   AddAnnouncementComponent
-} from "../../components/modals/announcements/add-announcement/add-announcement.component";
+} from "../../components/announcements/add-announcement/add-announcement.component";
 
 @Component({
   selector: 'app-newses',

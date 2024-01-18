@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ProfileDetailsComponent } from 'src/app/components/modals/profile/profile-details/profile-details.component';
+import { ProfileDetailsComponent } from 'src/app/components/profile/profile-details/profile-details.component';
 import { UsersService } from 'src/app/services/users.service';
 import {BehaviorSubject} from "rxjs";
 import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 import { ConversationsService } from 'src/app/services/conversations.service';
-import { CreateConversationComponent } from 'src/app/components/modals/conversations/create-conversation/create-conversation.component';
-import { ChatComponent } from 'src/app/components/modals/conversations/chat/chat.component';
+import { CreateConversationComponent } from 'src/app/components/conversations/create-conversation/create-conversation.component';
+import { ChatComponent } from 'src/app/components/conversations/chat/chat.component';
 
 @Component({
   selector: 'app-messenger',

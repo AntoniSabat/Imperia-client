@@ -4,8 +4,8 @@ import { ClubsService } from 'src/app/services/clubs.service';
 import { CalendarLesson } from 'src/app/models/club.model';
 import {Lesson} from "../../models/lesson.model";
 import {ModalController} from "@ionic/angular";
-import {LessonInfoComponent} from "../../calendar/lesson-info/lesson-info.component";
-import {ShowClubUsersComponent} from "../../components/modals/clubs/show-club-users/show-club-users.component";
+import {LessonInfoComponent} from "../../components/calendar/lesson-info/lesson-info.component";
+import {ShowClubUsersComponent} from "../../components/clubs/show-club-users/show-club-users.component";
 
 @Component({
   selector: 'app-calendar',

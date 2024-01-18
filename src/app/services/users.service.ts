@@ -5,7 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {BehaviorSubject, tap} from "rxjs";
 import {ModalController} from "@ionic/angular";
-import {ShowUserInfoComponent} from "../components/modals/users/show-user-info/show-user-info.component";
+import {ShowUserInfoComponent} from "../components/users/show-user-info/show-user-info.component";
 
 export enum UserType {
   COACH = 'COACH',
