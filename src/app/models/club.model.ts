@@ -5,7 +5,7 @@ export interface Club {
   users: { uuid: string, rank: ClubRank }[];
   defaultTitle: number;
   titles: Title[];
-  // TODO: fix, it can not be any
+  // TODO: fix, it cannot be any
   lessons: any[];
   announcements: {};
   properties: {};
